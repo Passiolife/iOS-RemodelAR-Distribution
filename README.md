@@ -1,5 +1,7 @@
 # Remodel AR
 
+<img src="Resources/PaintARIcon.png" width=150 height=150 alt="PaintAR Icon" align="right" />
+
 **Remodel AR** is a module that enables you to quickly and easily convert any ARSCNView into a virtual home remodeling visualization tool. This package currently contains all of the following features.
 
 - AR assisted virtual room painting
