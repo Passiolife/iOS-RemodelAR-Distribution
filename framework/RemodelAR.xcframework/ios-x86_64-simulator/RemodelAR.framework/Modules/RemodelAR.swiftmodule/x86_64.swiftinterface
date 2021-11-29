@@ -1,0 +1,534 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.5.1 (swiftlang-1300.0.31.4 clang-1300.0.29.6)
+// swift-module-flags: -target x86_64-apple-ios13.4-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name RemodelAR
+import ARKit
+import Accelerate
+import CoreImage.CIFilterBuiltins
+import Combine
+import CoreImage
+import CoreVideo
+import Foundation
+import MetalKit
+@_exported import RemodelAR
+import SceneKit
+import Swift
+import SwiftUI
+import UIKit
+import VideoToolbox
+import _Concurrency
+import simd
+public enum ARTrackingState {
+  case initializing
+  case error(Swift.Int)
+  case normal(Swift.Int)
+  case resetting
+  case ready
+}
+extension SwiftUI.Color {
+  public func uiColor() -> UIKit.UIColor
+}
+extension SceneKit.SCNGeometrySource {
+  convenience public init(_ source: ARKit.ARGeometrySource, semantic: SceneKit.SCNGeometrySource.Semantic)
+  public var vertices: [SceneKit.SCNVector3] {
+    get
+  }
+}
+extension ARKit.ARMeshGeometry {
+  public func toMDLMesh(device: Metal.MTLDevice, transform: simd.simd_float4x4) -> ModelIO.MDLMesh
+  public func transformedVertexBuffer(_ transform: simd.simd_float4x4) -> [Swift.Float]
+  public func printFaces()
+  public func vertex(at index: Swift.UInt32) -> Swift.SIMD3<Swift.Float>
+  public func vertexIndicesOf(faceWithIndex index: Swift.Int) -> [Swift.Int]
+  public func classificationOf(faceWithIndex index: Swift.Int) -> ARKit.ARMeshClassification
+  public func normal(at index: Swift.UInt32) -> Swift.SIMD3<Swift.Float>
+  public func isPlanar(threshold: Swift.Float = 0.95) -> Swift.Bool
+}
+extension SceneKit.SCNGeometry {
+  public var normal: SceneKit.SCNVector3? {
+    get
+  }
+  convenience public init(arGeometry: ARKit.ARMeshGeometry)
+  public func vertices() -> [SceneKit.SCNVector3]
+  public func printMel()
+}
+public enum WallState {
+  case idle
+  case addingWall
+  public static func == (a: RemodelAR.WallState, b: RemodelAR.WallState) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension Swift.Double {
+  public func formatted(decimals: Swift.Int = 1) -> Swift.String
+  public func rollingAverage(value: Swift.Double, averageCount: Swift.Int) -> Swift.Double
+}
+extension UIKit.UIColor {
+  public var printUInt: Swift.String {
+    get
+  }
+  public var luminance: CoreGraphics.CGFloat {
+    get
+  }
+  convenience public init(red: Swift.Int = 0, green: Swift.Int = 0, blue: Swift.Int = 0, opacity: Swift.Int = 255)
+  convenience public init(hexString: Swift.String, alpha: CoreGraphics.CGFloat = 1.0)
+  public func brightness(for targetLRV: Swift.Double) -> Swift.Float?
+  public func brighten(value: CoreGraphics.CGFloat) -> UIKit.UIColor
+  public func printRGB()
+  public func toHexString() -> Swift.String
+  public func uintArray() -> [Swift.UInt8]
+  public func LRV() -> Swift.Double
+  public typealias RGBA = (red: CoreGraphics.CGFloat, green: CoreGraphics.CGFloat, blue: CoreGraphics.CGFloat, alpha: CoreGraphics.CGFloat)
+  public var rgbaValues: UIKit.UIColor.RGBA {
+    get
+  }
+  convenience public init(hue h: CoreGraphics.CGFloat, saturation s: CoreGraphics.CGFloat, lightness l: CoreGraphics.CGFloat, alpha: CoreGraphics.CGFloat)
+  public static func from(hue h: CoreGraphics.CGFloat, saturation s: CoreGraphics.CGFloat, lightness l: CoreGraphics.CGFloat, alpha a: CoreGraphics.CGFloat = 1.0) -> UIKit.UIColor
+  public static func random() -> UIKit.UIColor
+}
+extension UIKit.UIColor {
+  public struct HSL : Swift.Hashable {
+    public var hue: CoreGraphics.CGFloat
+    public var saturation: CoreGraphics.CGFloat
+    public var lightness: CoreGraphics.CGFloat
+    public func hash(into hasher: inout Swift.Hasher)
+    public static func == (a: UIKit.UIColor.HSL, b: UIKit.UIColor.HSL) -> Swift.Bool
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public var hsl: UIKit.UIColor.HSL {
+    get
+  }
+  convenience public init(_ hsl: UIKit.UIColor.HSL, alpha: CoreGraphics.CGFloat = 1.0)
+}
+@_hasMissingDesignatedInitializers public class RemodelARLib {
+  public static func makeLidarARController(with sceneView: ARKit.ARSCNView) -> RemodelAR.ARController
+  public static func makeLegacyARController(with sceneView: ARKit.ARSCNView) -> RemodelAR.ARController
+  public static func makeShaderARController(with sceneView: ARKit.ARSCNView) -> RemodelAR.ARController
+  public static func makeARView(model: RemodelAR.ARStateModel, arMethod: RemodelAR.ARMethod? = nil) -> RemodelAR.ARView
+  public static func makeARViewController(model: RemodelAR.ARStateModel) -> RemodelAR.ARViewController
+  @objc deinit
+}
+extension SceneKit.SCNGeometryElement {
+  convenience public init(_ source: ARKit.ARGeometryElement)
+  public var elements: [[Swift.Int]] {
+    get
+  }
+}
+extension ARKit.ARSCNView {
+  @_Concurrency.MainActor(unsafe) public func averageColor(at point: CoreGraphics.CGPoint) -> UIKit.UIColor?
+  @_Concurrency.MainActor(unsafe) public func capturedImage() -> UIKit.UIImage?
+  @_Concurrency.MainActor(unsafe) public func capturedImage(from anchor: ARKit.ARImageAnchor) -> UIKit.UIImage?
+  @_Concurrency.MainActor(unsafe) public func createMetalLibrary(bundle: Foundation.Bundle) -> Metal.MTLLibrary?
+}
+extension Swift.Comparable {
+  public func clamped(to limits: Swift.ClosedRange<Self>) -> Self
+}
+public enum PlaceWallState {
+  case placingBasePlane
+  case placingUpperLeftCorner
+  case placingBottomRightCorner
+  case done
+  public static func == (a: RemodelAR.PlaceWallState, b: RemodelAR.PlaceWallState) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum ARMethod {
+  case Lidar
+  case Legacy
+  case ShaderPainting
+  public static func == (a: RemodelAR.ARMethod, b: RemodelAR.ARMethod) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension SceneKit.SCNVector3 {
+  public func printMel(name: Swift.String? = nil, scale: Swift.Float? = nil)
+  public static func + (left: SceneKit.SCNVector3, right: SceneKit.SCNVector3) -> SceneKit.SCNVector3
+  public static func += (left: inout SceneKit.SCNVector3, right: SceneKit.SCNVector3)
+  public static func - (left: SceneKit.SCNVector3, right: SceneKit.SCNVector3) -> SceneKit.SCNVector3
+  public static func -= (left: inout SceneKit.SCNVector3, right: SceneKit.SCNVector3)
+  public static func * (left: SceneKit.SCNVector3, right: SceneKit.SCNVector3) -> SceneKit.SCNVector3
+  public static func *= (left: inout SceneKit.SCNVector3, right: SceneKit.SCNVector3)
+  public static func * (vector: SceneKit.SCNVector3, scalar: Swift.Float) -> SceneKit.SCNVector3
+  public static func *= (vector: inout SceneKit.SCNVector3, scalar: Swift.Float)
+  public static func / (left: SceneKit.SCNVector3, right: SceneKit.SCNVector3) -> SceneKit.SCNVector3
+  public static func /= (left: inout SceneKit.SCNVector3, right: SceneKit.SCNVector3)
+  public static func / (vector: SceneKit.SCNVector3, scalar: Swift.Float) -> SceneKit.SCNVector3
+  public static func /= (vector: inout SceneKit.SCNVector3, scalar: Swift.Float)
+  public static func SCNVector3Negate(vector: SceneKit.SCNVector3) -> SceneKit.SCNVector3
+  public static func SCNVector3Length(vector: SceneKit.SCNVector3) -> Swift.Float
+  public static func SCNVector3Distance(vectorStart: SceneKit.SCNVector3, vectorEnd: SceneKit.SCNVector3) -> Swift.Float
+  public static func SCNVector3Normalize(vector: SceneKit.SCNVector3) -> SceneKit.SCNVector3
+  public static func SCNVector3DotProduct(left: SceneKit.SCNVector3, right: SceneKit.SCNVector3) -> Swift.Float
+  public static func SCNVector3CrossProduct(left: SceneKit.SCNVector3, right: SceneKit.SCNVector3) -> SceneKit.SCNVector3
+  public static func SCNVector3Lerp(vectorStart: SceneKit.SCNVector3, vectorEnd: SceneKit.SCNVector3, t: Swift.Float) -> SceneKit.SCNVector3
+  public static func SCNVector3Project(vectorToProject: SceneKit.SCNVector3, projectionVector: SceneKit.SCNVector3) -> SceneKit.SCNVector3
+}
+public enum ScanMode : Swift.Int {
+  case lidar
+  case legacy
+  case paused
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public enum RenderMode : Swift.Int {
+  case color
+  case stencil
+  case wireframe
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public protocol ARController : ObjectiveC.NSObject {
+  var fps: Swift.Double { get }
+  var planarMeshCountUpdated: ((Swift.Int) -> Swift.Void)? { get set }
+  var trackingReady: ((Swift.Bool) -> Swift.Void)? { get set }
+  func handleTouch(point: CoreGraphics.CGPoint)
+  func retrievePaintInfo() -> RemodelAR.PaintInfo
+  func setColor(paint: RemodelAR.WallPaint)
+  func setTexture(texture: UIKit.UIImage?)
+  func startScene()
+  func pauseScene()
+  func resetScene()
+  func resetMaskColors()
+  func setScanMode(scanMode: RemodelAR.ScanMode)
+  func setRenderMode(renderMode: RemodelAR.RenderMode)
+  func savePhoto() -> UIKit.UIImage
+  func save3DModel()
+  func retrieveRawCameraImage() -> UIKit.UIImage?
+  var wallStateUpdated: ((RemodelAR.WallState) -> Swift.Void)? { get set }
+  var placeWallStateUpdated: ((RemodelAR.PlaceWallState) -> Swift.Void)? { get set }
+  func setScanPoint(point: CoreGraphics.CGPoint)
+  func addWall()
+  func endAddWall()
+  func placeWallBasePlane()
+  func updateWallBasePlane()
+  func setUpperLeftCorner()
+  func setLowerRightCorner()
+  func setABTestingMode(mode: Swift.Int)
+  func setTouchMode(mode: RemodelAR.TouchMode)
+  func setColorThreshold(threshold: Swift.Float)
+  func dragStart(point: CoreGraphics.CGPoint)
+  func dragMove(point: CoreGraphics.CGPoint)
+  func dragEnd()
+}
+public class ARStateModel : Combine.ObservableObject {
+  public var cancellables: Swift.Set<Combine.AnyCancellable>
+  public var common: RemodelAR.ARStateStandard {
+    get
+    set
+  }
+  public var lidar: RemodelAR.ARStateLidar {
+    get
+    set
+  }
+  public var legacy: RemodelAR.ARStateLegacy {
+    get
+    set
+  }
+  public var shaderPaint: RemodelAR.ARStateShaderPaint {
+    get
+    set
+  }
+  public init()
+  public typealias ObjectWillChangePublisher = Combine.ObservableObjectPublisher
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ARStateStandard {
+  @Combine.Published @_projectedValueProperty($coachingVisible) public var coachingVisible: Swift.Bool {
+    get
+    set
+    _modify
+  }
+  public var $coachingVisible: Combine.Published<Swift.Bool>.Publisher {
+    get
+    @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
+    set
+  }
+  @Combine.Published @_projectedValueProperty($trackingReady) public var trackingReady: Swift.Bool {
+    get
+    set
+    _modify
+  }
+  public var $trackingReady: Combine.Published<Swift.Bool>.Publisher {
+    get
+    @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
+    set
+  }
+  @Combine.Published @_projectedValueProperty($paintInfo) public var paintInfo: RemodelAR.PaintInfo? {
+    get
+    set
+    _modify
+  }
+  public var $paintInfo: Combine.Published<RemodelAR.PaintInfo?>.Publisher {
+    get
+    @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
+    set
+  }
+  @Combine.Published @_projectedValueProperty($capturedPhoto) public var capturedPhoto: UIKit.UIImage? {
+    get
+    set
+    _modify
+  }
+  public var $capturedPhoto: Combine.Published<UIKit.UIImage?>.Publisher {
+    get
+    @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
+    set
+  }
+  @Combine.Published @_projectedValueProperty($rawCameraImage) public var rawCameraImage: UIKit.UIImage? {
+    get
+    set
+    _modify
+  }
+  public var $rawCameraImage: Combine.Published<UIKit.UIImage?>.Publisher {
+    get
+    @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
+    set
+  }
+  public func pickColor(paint: RemodelAR.WallPaint)
+  public func pickTexture(texture: UIKit.UIImage?)
+  public func sharePhoto()
+  public func savePhoto()
+  public func retrieveRawCameraImage()
+  public func resetScene()
+  public func pauseScene()
+  public func resumeScene()
+  public func getPaintInfo()
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ARStateLidar {
+  @Combine.Published @_projectedValueProperty($planarMeshCount) public var planarMeshCount: Swift.Int {
+    get
+    set
+    _modify
+  }
+  public var $planarMeshCount: Combine.Published<Swift.Int>.Publisher {
+    get
+    @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
+    set
+  }
+  public func save3DModel()
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ARStateLegacy {
+  @Combine.Published @_projectedValueProperty($wallState) public var wallState: RemodelAR.WallState {
+    get
+    set
+    _modify
+  }
+  public var $wallState: Combine.Published<RemodelAR.WallState>.Publisher {
+    get
+    @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
+    set
+  }
+  @Combine.Published @_projectedValueProperty($placeWallState) public var placeWallState: RemodelAR.PlaceWallState {
+    get
+    set
+    _modify
+  }
+  public var $placeWallState: Combine.Published<RemodelAR.PlaceWallState>.Publisher {
+    get
+    @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
+    set
+  }
+  public func setScanPoint(point: CoreGraphics.CGPoint)
+  public func addWall()
+  public func cancelAddWall()
+  public func placeBasePlane()
+  public func updateBasePlane()
+  public func setUpperLeftCorner()
+  public func setLowerRightCorner()
+  public func dragStart(point: CoreGraphics.CGPoint)
+  public func dragMove(point: CoreGraphics.CGPoint)
+  public func dragEnd()
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class ARStateShaderPaint {
+  @Combine.Published @_projectedValueProperty($abTestingMode) public var abTestingMode: Swift.Int {
+    get
+    set
+    _modify
+  }
+  public var $abTestingMode: Combine.Published<Swift.Int>.Publisher {
+    get
+    @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
+    set
+  }
+  public func setTestingMode(mode: Swift.Int)
+  public func setTouchMode(mode: RemodelAR.TouchMode)
+  public func setColorThreshold(threshold: Swift.Float)
+  @objc deinit
+}
+@_Concurrency.MainActor(unsafe) public struct ARView : SwiftUI.UIViewControllerRepresentable {
+  public typealias UIViewControllerType = RemodelAR.ARViewController
+  @objc @_inheritsConvenienceInitializers public class Coordinator : ObjectiveC.NSObject {
+    @objc override dynamic public init()
+    @objc deinit
+  }
+  @_Concurrency.MainActor(unsafe) public func makeCoordinator() -> RemodelAR.ARView.Coordinator
+  @_Concurrency.MainActor(unsafe) public func makeUIViewController(context: RemodelAR.ARView.Context) -> RemodelAR.ARViewController
+  @_Concurrency.MainActor(unsafe) public func updateUIViewController(_ uiViewController: RemodelAR.ARView.UIViewControllerType, context: SwiftUI.UIViewControllerRepresentableContext<RemodelAR.ARView>)
+  public typealias Body = Swift.Never
+}
+@objc @_hasMissingDesignatedInitializers @_Concurrency.MainActor(unsafe) public class ARViewController : UIKit.UIViewController, Combine.ObservableObject {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func loadView()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewDidLoad()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewWillAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewWillDisappear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func touchesEnded(_ touches: Swift.Set<UIKit.UITouch>, with event: UIKit.UIEvent?)
+  @_Concurrency.MainActor(unsafe) public func retrievePaintInfo() -> RemodelAR.PaintInfo?
+  @_Concurrency.MainActor(unsafe) public func setColor(paint: RemodelAR.WallPaint)
+  @_Concurrency.MainActor(unsafe) public func setTexture(texture: UIKit.UIImage?)
+  @_Concurrency.MainActor(unsafe) public func sharePhoto()
+  @_Concurrency.MainActor(unsafe) public func savePhoto() -> UIKit.UIImage?
+  @_Concurrency.MainActor(unsafe) public func save3DModel()
+  @_Concurrency.MainActor(unsafe) public func retrieveRawCameraImage() -> UIKit.UIImage?
+  @_Concurrency.MainActor(unsafe) public func resetScene()
+  @_Concurrency.MainActor(unsafe) public func pauseScene()
+  @_Concurrency.MainActor(unsafe) public func resumeScene()
+  @_Concurrency.MainActor(unsafe) public func setABTestingMode(mode: Swift.Int)
+  @_Concurrency.MainActor(unsafe) public func setTouchMode(mode: RemodelAR.TouchMode)
+  @_Concurrency.MainActor(unsafe) public func setColorThreshold(threshold: Swift.Float)
+  @_Concurrency.MainActor(unsafe) public func setScanPoint(point: CoreGraphics.CGPoint)
+  @_Concurrency.MainActor(unsafe) public func addWall()
+  @_Concurrency.MainActor(unsafe) public func endAddWall()
+  @_Concurrency.MainActor(unsafe) public func placeBasePlane()
+  @_Concurrency.MainActor(unsafe) public func updateBasePlane()
+  @_Concurrency.MainActor(unsafe) public func setUpperLeftCorner()
+  @_Concurrency.MainActor(unsafe) public func setLowerRightCorner()
+  @_Concurrency.MainActor(unsafe) public func dragStart(point: CoreGraphics.CGPoint)
+  @_Concurrency.MainActor(unsafe) public func dragMove(point: CoreGraphics.CGPoint)
+  @_Concurrency.MainActor(unsafe) public func dragEnd()
+  public typealias ObjectWillChangePublisher = Combine.ObservableObjectPublisher
+  @objc deinit
+}
+extension RemodelAR.ARViewController : ARKit.ARCoachingOverlayViewDelegate {
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func coachingOverlayViewWillActivate(_ coachingOverlayView: ARKit.ARCoachingOverlayView)
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func coachingOverlayViewDidDeactivate(_ coachingOverlayView: ARKit.ARCoachingOverlayView)
+}
+extension UIKit.UIImage {
+  convenience public init?(pixelBuffer: CoreVideo.CVPixelBuffer)
+  convenience public init?(coreImage: CoreImage.CIImage)
+  public func averageColor(at poi: CoreGraphics.CGPoint, destinationRect: CoreGraphics.CGRect) -> UIKit.UIColor?
+  public func crop(rect: CoreGraphics.CGRect) -> UIKit.UIImage?
+  public func rotate(radians: Swift.Float) -> UIKit.UIImage?
+  public func resize(toHeight newHeight: CoreGraphics.CGFloat) -> UIKit.UIImage?
+  public func resize(toWidth newWidth: CoreGraphics.CGFloat) -> UIKit.UIImage?
+  public func resize(to newSize: CoreGraphics.CGSize) -> UIKit.UIImage?
+}
+public struct PaintInfo {
+  public let paintedWalls: [RemodelAR.WallInfo]
+  public init(paintedWalls: [RemodelAR.WallInfo])
+}
+public struct WallInfo {
+  public let area: RemodelAR.AreaInfo
+  public let paint: RemodelAR.WallPaint
+  public init(area: RemodelAR.AreaInfo, paint: RemodelAR.WallPaint)
+}
+public struct AreaInfo {
+  public let width: Swift.Double
+  public let height: Swift.Double
+  public var area: Swift.Double {
+    get
+  }
+  public var estimatedActualArea: Swift.Double {
+    get
+  }
+}
+public struct WallPaint {
+  public let id: Swift.String
+  public let color: UIKit.UIColor
+  public init(id: Swift.String, color: UIKit.UIColor)
+}
+public enum TouchMode : Swift.Int {
+  case averageColor
+  case darkColor
+  case lightColor
+  case brightness
+  case painting
+  public var description: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+extension CoreGraphics.CGPoint {
+  public var description: Swift.String {
+    get
+  }
+  public func convert(from source: CoreGraphics.CGRect, to destination: CoreGraphics.CGRect) -> CoreGraphics.CGPoint
+}
+extension Swift.Array where Element == ARKit.ARMeshAnchor {
+  public func save(to fileURL: Foundation.URL, device: Metal.MTLDevice) throws
+}
+extension Swift.Array where Element == SceneKit.SCNVector3 {
+  public var center: SceneKit.SCNVector3 {
+    get
+  }
+  public func printMel(name: Swift.String = "vertex", scale: Swift.Float = 0.03)
+}
+extension Swift.Array where Element == Swift.Int {
+  public var max: Swift.Int {
+    get
+  }
+}
+extension SceneKit.SCNGeometryPrimitiveType {
+  public static func of(_ type: ARKit.ARGeometryPrimitiveType) -> SceneKit.SCNGeometryPrimitiveType
+}
+extension UIKit.UIApplication {
+  @_Concurrency.MainActor(unsafe) public static var mainScene: UIKit.UIWindowScene? {
+    get
+  }
+}
+extension CoreImage.CIImage {
+  public var averageColor: UIKit.UIColor? {
+    get
+  }
+  public func perspectiveCorrected(topLeft: CoreGraphics.CGPoint, topRight: CoreGraphics.CGPoint, bottomLeft: CoreGraphics.CGPoint, bottomRight: CoreGraphics.CGPoint) -> CoreImage.CIImage
+}
+extension ARKit.ARFrame {
+  public func color(at point: CoreGraphics.CGPoint, poiSize: CoreGraphics.CGFloat, screenSize: CoreGraphics.CGSize) -> UIKit.UIColor?
+  public func getCapturedImage(inSceneView sceneView: ARKit.ARSCNView) -> UIKit.UIImage?
+  public func getOrientationCorrectedCameraImage(forOrientation orientation: UIKit.UIInterfaceOrientation) -> UIKit.UIImage?
+  public func trackingReady() -> Swift.Bool
+}
+extension simd.simd_float4x4 {
+  public var position: SceneKit.SCNVector3 {
+    get
+  }
+  public static func createTransform(A: SceneKit.SCNVector3, B: SceneKit.SCNVector3, D: SceneKit.SCNVector3, E: SceneKit.SCNVector3) -> simd.simd_float4x4
+}
+extension Foundation.FileManager {
+  public static var documentsFolder: Foundation.URL {
+    get
+  }
+}
+extension RemodelAR.WallState : Swift.Equatable {}
+extension RemodelAR.WallState : Swift.Hashable {}
+extension RemodelAR.PlaceWallState : Swift.Equatable {}
+extension RemodelAR.PlaceWallState : Swift.Hashable {}
+extension RemodelAR.ARMethod : Swift.Equatable {}
+extension RemodelAR.ARMethod : Swift.Hashable {}
+extension RemodelAR.ScanMode : Swift.Equatable {}
+extension RemodelAR.ScanMode : Swift.Hashable {}
+extension RemodelAR.ScanMode : Swift.RawRepresentable {}
+extension RemodelAR.RenderMode : Swift.Equatable {}
+extension RemodelAR.RenderMode : Swift.Hashable {}
+extension RemodelAR.RenderMode : Swift.RawRepresentable {}
+extension RemodelAR.TouchMode : Swift.Equatable {}
+extension RemodelAR.TouchMode : Swift.Hashable {}
+extension RemodelAR.TouchMode : Swift.RawRepresentable {}

@@ -15,8 +15,7 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "RemodelAR",
-            url: "https://github.com/Passiolife/iOS-AR-Remodel-Module/releases/download/1.0.1/RemodelAR.xcframework.zip",
-            checksum: "97f9705740dada4d78e786baedec3c68bdde24eda0fb6cadee2e29869da51d19"
+            path: "./framework/RemodelAR.xcframework"
         )
     ]
 )
