@@ -16,4 +16,4 @@
 ## Usage
 To use **Remodel AR**, you will need to add the XCFramework to your project and import **RemodelAR**, then add an ARSCNView to your UIViewController and initialize an ARController instance.
 
-For in-depth documentation for both SwiftUI and UIKit, see the wiki page.
+For in-depth documentation for both SwiftUI and UIKit, see the [wiki](https://github.com/Passiolife/iOS-AR-Remodel-Module/wiki) page.
