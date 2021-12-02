@@ -8,11 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		588A2E1A273F25C00014CA27 /* PaintyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588A2E19273F25C00014CA27 /* PaintyApp.swift */; };
-		588A2E1C273F25C00014CA27 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588A2E1B273F25C00014CA27 /* ContentView.swift */; };
+		588A2E1C273F25C00014CA27 /* PaintyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588A2E1B273F25C00014CA27 /* PaintyView.swift */; };
 		588A2E1E273F25C20014CA27 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 588A2E1D273F25C20014CA27 /* Assets.xcassets */; };
 		588A2E21273F25C20014CA27 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 588A2E20273F25C20014CA27 /* Preview Assets.xcassets */; };
 		589309042756763D00864F2E /* RemodelAR.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 589309032756763D00864F2E /* RemodelAR.xcframework */; };
 		589309052756763D00864F2E /* RemodelAR.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 589309032756763D00864F2E /* RemodelAR.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5893090A2758336600864F2E /* LidarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589309072758336500864F2E /* LidarView.swift */; };
+		5893090B2758336600864F2E /* ShaderPaintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589309082758336600864F2E /* ShaderPaintView.swift */; };
+		5893090C2758336600864F2E /* LegacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589309092758336600864F2E /* LegacyView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,10 +35,13 @@
 /* Begin PBXFileReference section */
 		588A2E16273F25C00014CA27 /* Painty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Painty.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		588A2E19273F25C00014CA27 /* PaintyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintyApp.swift; sourceTree = "<group>"; };
-		588A2E1B273F25C00014CA27 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		588A2E1B273F25C00014CA27 /* PaintyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintyView.swift; sourceTree = "<group>"; };
 		588A2E1D273F25C20014CA27 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		588A2E20273F25C20014CA27 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		589309032756763D00864F2E /* RemodelAR.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RemodelAR.xcframework; path = ../framework/RemodelAR.xcframework; sourceTree = "<group>"; };
+		589309072758336500864F2E /* LidarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LidarView.swift; sourceTree = "<group>"; };
+		589309082758336600864F2E /* ShaderPaintView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShaderPaintView.swift; sourceTree = "<group>"; };
+		589309092758336600864F2E /* LegacyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LegacyView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,7 +77,10 @@
 			isa = PBXGroup;
 			children = (
 				588A2E19273F25C00014CA27 /* PaintyApp.swift */,
-				588A2E1B273F25C00014CA27 /* ContentView.swift */,
+				588A2E1B273F25C00014CA27 /* PaintyView.swift */,
+				589309092758336600864F2E /* LegacyView.swift */,
+				589309072758336500864F2E /* LidarView.swift */,
+				589309082758336600864F2E /* ShaderPaintView.swift */,
 				588A2E1D273F25C20014CA27 /* Assets.xcassets */,
 				588A2E1F273F25C20014CA27 /* Preview Content */,
 			);
@@ -169,7 +178,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				588A2E1C273F25C00014CA27 /* ContentView.swift in Sources */,
+				588A2E1C273F25C00014CA27 /* PaintyView.swift in Sources */,
+				5893090A2758336600864F2E /* LidarView.swift in Sources */,
+				5893090B2758336600864F2E /* ShaderPaintView.swift in Sources */,
+				5893090C2758336600864F2E /* LegacyView.swift in Sources */,
 				588A2E1A273F25C00014CA27 /* PaintyApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

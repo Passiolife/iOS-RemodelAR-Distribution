@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  PaintyView.swift
 //  Painty
 //
 //  Copyright © 2021 Passio Inc. All rights reserved.
@@ -8,7 +8,7 @@
 import RemodelAR
 import SwiftUI
 
-struct ContentView: View {
+struct PaintyView: View {
     @ObservedObject var model = ARStateModel()
     
     @State private var colorIndex = 0
@@ -37,12 +37,12 @@ struct ContentView: View {
             })
         }
         .onAppear {
-            model.common.pickColor(paint: colorItems[0])
+            model.pickColor(paint: colorItems[0])
         }
     }
 }
 
-private extension ContentView {
+private extension PaintyView {
     var arView: ARView {
         RemodelARLib.makeARView(model: model, arMethod: .Lidar)
     }
@@ -79,7 +79,7 @@ private extension ContentView {
                     Button(action: {
                         showStroke = true
                         colorIndex = i
-                        model.common.pickColor(paint: colorItems[i])
+                        model.pickColor(paint: colorItems[i])
                     }) {
                         RoundedRectangle(cornerRadius: 17)
                             .strokeBorder(lineWidth: (showStroke && i == colorIndex) ? 5 : 0)
@@ -99,10 +99,10 @@ private extension ContentView {
     }
 }
 
-private extension ContentView {
+private extension PaintyView {
     var savePhotoButton: some View {
         Button(action: {
-            model.common.sharePhoto()
+            model.sharePhoto()
         }, label: {
             Image(systemName: "camera.fill")
                 .foregroundColor(.white)
@@ -114,7 +114,7 @@ private extension ContentView {
 
     var save3DModelButton: some View {
         Button(action: {
-            model.lidar.save3DModel()
+            model.save3DModel()
         }, label: {
             Image("saveMesh")
                 .foregroundColor(.white)
@@ -126,7 +126,7 @@ private extension ContentView {
     
     var resetSceneButton: some View {
         Button(action: {
-            model.common.resetScene()
+            model.resetScene()
         }, label: {
             Image("reset")
                 .foregroundColor(.white)
@@ -137,7 +137,7 @@ private extension ContentView {
     }
 }
 
-private extension ContentView {
+private extension PaintyView {
     var textureNames: [String] {
         [
             "ChalkPaints",
@@ -175,11 +175,11 @@ private extension ContentView {
                         if i == textureIndex {
                             showTextureStroke = false
                             textureIndex = -1
-                            model.common.pickTexture(texture: nil)
+                            model.pickTexture(texture: nil)
                         } else {
                             showTextureStroke = true
                             textureIndex = i
-                            model.common.pickTexture(texture: textureImages[i])
+                            model.pickTexture(texture: textureImages[i])
                         }
                     }) {
                         RoundedRectangle(cornerRadius: 17)
@@ -200,8 +200,8 @@ private extension ContentView {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct PaintyView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        PaintyView()
     }
 }
