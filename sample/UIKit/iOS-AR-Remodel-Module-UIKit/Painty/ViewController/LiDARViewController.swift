@@ -34,6 +34,7 @@ final class LiDARViewController: UIViewController {
         super.viewDidAppear(animated)
         
         configureLiDARView()
+        arController.startScene()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -71,7 +72,9 @@ extension LiDARViewController {
         } else {
             
             arController.planarMeshCountUpdated = { [weak self] meshCount in
-                self?.planerMeshesCountLabel.text = "Planer Meshes: \(meshCount)"
+                DispatchQueue.main.async {
+                    self?.planerMeshesCountLabel.text = "Planar Meshes: \(meshCount)"
+                }
             }
             
             texturePickerCollectionView.texturePicker = texturePicker
@@ -105,5 +108,16 @@ extension LiDARViewController {
         let paintInfo = arController.retrievePaintInfo()
         
         print("Paint Info:- ,", paintInfo as Any)
+    }
+}
+
+//MARK: - Touches
+extension LiDARViewController {
+    public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first
+        else { return }
+        
+        let point = touch.location(in: arscnView)
+        arController.handleTouch(point: point)
     }
 }
