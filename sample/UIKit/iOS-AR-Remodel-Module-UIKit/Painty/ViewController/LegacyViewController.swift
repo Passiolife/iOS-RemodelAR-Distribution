@@ -20,7 +20,9 @@ final class LegacyViewController: UIViewController {
     @IBOutlet weak private var texturePickerCollectionView: TexturePickerCollectionView!
     
     //MARK: Properties
-    private var arController: ARController?
+    private lazy var arController: ARController = {
+        return RemodelARLib.makeLidarARController(with: arscnView)
+    }()
     
     //MARK: View Lifecycle methods
     override func viewDidLoad() {
@@ -32,13 +34,13 @@ final class LegacyViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        arController?.startScene()
+        arController.startScene()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        arController?.pauseScene()
+        arController.pauseScene()
     }
 }
 
@@ -49,15 +51,11 @@ extension LegacyViewController {
         
         createARView()
         
-        drawCenterPoint(rect: CGRect(x: view.frame.width/2 - 30,
-                                     y: view.frame.height/2 - 30,
-                                     width: 60, height: 60),
-                        lineWidth: 2, fillColor: false)
+        let outerCenterPoint = CenterPoint(frame: CGRect(x: view.frame.width/2 - 30, y: view.frame.height/2 - 30, width: 60, height: 60))
+        let innerCenterPoint = CenterPoint(frame: CGRect(x: view.frame.width/2 - 8, y: view.frame.height/2 - 8, width: 16, height: 16))
         
-        drawCenterPoint(rect: CGRect(x: view.frame.width/2 - 8,
-                                     y: view.frame.height/2 - 8,
-                                     width: 16, height: 16),
-                        lineWidth: 1, fillColor: true)
+        view.addSubview(outerCenterPoint)
+        view.addSubview(innerCenterPoint)
         
         updateARLabelStatus()
     }
@@ -72,27 +70,14 @@ extension LegacyViewController {
         
         addGestureOnARView()
         
-        arController?.setScanPoint(point: view.center)
-        arController?.setColor(paint: colorPicker[0].color)
+        arController.setScanPoint(point: view.center)
+        arController.setColor(paint: colorPicker[0].color)
         
         colorPickerCollectionView.colorPicker = colorPicker
         colorPickerCollectionView.arController = arController
         
         texturePickerCollectionView.texturePicker = texturePicker
         texturePickerCollectionView.arController = arController
-    }
-    
-    private func drawCenterPoint(rect: CGRect, lineWidth: CGFloat, fillColor: Bool) {
-        
-        let circleLayer = CAShapeLayer()
-        
-        circleLayer.path = UIBezierPath(ovalIn: rect).cgPath
-        
-        circleLayer.fillColor = fillColor ? UIColor.systemBlue.cgColor : UIColor.black.withAlphaComponent(0.25).cgColor
-        circleLayer.strokeColor = UIColor.systemBlue.cgColor
-        circleLayer.lineWidth = lineWidth
-        
-        view.layer.addSublayer(circleLayer)
     }
     
     private func addGestureOnARView() {
@@ -109,11 +94,11 @@ extension LegacyViewController {
         switch gestureState {
             
         case .changed:
-            arController?.dragStart(point: sender.location(in: arscnView))
-            arController?.dragMove(point: sender.location(in: arscnView))
+            arController.dragStart(point: sender.location(in: arscnView))
+            arController.dragMove(point: sender.location(in: arscnView))
             
         case .ended:
-            arController?.dragEnd()
+            arController.dragEnd()
             
         default:
             break
@@ -122,11 +107,11 @@ extension LegacyViewController {
     
     private func updateARLabelStatus() {
         
-        arController?.trackingReady = { [weak self] isReadyForTracknig in
+        arController.trackingReady = { [weak self] isReadyForTracknig in
             self?.trackingLabel.text = "Tracking Ready: \(isReadyForTracknig ? "On" : "Off")"
         }
         
-        arController?.wallStateUpdated = { [weak self] wallState in
+        arController.wallStateUpdated = { [weak self] wallState in
             
             switch wallState {
                 
@@ -141,7 +126,7 @@ extension LegacyViewController {
             }
         }
         
-        arController?.placeWallStateUpdated = { [weak self] placeWallState in
+        arController.placeWallStateUpdated = { [weak self] placeWallState in
             
             switch placeWallState {
                 
@@ -168,30 +153,30 @@ extension LegacyViewController {
 extension LegacyViewController {
     
     @IBAction func onSetLRTapped(_ sender: UIButton) {
-        arController?.setLowerRightCorner()
+        arController.setLowerRightCorner()
     }
     
     @IBAction func onSetULTapped(_ sender: UIButton) {
-        arController?.setUpperLeftCorner()
+        arController.setUpperLeftCorner()
     }
     
     @IBAction func onUpdatePlaneTapped(_ sender: UIButton) {
-        arController?.updateWallBasePlane()
+        arController.updateWallBasePlane()
     }
     
     @IBAction func onPlacePlaneTapped(_ sender: UIButton) {
-        arController?.placeWallBasePlane()
+        arController.placeWallBasePlane()
     }
     
     @IBAction func onAddWallTapped(_ sender: UIButton) {
-        arController?.addWall()
+        arController.addWall()
     }
     
     @IBAction func onCancelTapped(_ sender: UIButton) {
-        arController?.endAddWall()
+        arController.endAddWall()
     }
     
     @IBAction func onResetTapped(_ sender: UIButton) {
-        arController?.resetScene()
+        arController.resetScene()
     }
 }

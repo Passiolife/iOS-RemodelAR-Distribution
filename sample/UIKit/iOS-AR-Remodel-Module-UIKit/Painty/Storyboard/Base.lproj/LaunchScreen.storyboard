@@ -20,11 +20,19 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="paintSplash" translatesAutoresizingMaskIntoConstraints="NO" id="sSl-Oc-pZx">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Painty" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MtG-yX-qTK">
+                                <rect key="frame" x="179" y="788" width="56" height="24"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="MtG-yX-qTK" secondAttribute="bottom" constant="50" id="0jS-b6-WJS"/>
                             <constraint firstItem="sSl-Oc-pZx" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="6ro-o1-Mme"/>
+                            <constraint firstItem="MtG-yX-qTK" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="JH3-0O-TEE"/>
                             <constraint firstItem="sSl-Oc-pZx" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Rkj-ZS-YZD"/>
                             <constraint firstAttribute="bottom" secondItem="sSl-Oc-pZx" secondAttribute="bottom" id="YBN-VP-RSr"/>
                             <constraint firstItem="sSl-Oc-pZx" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="quD-fx-hyC"/>

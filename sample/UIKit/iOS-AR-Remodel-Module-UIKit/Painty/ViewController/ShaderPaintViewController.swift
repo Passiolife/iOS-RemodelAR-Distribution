@@ -12,12 +12,27 @@ import ARKit
 final class ShaderPaintViewController: UIViewController {
     
     //MARK: @IBOutlets
-    @IBOutlet weak var colorPickerCollectionView: ColorPickerCollectionView!
-    @IBOutlet weak var thresoldSlider: UISlider!
-    @IBOutlet weak var arscnView: ARSCNView!
+    @IBOutlet weak private var arscnView: ARSCNView!
+    @IBOutlet weak private var colorPickerCollectionView: ColorPickerCollectionView!
+    @IBOutlet weak private var thresoldSlider: UISlider!
+    @IBOutlet private var abTestbuttons: [PaintyButton]!
+    @IBOutlet private var touchModeButtons: [PaintyButton]!
     
     //MARK: Properties
-    private var arController: ARController?
+    private lazy var arController: ARController = {
+        return RemodelARLib.makeLidarARController(with: arscnView)
+    }()
+    
+    private var abModeIndex = 0 {
+        didSet {
+            showCenterPoint(index: abModeIndex)
+        }
+    }
+    
+    private var outerCenterPoint = CenterPoint()
+    private var innerCenterPoint = CenterPoint()
+    
+    private var isCenterPointAdded = false
     
     //MARK: View Lifecycle methods
     override func viewDidLoad() {
@@ -29,13 +44,13 @@ final class ShaderPaintViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        arController?.startScene()
+        arController.startScene()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        arController?.pauseScene()
+        arController.pauseScene()
     }
 }
 
@@ -45,6 +60,8 @@ extension ShaderPaintViewController {
     private func configureUI() {
         
         createARView()
+        
+        thresoldSlider.value = 10
     }
 }
 
@@ -57,11 +74,14 @@ extension ShaderPaintViewController {
         
         addGestureOnARView()
         
-        arController?.setColor(paint: colorPicker[0].color)
-        arController?.setTouchMode(mode: TouchMode(rawValue: 3)!) //["Average", "Dark", "Light", "Brightness"]
+        arController.setColor(paint: colorPicker[0].color)
+        arController.setTouchMode(mode: TouchMode(rawValue: 3)!) //["Average", "Dark", "Light", "Brightness"]
         
         colorPickerCollectionView.colorPicker = colorPicker
         colorPickerCollectionView.arController = arController
+        
+        createCenterPoint()
+        abModeIndex = 2
     }
     
     private func addGestureOnARView() {
@@ -78,15 +98,30 @@ extension ShaderPaintViewController {
         switch gestureState {
             
         case .changed:
-            arController?.dragStart(point: sender.location(in: arscnView))
-            arController?.dragMove(point: sender.location(in: arscnView))
+            arController.dragStart(point: sender.location(in: arscnView))
+            arController.dragMove(point: sender.location(in: arscnView))
             
         case .ended:
-            arController?.dragEnd()
+            arController.dragEnd()
             
         default:
             break
         }
+    }
+    
+    private func createCenterPoint() {
+        
+        outerCenterPoint = CenterPoint(frame: CGRect(x: view.frame.width/2 - 30, y: view.frame.height/2 - 30, width: 60, height: 60))
+        innerCenterPoint = CenterPoint(frame: CGRect(x: view.frame.width/2 - 8, y: view.frame.height/2 - 8, width: 16, height: 16))
+        
+        view.addSubview(outerCenterPoint)
+        view.addSubview(innerCenterPoint)
+    }
+    
+    private func showCenterPoint(index: Int) {
+        
+        outerCenterPoint.isHidden = index == 0 ? false : true
+        innerCenterPoint.isHidden = index == 0 ? false : true
     }
 }
 
@@ -94,44 +129,56 @@ extension ShaderPaintViewController {
 extension ShaderPaintViewController {
     
     @IBAction func onThresoldSliderChanged(_ sender: UISlider) {
-        arController?.setColorThreshold(threshold: sender.value)
+        arController.setColorThreshold(threshold: sender.value)
     }
     
     @IBAction func onSaveToCameraTapped(_ sender: PaintyButton) {
         
-        guard let savedImage = arController?.savePhoto() else { return }
+        let savedImage = arController.savePhoto()
         UIImageWriteToSavedPhotosAlbum(savedImage, self, nil, nil)
     }
     
     @IBAction func onRecordTapped(_ sender: PaintyButton) {
-        arController?.setABTestingMode(mode: 0) //["Record", "Stop", "Idle"]
+        
+        arController.setABTestingMode(mode: 0) //["Record", "Stop", "Idle"]
+        abModeIndex = 0
     }
     
     @IBAction func onStopTapped(_ sender: PaintyButton) {
-        arController?.setABTestingMode(mode: 1) //["Record", "Stop", "Idle"]
+        arController.setABTestingMode(mode: 1) //["Record", "Stop", "Idle"]
+        abModeIndex = 1
     }
     
     @IBAction func onIdleTapped(_ sender: PaintyButton) {
-        arController?.setABTestingMode(mode: 2) //["Record", "Stop", "Idle"]
+        arController.setABTestingMode(mode: 2) //["Record", "Stop", "Idle"]
+        abModeIndex = 2
     }
     
     @IBAction func onAverageTapped(_ sender: PaintyButton) {
-        arController?.setTouchMode(mode: TouchMode(rawValue: 0)!)
+        arController.setTouchMode(mode: TouchMode(rawValue: 0)!)
     }
     
     @IBAction func onDarkTapped(_ sender: PaintyButton) {
-        arController?.setTouchMode(mode: TouchMode(rawValue: 1)!)
+        arController.setTouchMode(mode: TouchMode(rawValue: 1)!)
     }
     
     @IBAction func onLightTapped(_ sender: PaintyButton) {
-        arController?.setTouchMode(mode: TouchMode(rawValue: 2)!)
+        arController.setTouchMode(mode: TouchMode(rawValue: 2)!)
     }
     
     @IBAction func onBrightnessTapped(_ sender: PaintyButton) {
-        arController?.setTouchMode(mode: TouchMode(rawValue: 3)!)
+        arController.setTouchMode(mode: TouchMode(rawValue: 3)!)
     }
     
     @IBAction func onResetTapped(_ sender: PaintyButton) {
-        arController?.resetScene()
+        arController.resetScene()
+    }
+    
+    @IBAction func onABTestModeTapped(_ sender: PaintyButton) {
+        abTestbuttons.forEach { $0.backgroundColor = ($0 == sender) ? .black : .black.withAlphaComponent(0.5) }
+    }
+    
+    @IBAction func onTouchModeButtonsTapped(_ sender: PaintyButton) {
+        touchModeButtons.forEach { $0.backgroundColor = ($0 == sender) ? .black : .black.withAlphaComponent(0.5) }
     }
 }

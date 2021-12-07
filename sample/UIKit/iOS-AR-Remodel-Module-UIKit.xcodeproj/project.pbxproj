@@ -21,12 +21,14 @@
 		B86296AC275DCCD00035A265 /* TexturePickerCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86296AB275DCCD00035A265 /* TexturePickerCollectionView.swift */; };
 		B86296AF275DCCE60035A265 /* TexturePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86296AD275DCCE60035A265 /* TexturePickerCell.swift */; };
 		B86296B0275DCCE60035A265 /* TexturePickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B86296AE275DCCE60035A265 /* TexturePickerCell.xib */; };
+		B8658BF2275F8AF50068C24D /* PaintyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89F4E04275A1439000769F6 /* PaintyButton.swift */; };
 		B89F4DF82759F89E000769F6 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89F4DF72759F89E000769F6 /* UIViewController+Extension.swift */; };
 		B89F4DFB2759FEFD000769F6 /* RemodelAR.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B89F4DFA2759FEFD000769F6 /* RemodelAR.xcframework */; };
 		B89F4DFC2759FEFD000769F6 /* RemodelAR.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B89F4DFA2759FEFD000769F6 /* RemodelAR.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B89F4E002759FF7B000769F6 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89F4DFF2759FF7B000769F6 /* Model.swift */; };
 		B89F4E02275A0F87000769F6 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89F4E01275A0F87000769F6 /* UIView+Extension.swift */; };
-		B89F4E05275A1439000769F6 /* PaintyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89F4E04275A1439000769F6 /* PaintyButton.swift */; };
+		B8F7F403275F81E200CE1909 /* CenterPoint.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8F7F401275F81E200CE1909 /* CenterPoint.xib */; };
+		B8F7F404275F81E200CE1909 /* CenterPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F7F402275F81E200CE1909 /* CenterPoint.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -65,6 +67,8 @@
 		B89F4DFF2759FF7B000769F6 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		B89F4E01275A0F87000769F6 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		B89F4E04275A1439000769F6 /* PaintyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintyButton.swift; sourceTree = "<group>"; };
+		B8F7F401275F81E200CE1909 /* CenterPoint.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CenterPoint.xib; sourceTree = "<group>"; };
+		B8F7F402275F81E200CE1909 /* CenterPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CenterPoint.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,8 +135,8 @@
 		B80057952759D3F90021EAC8 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				B80057992759E0740021EAC8 /* LiDARViewController.swift */,
 				B800579B2759E0A50021EAC8 /* LegacyViewController.swift */,
+				B80057992759E0740021EAC8 /* LiDARViewController.swift */,
 				B800579D2759E0BD0021EAC8 /* ShaderPaintViewController.swift */,
 				B800579F2759E1630021EAC8 /* CollectionView */,
 			);
@@ -197,9 +201,19 @@
 		B89F4E03275A1412000769F6 /* ReusableViews */ = {
 			isa = PBXGroup;
 			children = (
+				B8F7F400275F81E200CE1909 /* CenterPoint */,
 				B89F4E04275A1439000769F6 /* PaintyButton.swift */,
 			);
 			path = ReusableViews;
+			sourceTree = "<group>";
+		};
+		B8F7F400275F81E200CE1909 /* CenterPoint */ = {
+			isa = PBXGroup;
+			children = (
+				B8F7F401275F81E200CE1909 /* CenterPoint.xib */,
+				B8F7F402275F81E200CE1909 /* CenterPoint.swift */,
+			);
+			path = CenterPoint;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -264,6 +278,7 @@
 				B800578C2759D3780021EAC8 /* LaunchScreen.storyboard in Resources */,
 				B80057A62759E3E30021EAC8 /* ColorPickerCell.xib in Resources */,
 				B86296B0275DCCE60035A265 /* TexturePickerCell.xib in Resources */,
+				B8F7F403275F81E200CE1909 /* CenterPoint.xib in Resources */,
 				B80057892759D3780021EAC8 /* Assets.xcassets in Resources */,
 				B80057872759D3770021EAC8 /* Main.storyboard in Resources */,
 			);
@@ -276,11 +291,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B89F4E05275A1439000769F6 /* PaintyButton.swift in Sources */,
 				B89F4E002759FF7B000769F6 /* Model.swift in Sources */,
 				B89F4DF82759F89E000769F6 /* UIViewController+Extension.swift in Sources */,
 				B86296AF275DCCE60035A265 /* TexturePickerCell.swift in Sources */,
 				B80057802759D3770021EAC8 /* AppDelegate.swift in Sources */,
+				B8658BF2275F8AF50068C24D /* PaintyButton.swift in Sources */,
+				B8F7F404275F81E200CE1909 /* CenterPoint.swift in Sources */,
 				B800579C2759E0A50021EAC8 /* LegacyViewController.swift in Sources */,
 				B80057A12759E24C0021EAC8 /* ColorPickerCollectionView.swift in Sources */,
 				B800579A2759E0740021EAC8 /* LiDARViewController.swift in Sources */,
