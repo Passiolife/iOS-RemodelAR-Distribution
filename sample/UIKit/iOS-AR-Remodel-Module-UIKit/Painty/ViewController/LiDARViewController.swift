@@ -19,7 +19,9 @@ final class LiDARViewController: UIViewController {
     @IBOutlet weak private var colorPickerCollectionView: ColorPickerCollectionView!
     
     //MARK: Properties
-    private var arController: ARController?
+    private lazy var arController: ARController = {
+        return RemodelARLib.makeLidarARController(with: arscnView)
+    }()
     
     //MARK: View Lifecycle methods
     override func viewDidLoad() {
@@ -37,7 +39,7 @@ final class LiDARViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        arController?.pauseScene()
+        arController.pauseScene()
     }
 }
 
@@ -63,22 +65,21 @@ extension LiDARViewController {
         if !ARWorldTrackingConfiguration.supportsSceneReconstruction(.mesh) {
             
             showAlert(title: "Oops", message: "Your device does not support LiDAR scanner. Please use device that supports LiDAR scanner.")
-            //lidarButtonsStackView.isHidden = true
-            //planerMeshesCountLabel.isHidden = true
+            lidarButtonsStackView.isHidden = true
+            planerMeshesCountLabel.isHidden = true
             
         } else {
             
+            arController.planarMeshCountUpdated = { [weak self] meshCount in
+                self?.planerMeshesCountLabel.text = "Planer Meshes: \(meshCount)"
+            }
+            
+            texturePickerCollectionView.texturePicker = texturePicker
+            texturePickerCollectionView.arController = arController
+            
+            colorPickerCollectionView.colorPicker = colorPicker
+            colorPickerCollectionView.arController = arController
         }
-        
-        arController?.planarMeshCountUpdated = { [weak self] meshCount in
-            self?.planerMeshesCountLabel.text = "Planer Meshes: \(meshCount)"
-        }
-        
-        texturePickerCollectionView.texturePicker = texturePicker
-        texturePickerCollectionView.arController = arController
-        
-        colorPickerCollectionView.colorPicker = colorPicker
-        colorPickerCollectionView.arController = arController
     }
 }
 
@@ -87,21 +88,21 @@ extension LiDARViewController {
     
     @IBAction func onSavePhotoTapped(_ sender: PaintyButton) {
         
-        guard let savedImage = arController?.savePhoto() else { return }
+        let savedImage = arController.savePhoto()
         UIImageWriteToSavedPhotosAlbum(savedImage, self, nil, nil)
     }
     
     @IBAction func onSave3DMeshTapped(_ sender: PaintyButton) {
-        arController?.save3DModel()
+        arController.save3DModel()
     }
     
     @IBAction func onResetTapped(_ sender: PaintyButton) {
-        arController?.resetScene()
+        arController.resetScene()
     }
     
     @IBAction func onGetPaintInfoTapped(_ sender: PaintyButton) {
         
-        let paintInfo = arController?.retrievePaintInfo()
+        let paintInfo = arController.retrievePaintInfo()
         
         print("Paint Info:- ,", paintInfo as Any)
     }
