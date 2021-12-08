@@ -1,0 +1,700 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="j7c-IJ-RUc">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Legacy-->
+        <scene sceneID="lh9-7P-ren">
+            <objects>
+                <viewController id="65C-MD-Xef" customClass="LegacyViewController" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fxt-wu-pCb">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XnV-f8-3oS">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                            </arscnView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="XiM-by-m6v">
+                                <rect key="frame" x="8" y="594" width="398" height="204"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Nhd-b5-fl9">
+                                        <rect key="frame" x="0.0" y="0.0" width="398" height="40"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hNU-Nc-50b" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="100.5" height="40"/>
+                                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="7HX-zP-O2d"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Add Wall">
+                                                    <color key="titleColor" systemColor="systemOrangeColor"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                        <real key="value" value="10"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="onAddWallTapped:" destination="65C-MD-Xef" eventType="touchUpInside" id="Kzt-T8-JLH"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aOn-Bh-cfI" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
+                                                <rect key="frame" x="110.5" y="0.0" width="133.5" height="40"/>
+                                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Place Plane">
+                                                    <color key="titleColor" systemColor="systemOrangeColor"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="onPlacePlaneTapped:" destination="65C-MD-Xef" eventType="touchUpInside" id="ebB-SC-aOs"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hOs-PN-FlJ" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
+                                                <rect key="frame" x="254" y="0.0" width="79.5" height="40"/>
+                                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Cancel">
+                                                    <color key="titleColor" systemColor="systemOrangeColor"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="onCancelTapped:" destination="65C-MD-Xef" eventType="touchUpInside" id="Tqo-GP-Vix"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wuN-r5-phy" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
+                                                <rect key="frame" x="343.5" y="0.0" width="54.5" height="40"/>
+                                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                                <color key="tintColor" systemColor="systemOrangeColor"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" image="reset">
+                                                    <color key="titleColor" systemColor="systemOrangeColor"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="onResetTapped:" destination="65C-MD-Xef" eventType="touchUpInside" id="M4P-cx-XXw"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="9" translatesAutoresizingMaskIntoConstraints="NO" id="shF-O3-G2e">
+                                        <rect key="frame" x="0.0" y="48" width="398" height="40"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UE5-Se-Q2i" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="126.5" height="40"/>
+                                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="9PU-EH-dEI"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Update Plane">
+                                                    <color key="titleColor" systemColor="systemOrangeColor"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="onUpdatePlaneTapped:" destination="65C-MD-Xef" eventType="touchUpInside" id="heX-bX-72g"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rL3-fM-Jsz" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
+                                                <rect key="frame" x="135.5" y="0.0" width="127" height="40"/>
+                                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Set UL">
+                                                    <color key="titleColor" systemColor="systemOrangeColor"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="onSetULTapped:" destination="65C-MD-Xef" eventType="touchUpInside" id="9FX-f0-0aY"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XYm-RK-Z3K" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
+                                                <rect key="frame" x="271.5" y="0.0" width="126.5" height="40"/>
+                                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Set LR">
+                                                    <color key="titleColor" systemColor="systemOrangeColor"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="onSetLRTapped:" destination="65C-MD-Xef" eventType="touchUpInside" id="jx8-Gf-H7W"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="F3m-yj-8oS" customClass="TexturePickerCollectionView" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="96" width="398" height="50"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="OCO-FZ-skj"/>
+                                        </constraints>
+                                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="9I7-Bs-Ssu">
+                                            <size key="itemSize" width="50" height="50"/>
+                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        </collectionViewFlowLayout>
+                                        <cells/>
+                                    </collectionView>
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="rxu-Lm-a5G" customClass="ColorPickerCollectionView" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="154" width="398" height="50"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="17a-jG-w6u"/>
+                                        </constraints>
+                                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="s3a-dH-bXu">
+                                            <size key="itemSize" width="50" height="50"/>
+                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        </collectionViewFlowLayout>
+                                        <cells/>
+                                    </collectionView>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="cqq-Ca-wiQ">
+                                <rect key="frame" x="121.5" y="56" width="171.5" height="77.5"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="cAC-jx-Bgd">
+                                        <rect key="frame" x="10.5" y="0.0" width="150.5" height="20.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tracking Ready: Off" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DAe-8Z-Fub">
+                                                <rect key="frame" x="0.0" y="0.0" width="150.5" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wall State: Idle" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JdR-pE-7oK">
+                                        <rect key="frame" x="29.5" y="28.5" width="112.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Place Wall State: Done" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0f4-V0-Kgz">
+                                        <rect key="frame" x="0.0" y="57" width="171.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="5UT-Ch-R6M"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="XnV-f8-3oS" firstAttribute="trailing" secondItem="5UT-Ch-R6M" secondAttribute="trailing" id="5h4-qy-f2N"/>
+                            <constraint firstItem="XnV-f8-3oS" firstAttribute="leading" secondItem="5UT-Ch-R6M" secondAttribute="leading" id="AS9-3C-Mnh"/>
+                            <constraint firstItem="cqq-Ca-wiQ" firstAttribute="top" secondItem="5UT-Ch-R6M" secondAttribute="top" constant="12" id="PqP-eD-pFO"/>
+                            <constraint firstItem="5UT-Ch-R6M" firstAttribute="trailing" secondItem="XiM-by-m6v" secondAttribute="trailing" constant="8" id="Vsp-ZQ-KMJ"/>
+                            <constraint firstItem="XnV-f8-3oS" firstAttribute="top" secondItem="fxt-wu-pCb" secondAttribute="top" id="f5b-1X-ZFf"/>
+                            <constraint firstItem="cqq-Ca-wiQ" firstAttribute="centerX" secondItem="fxt-wu-pCb" secondAttribute="centerX" id="fMk-5O-GYb"/>
+                            <constraint firstItem="5UT-Ch-R6M" firstAttribute="bottom" secondItem="XiM-by-m6v" secondAttribute="bottom" constant="15" id="h5B-50-u7x"/>
+                            <constraint firstItem="XiM-by-m6v" firstAttribute="leading" secondItem="5UT-Ch-R6M" secondAttribute="leading" constant="8" id="lrj-3e-HHd"/>
+                            <constraint firstItem="XnV-f8-3oS" firstAttribute="bottom" secondItem="5UT-Ch-R6M" secondAttribute="bottom" id="oDN-S3-YOn"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Legacy" image="camera.viewfinder" catalog="system" selectedImage="camera.viewfinder" id="dlO-yD-RfW"/>
+                    <connections>
+                        <outlet property="arscnView" destination="XnV-f8-3oS" id="gTe-sc-PDZ"/>
+                        <outlet property="colorPickerCollectionView" destination="rxu-Lm-a5G" id="cak-lg-A8M"/>
+                        <outlet property="placeWallStateLabel" destination="0f4-V0-Kgz" id="r3l-Ig-nZd"/>
+                        <outlet property="texturePickerCollectionView" destination="F3m-yj-8oS" id="7wU-OY-O6j"/>
+                        <outlet property="trackingLabel" destination="DAe-8Z-Fub" id="yw2-hQ-k3C"/>
+                        <outlet property="wallStateLabel" destination="JdR-pE-7oK" id="ozV-0t-Udm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4Zj-iP-3C9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-913.04347826086962" y="815.625"/>
+        </scene>
+        <!--LiDAR-->
+        <scene sceneID="F2P-4U-xXR">
+            <objects>
+                <viewController id="uCp-kk-Z0g" customClass="LiDARViewController" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="krX-Cy-LbR">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YQC-n5-W4D">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                            </arscnView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="YNa-Nv-EJE">
+                                <rect key="frame" x="89.5" y="64" width="235" height="35"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1bQ-3Z-7TY" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="40" height="35"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="40" id="Bc9-De-D0g"/>
+                                            <constraint firstAttribute="height" constant="35" id="Vb9-yZ-LFF"/>
+                                        </constraints>
+                                        <color key="tintColor" systemColor="systemOrangeColor"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" image="camera.fill" catalog="system"/>
+                                        <connections>
+                                            <action selector="onSavePhotoTapped:" destination="uCp-kk-Z0g" eventType="touchUpInside" id="48D-7Z-9hg"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="evh-a2-YdE" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
+                                        <rect key="frame" x="65" y="0.0" width="40" height="35"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" systemColor="systemOrangeColor"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" image="saveMesh"/>
+                                        <connections>
+                                            <action selector="onSave3DMeshTapped:" destination="uCp-kk-Z0g" eventType="touchUpInside" id="ph2-3U-MpF"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jDr-af-3RJ" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
+                                        <rect key="frame" x="130" y="0.0" width="40" height="35"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" systemColor="systemOrangeColor"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" image="reset"/>
+                                        <connections>
+                                            <action selector="onResetTapped:" destination="uCp-kk-Z0g" eventType="touchUpInside" id="Ga9-xR-0yc"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J5i-TO-VHb" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
+                                        <rect key="frame" x="195" y="0.0" width="40" height="35"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" systemColor="systemOrangeColor"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" image="info.circle.fill" catalog="system"/>
+                                        <connections>
+                                            <action selector="onGetPaintInfoTapped:" destination="uCp-kk-Z0g" eventType="touchUpInside" id="CEu-pc-uft"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="hXp-i7-Psa">
+                                <rect key="frame" x="8" y="688" width="398" height="110"/>
+                                <subviews>
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="10l-IV-tK6" customClass="TexturePickerCollectionView" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="398" height="50"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="OYK-tE-gqW">
+                                            <size key="itemSize" width="50" height="50"/>
+                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        </collectionViewFlowLayout>
+                                        <cells/>
+                                    </collectionView>
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="WcV-0x-Etj" customClass="ColorPickerCollectionView" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="60" width="398" height="50"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="8v3-hb-ETt">
+                                            <size key="itemSize" width="50" height="50"/>
+                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        </collectionViewFlowLayout>
+                                        <cells/>
+                                    </collectionView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="110" id="PMF-EQ-s4i"/>
+                                </constraints>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Planar Meshes: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mZh-9D-NkW">
+                                <rect key="frame" x="141.5" y="109" width="131" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="OrU-yB-3r9"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="OrU-yB-3r9" firstAttribute="trailing" secondItem="hXp-i7-Psa" secondAttribute="trailing" constant="8" id="0RJ-5P-PHX"/>
+                            <constraint firstItem="OrU-yB-3r9" firstAttribute="bottom" secondItem="hXp-i7-Psa" secondAttribute="bottom" constant="15" id="7be-9V-Eaa"/>
+                            <constraint firstItem="YQC-n5-W4D" firstAttribute="top" secondItem="krX-Cy-LbR" secondAttribute="top" id="Icc-e7-Ij6"/>
+                            <constraint firstItem="YQC-n5-W4D" firstAttribute="trailing" secondItem="OrU-yB-3r9" secondAttribute="trailing" id="PWF-VV-Ll4"/>
+                            <constraint firstItem="mZh-9D-NkW" firstAttribute="centerX" secondItem="krX-Cy-LbR" secondAttribute="centerX" id="aBW-4i-z52"/>
+                            <constraint firstItem="hXp-i7-Psa" firstAttribute="leading" secondItem="OrU-yB-3r9" secondAttribute="leading" constant="8" id="dTj-33-Hcg"/>
+                            <constraint firstItem="YNa-Nv-EJE" firstAttribute="centerX" secondItem="krX-Cy-LbR" secondAttribute="centerX" id="eAw-9j-a8X"/>
+                            <constraint firstItem="YNa-Nv-EJE" firstAttribute="top" secondItem="OrU-yB-3r9" secondAttribute="top" constant="20" id="ehe-rz-0Tj"/>
+                            <constraint firstItem="mZh-9D-NkW" firstAttribute="top" secondItem="YNa-Nv-EJE" secondAttribute="bottom" constant="10" id="hPn-LL-p3T"/>
+                            <constraint firstItem="YQC-n5-W4D" firstAttribute="leading" secondItem="OrU-yB-3r9" secondAttribute="leading" id="pB7-xH-Zxw"/>
+                            <constraint firstItem="YQC-n5-W4D" firstAttribute="bottom" secondItem="OrU-yB-3r9" secondAttribute="bottom" id="psx-k8-FLf"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="LiDAR" image="scale.3d" catalog="system" selectedImage="scale.3d" id="ftM-ai-OrN"/>
+                    <connections>
+                        <outlet property="arscnView" destination="YQC-n5-W4D" id="NDF-4b-SL6"/>
+                        <outlet property="colorPickerCollectionView" destination="WcV-0x-Etj" id="3UC-gq-Hfh"/>
+                        <outlet property="lidarButtonsStackView" destination="YNa-Nv-EJE" id="KpK-J1-CUC"/>
+                        <outlet property="planerMeshesCountLabel" destination="mZh-9D-NkW" id="OSi-0S-AzA"/>
+                        <outlet property="texturePickerCollectionView" destination="10l-IV-tK6" id="nZf-8M-Zjc"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="z8U-Ul-mnc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-175.36231884057972" y="815.625"/>
+        </scene>
+        <!--Shader Paint-->
+        <scene sceneID="ttq-tI-DHv">
+            <objects>
+                <viewController id="nhv-tr-9GV" customClass="ShaderPaintViewController" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gz2-De-uCD">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tVc-ln-c7i">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                            </arscnView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="2fu-og-6uL">
+                                <rect key="frame" x="0.0" y="583" width="414" height="230"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y3a-HZ-nZ4">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="53"/>
+                                        <subviews>
+                                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="10" minValue="4" maxValue="50" translatesAutoresizingMaskIntoConstraints="NO" id="aqB-QK-9ig">
+                                                <rect key="frame" x="6" y="8" width="402" height="38"/>
+                                                <connections>
+                                                    <action selector="onThresoldSliderChanged:" destination="nhv-tr-9GV" eventType="valueChanged" id="8fs-vG-7ei"/>
+                                                </connections>
+                                            </slider>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="aqB-QK-9ig" firstAttribute="leading" secondItem="y3a-HZ-nZ4" secondAttribute="leading" constant="8" id="10v-Cm-1TZ"/>
+                                            <constraint firstAttribute="bottom" secondItem="aqB-QK-9ig" secondAttribute="bottom" constant="8" id="Acx-9w-C31"/>
+                                            <constraint firstItem="aqB-QK-9ig" firstAttribute="top" secondItem="y3a-HZ-nZ4" secondAttribute="top" constant="8" id="AkR-XY-YOk"/>
+                                            <constraint firstAttribute="trailing" secondItem="aqB-QK-9ig" secondAttribute="trailing" constant="8" id="euS-Ib-UBI"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GVK-Je-lTC">
+                                        <rect key="frame" x="0.0" y="61" width="414" height="46"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="fR6-sV-ggn">
+                                                <rect key="frame" x="87" y="0.0" width="240" height="46"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VVN-lr-vDz" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="70" height="46"/>
+                                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="sin-3V-fow"/>
+                                                        </constraints>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal" title="Record">
+                                                            <color key="titleColor" systemColor="systemOrangeColor"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="onABTestModeTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="CsA-mT-Tiw"/>
+                                                            <action selector="onRecordTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="mmn-Wb-Pv5"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GUQ-5m-wEv" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
+                                                        <rect key="frame" x="85" y="0.0" width="70" height="46"/>
+                                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="SvK-yt-uaj"/>
+                                                        </constraints>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal" title="Stop">
+                                                            <color key="titleColor" systemColor="systemOrangeColor"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="onABTestModeTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="6np-wT-4hg"/>
+                                                            <action selector="onStopTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="X3M-9s-60J"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cnU-D5-Wu4" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
+                                                        <rect key="frame" x="170" y="0.0" width="70" height="46"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="MBa-yc-S1A"/>
+                                                        </constraints>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal" title="Idle">
+                                                            <color key="titleColor" systemColor="systemOrangeColor"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="onABTestModeTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="pcg-aw-noI"/>
+                                                            <action selector="onIdleTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="9DD-Rb-iud"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="fR6-sV-ggn" firstAttribute="top" secondItem="GVK-Je-lTC" secondAttribute="top" id="ICv-s4-U3K"/>
+                                            <constraint firstAttribute="height" constant="46" id="RDu-1V-ZZF"/>
+                                            <constraint firstItem="fR6-sV-ggn" firstAttribute="centerX" secondItem="GVK-Je-lTC" secondAttribute="centerX" id="TtV-JY-RRb"/>
+                                            <constraint firstAttribute="bottom" secondItem="fR6-sV-ggn" secondAttribute="bottom" id="cE6-Jy-SVD"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dn2-hi-MPc">
+                                        <rect key="frame" x="0.0" y="115" width="414" height="46"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="x5n-ax-9Jd">
+                                                <rect key="frame" x="8" y="0.0" width="398" height="46"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x50-3K-i55" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="87" height="46"/>
+                                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal" title="Average">
+                                                            <color key="titleColor" systemColor="systemOrangeColor"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="onAverageTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="NR5-hu-3Z5"/>
+                                                            <action selector="onTouchModeButtonsTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="A1m-2I-6mC"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BW1-c0-vVM" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
+                                                        <rect key="frame" x="97" y="0.0" width="50.5" height="46"/>
+                                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal" title="Dark">
+                                                            <color key="titleColor" systemColor="systemOrangeColor"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="onDarkTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="PlH-w4-qqf"/>
+                                                            <action selector="onTouchModeButtonsTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="Pex-zP-tch"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Ej-uT-N4j" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
+                                                        <rect key="frame" x="157.5" y="0.0" width="54" height="46"/>
+                                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal" title="Light">
+                                                            <color key="titleColor" systemColor="systemOrangeColor"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="onLightTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="jMp-Va-BJc"/>
+                                                            <action selector="onTouchModeButtonsTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="Gxq-ey-YUZ"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bxv-Ra-ACD" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
+                                                        <rect key="frame" x="221.5" y="0.0" width="113.5" height="46"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal" title="Brightness">
+                                                            <color key="titleColor" systemColor="systemOrangeColor"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="onBrightnessTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="itB-2B-YU1"/>
+                                                            <action selector="onTouchModeButtonsTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="0Un-dm-Hlg"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9TK-zy-QNZ" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
+                                                        <rect key="frame" x="345" y="0.0" width="53" height="46"/>
+                                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="tintColor" systemColor="systemOrangeColor"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal" image="reset">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="onResetTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="3FS-Pv-Hxx"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="x5n-ax-9Jd" secondAttribute="bottom" id="AS3-SF-jV0"/>
+                                            <constraint firstAttribute="height" constant="46" id="Km4-5n-XHl"/>
+                                            <constraint firstItem="x5n-ax-9Jd" firstAttribute="top" secondItem="dn2-hi-MPc" secondAttribute="top" id="Y7Q-0B-MLT"/>
+                                            <constraint firstItem="x5n-ax-9Jd" firstAttribute="leading" secondItem="dn2-hi-MPc" secondAttribute="leading" constant="8" id="dxa-hb-3g0"/>
+                                            <constraint firstAttribute="trailing" secondItem="x5n-ax-9Jd" secondAttribute="trailing" constant="8" id="kHL-sc-9cJ"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jpb-2x-fIR">
+                                        <rect key="frame" x="0.0" y="169" width="414" height="61"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="AXh-Fs-b2N">
+                                                <rect key="frame" x="8" y="0.0" width="398" height="53"/>
+                                                <subviews>
+                                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="k7f-f5-RKY" customClass="ColorPickerCollectionView" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="0.0" width="398" height="53"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="53" id="38B-LJ-iCW"/>
+                                                        </constraints>
+                                                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="p1s-BS-vEi">
+                                                            <size key="itemSize" width="50" height="50"/>
+                                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                        </collectionViewFlowLayout>
+                                                        <cells/>
+                                                    </collectionView>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="AXh-Fs-b2N" secondAttribute="bottom" constant="8" id="5sV-pp-fX8"/>
+                                            <constraint firstItem="AXh-Fs-b2N" firstAttribute="top" secondItem="jpb-2x-fIR" secondAttribute="top" id="P8q-vT-qyk"/>
+                                            <constraint firstItem="AXh-Fs-b2N" firstAttribute="leading" secondItem="jpb-2x-fIR" secondAttribute="leading" constant="8" id="Ti9-Pr-lPs"/>
+                                            <constraint firstAttribute="trailing" secondItem="AXh-Fs-b2N" secondAttribute="trailing" constant="8" id="Yve-xZ-690"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.79183050496688745" colorSpace="custom" customColorSpace="sRGB"/>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dVe-ug-cn7" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
+                                <rect key="frame" x="353" y="528.5" width="50" height="44.5"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="dVe-ug-cn7" secondAttribute="height" multiplier="9:8" id="MYW-Vu-Em7"/>
+                                </constraints>
+                                <color key="tintColor" systemColor="systemOrangeColor"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="camera.fill" catalog="system"/>
+                                <connections>
+                                    <action selector="onSaveToCameraTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="C3H-pG-alf"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="C9u-2I-hEt"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="C9u-2I-hEt" firstAttribute="trailing" secondItem="dVe-ug-cn7" secondAttribute="trailing" constant="11" id="2no-xN-Gss"/>
+                            <constraint firstItem="tVc-ln-c7i" firstAttribute="leading" secondItem="C9u-2I-hEt" secondAttribute="leading" id="4mb-BK-q9G"/>
+                            <constraint firstItem="2fu-og-6uL" firstAttribute="leading" secondItem="C9u-2I-hEt" secondAttribute="leading" id="Idk-zc-zRU"/>
+                            <constraint firstItem="2fu-og-6uL" firstAttribute="top" secondItem="dVe-ug-cn7" secondAttribute="bottom" constant="10" id="L33-i4-fXW"/>
+                            <constraint firstItem="C9u-2I-hEt" firstAttribute="trailing" secondItem="2fu-og-6uL" secondAttribute="trailing" id="PG1-EQ-7k4"/>
+                            <constraint firstItem="C9u-2I-hEt" firstAttribute="bottom" secondItem="2fu-og-6uL" secondAttribute="bottom" id="hqN-lA-uGH"/>
+                            <constraint firstItem="dVe-ug-cn7" firstAttribute="width" secondItem="gz2-De-uCD" secondAttribute="width" multiplier="0.108696" constant="5" id="lBh-Lv-RAz"/>
+                            <constraint firstItem="tVc-ln-c7i" firstAttribute="bottom" secondItem="C9u-2I-hEt" secondAttribute="bottom" id="n5z-gt-sDS"/>
+                            <constraint firstItem="tVc-ln-c7i" firstAttribute="trailing" secondItem="C9u-2I-hEt" secondAttribute="trailing" id="x1T-0U-1Ji"/>
+                            <constraint firstItem="tVc-ln-c7i" firstAttribute="top" secondItem="gz2-De-uCD" secondAttribute="top" id="yqL-LB-EgR"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Shader Paint" image="paintpalette.fill" catalog="system" selectedImage="paintpalette.fill" id="eEX-UY-fkh"/>
+                    <connections>
+                        <outlet property="arscnView" destination="tVc-ln-c7i" id="HWH-ps-eBr"/>
+                        <outlet property="colorPickerCollectionView" destination="k7f-f5-RKY" id="dGc-Rd-goY"/>
+                        <outlet property="thresoldSlider" destination="aqB-QK-9ig" id="2xo-n8-i8K"/>
+                        <outletCollection property="touchModeButtons" destination="x50-3K-i55" collectionClass="NSMutableArray" id="ynO-cm-Rhu"/>
+                        <outletCollection property="touchModeButtons" destination="bxv-Ra-ACD" collectionClass="NSMutableArray" id="NqB-1B-6WU"/>
+                        <outletCollection property="touchModeButtons" destination="BW1-c0-vVM" collectionClass="NSMutableArray" id="zy1-yN-PWh"/>
+                        <outletCollection property="touchModeButtons" destination="4Ej-uT-N4j" collectionClass="NSMutableArray" id="jqp-lI-Pjq"/>
+                        <outletCollection property="abTestbuttons" destination="VVN-lr-vDz" collectionClass="NSMutableArray" id="tAu-Yz-gMt"/>
+                        <outletCollection property="abTestbuttons" destination="GUQ-5m-wEv" collectionClass="NSMutableArray" id="qJd-F0-Tfo"/>
+                        <outletCollection property="abTestbuttons" destination="cnU-D5-Wu4" collectionClass="NSMutableArray" id="J3D-Wr-y2P"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ujd-vH-tj8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="573.91304347826087" y="815.625"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="oD3-K0-aLq">
+            <objects>
+                <tabBarController id="j7c-IJ-RUc" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="oam-nU-yX3">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="selectedImageTintColor" systemColor="systemOrangeColor"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="65C-MD-Xef" kind="relationship" relationship="viewControllers" id="9R9-W1-n8c"/>
+                        <segue destination="uCp-kk-Z0g" kind="relationship" relationship="viewControllers" id="2yw-QL-7Se"/>
+                        <segue destination="nhv-tr-9GV" kind="relationship" relationship="viewControllers" id="dbR-Na-5Jb"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KT1-H8-Jih" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-270" y="112"/>
+        </scene>
+    </scenes>
+    <designables>
+        <designable name="1bQ-3Z-7TY">
+            <size key="intrinsicContentSize" width="24.5" height="22"/>
+        </designable>
+        <designable name="4Ej-uT-N4j">
+            <size key="intrinsicContentSize" width="36" height="30"/>
+        </designable>
+        <designable name="9TK-zy-QNZ">
+            <size key="intrinsicContentSize" width="22" height="22"/>
+        </designable>
+        <designable name="BW1-c0-vVM">
+            <size key="intrinsicContentSize" width="34" height="30"/>
+        </designable>
+        <designable name="GUQ-5m-wEv">
+            <size key="intrinsicContentSize" width="38" height="34"/>
+        </designable>
+        <designable name="J5i-TO-VHb">
+            <size key="intrinsicContentSize" width="20" height="22"/>
+        </designable>
+        <designable name="UE5-Se-Q2i">
+            <size key="intrinsicContentSize" width="95" height="30"/>
+        </designable>
+        <designable name="VVN-lr-vDz">
+            <size key="intrinsicContentSize" width="58" height="34"/>
+        </designable>
+        <designable name="XYm-RK-Z3K">
+            <size key="intrinsicContentSize" width="46" height="30"/>
+        </designable>
+        <designable name="aOn-Bh-cfI">
+            <size key="intrinsicContentSize" width="82" height="30"/>
+        </designable>
+        <designable name="bxv-Ra-ACD">
+            <size key="intrinsicContentSize" width="76" height="30"/>
+        </designable>
+        <designable name="cnU-D5-Wu4">
+            <size key="intrinsicContentSize" width="30" height="34"/>
+        </designable>
+        <designable name="dVe-ug-cn7">
+            <size key="intrinsicContentSize" width="24.5" height="22"/>
+        </designable>
+        <designable name="evh-a2-YdE">
+            <size key="intrinsicContentSize" width="22" height="22"/>
+        </designable>
+        <designable name="hNU-Nc-50b">
+            <size key="intrinsicContentSize" width="62" height="30"/>
+        </designable>
+        <designable name="hOs-PN-FlJ">
+            <size key="intrinsicContentSize" width="49" height="30"/>
+        </designable>
+        <designable name="jDr-af-3RJ">
+            <size key="intrinsicContentSize" width="22" height="22"/>
+        </designable>
+        <designable name="rL3-fM-Jsz">
+            <size key="intrinsicContentSize" width="47" height="30"/>
+        </designable>
+        <designable name="wuN-r5-phy">
+            <size key="intrinsicContentSize" width="22" height="22"/>
+        </designable>
+        <designable name="x50-3K-i55">
+            <size key="intrinsicContentSize" width="58" height="30"/>
+        </designable>
+    </designables>
+    <resources>
+        <image name="camera.fill" catalog="system" width="128" height="94"/>
+        <image name="camera.viewfinder" catalog="system" width="128" height="115"/>
+        <image name="info.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="paintpalette.fill" catalog="system" width="128" height="105"/>
+        <image name="reset" width="22" height="22"/>
+        <image name="saveMesh" width="22" height="22"/>
+        <image name="scale.3d" catalog="system" width="128" height="112"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemOrangeColor">
+            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

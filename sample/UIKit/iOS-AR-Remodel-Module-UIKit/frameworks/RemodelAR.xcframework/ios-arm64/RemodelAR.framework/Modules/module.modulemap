@@ -1,0 +1,11 @@
+framework module RemodelAR {
+  umbrella header "RemodelAR.h"
+
+  export *
+  module * { export * }
+}
+
+module RemodelAR.Swift {
+    header "RemodelAR-Swift.h"
+    requires objc
+}

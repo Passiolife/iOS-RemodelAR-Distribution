@@ -11,11 +11,11 @@
 		588A2E1C273F25C00014CA27 /* PaintyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588A2E1B273F25C00014CA27 /* PaintyView.swift */; };
 		588A2E1E273F25C20014CA27 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 588A2E1D273F25C20014CA27 /* Assets.xcassets */; };
 		588A2E21273F25C20014CA27 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 588A2E20273F25C20014CA27 /* Preview Assets.xcassets */; };
-		589309042756763D00864F2E /* RemodelAR.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 589309032756763D00864F2E /* RemodelAR.xcframework */; };
-		589309052756763D00864F2E /* RemodelAR.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 589309032756763D00864F2E /* RemodelAR.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5893090A2758336600864F2E /* LidarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589309072758336500864F2E /* LidarView.swift */; };
 		5893090B2758336600864F2E /* ShaderPaintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589309082758336600864F2E /* ShaderPaintView.swift */; };
 		5893090C2758336600864F2E /* LegacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589309092758336600864F2E /* LegacyView.swift */; };
+		B8572464275E414900A2ABF9 /* RemodelAR.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8572463275E414900A2ABF9 /* RemodelAR.xcframework */; };
+		B8572465275E414900A2ABF9 /* RemodelAR.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B8572463275E414900A2ABF9 /* RemodelAR.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,7 +25,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				589309052756763D00864F2E /* RemodelAR.xcframework in Embed Frameworks */,
+				B8572465275E414900A2ABF9 /* RemodelAR.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -38,10 +38,10 @@
 		588A2E1B273F25C00014CA27 /* PaintyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintyView.swift; sourceTree = "<group>"; };
 		588A2E1D273F25C20014CA27 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		588A2E20273F25C20014CA27 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		589309032756763D00864F2E /* RemodelAR.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RemodelAR.xcframework; path = ../framework/RemodelAR.xcframework; sourceTree = "<group>"; };
 		589309072758336500864F2E /* LidarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LidarView.swift; sourceTree = "<group>"; };
 		589309082758336600864F2E /* ShaderPaintView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShaderPaintView.swift; sourceTree = "<group>"; };
 		589309092758336600864F2E /* LegacyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LegacyView.swift; sourceTree = "<group>"; };
+		B8572463275E414900A2ABF9 /* RemodelAR.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RemodelAR.xcframework; path = ../../framework/RemodelAR.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,7 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				589309042756763D00864F2E /* RemodelAR.xcframework in Frameworks */,
+				B8572464275E414900A2ABF9 /* RemodelAR.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,7 +98,7 @@
 		588A2E27273F26EA0014CA27 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				589309032756763D00864F2E /* RemodelAR.xcframework */,
+				B8572463275E414900A2ABF9 /* RemodelAR.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -310,10 +310,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Painty/Preview Content\"";
-				DEVELOPMENT_TEAM = LCT9TTNDNR;
+				DEVELOPMENT_TEAM = 7224G6JACN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need your camera for awesome AR experiences!";
@@ -330,6 +331,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.passio.Painty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = MI_WildCard_Dev;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -341,10 +343,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Painty/Preview Content\"";
-				DEVELOPMENT_TEAM = LCT9TTNDNR;
+				DEVELOPMENT_TEAM = 7224G6JACN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need your camera for awesome AR experiences!";
@@ -361,6 +364,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.passio.Painty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = MI_WildCard_Dev;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
