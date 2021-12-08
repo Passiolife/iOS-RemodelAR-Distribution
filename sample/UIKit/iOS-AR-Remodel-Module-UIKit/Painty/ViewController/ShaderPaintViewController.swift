@@ -182,3 +182,14 @@ extension ShaderPaintViewController {
         touchModeButtons.forEach { $0.backgroundColor = ($0 == sender) ? .black : .black.withAlphaComponent(0.5) }
     }
 }
+
+//MARK: - Touches
+extension ShaderPaintViewController {
+    public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first
+        else { return }
+        
+        let point = touch.location(in: arscnView)
+        arController.handleTouch(point: point)
+    }
+}

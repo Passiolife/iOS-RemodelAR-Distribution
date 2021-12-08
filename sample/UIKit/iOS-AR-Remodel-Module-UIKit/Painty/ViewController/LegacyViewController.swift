@@ -180,3 +180,14 @@ extension LegacyViewController {
         arController.resetScene()
     }
 }
+
+//MARK: - Touches
+extension LegacyViewController {
+    public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first
+        else { return }
+        
+        let point = touch.location(in: arscnView)
+        arController.handleTouch(point: point)
+    }
+}
