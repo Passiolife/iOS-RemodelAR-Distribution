@@ -17,6 +17,13 @@ import UIKit
 import VideoToolbox
 import _Concurrency
 import simd
+public struct AbnormalityInfo : RemodelAR.Abnormality {
+  public let identifier: Swift.String
+  public let name: Swift.String
+  public let area: RemodelAR.AreaInfo
+  public init(identifier: Swift.String = UUID().uuidString, name: Swift.String, area: RemodelAR.AreaInfo? = nil)
+  public init(abnormalityInfo: RemodelAR.AbnormalityInfo, name: Swift.String? = nil, area: RemodelAR.AreaInfo? = nil)
+}
 public enum ARTrackingState {
   case initializing
   case error(Swift.Int)
@@ -59,6 +66,10 @@ public enum WallState {
   public var hashValue: Swift.Int {
     get
   }
+}
+public struct AbnormalitiesInfo {
+  public let abnormalities: [RemodelAR.AbnormalityInfo]
+  public init(abnormalities: [RemodelAR.AbnormalityInfo])
 }
 extension Swift.Double {
   public func formatted(decimals: Swift.Int = 1) -> Swift.String
@@ -107,6 +118,7 @@ extension UIKit.UIColor {
   public static func makeLidarARController(with sceneView: ARKit.ARSCNView) -> RemodelAR.ARController
   public static func makeLegacyARController(with sceneView: ARKit.ARSCNView) -> RemodelAR.ARController
   public static func makeShaderARController(with sceneView: ARKit.ARSCNView) -> RemodelAR.ARController
+  public static func makeAbnormalitiesARController(with sceneView: ARKit.ARSCNView) -> RemodelAR.ARController
   public static func makeARView(model: RemodelAR.ARStateModel, arMethod: RemodelAR.ARMethod? = nil) -> RemodelAR.ARView
   public static func makeARViewController(model: RemodelAR.ARStateModel) -> RemodelAR._ARViewController
   @objc deinit
@@ -141,14 +153,23 @@ public enum ARMethod {
   case Lidar
   case Legacy
   case ShaderPainting
+  case Abnormalities
   public static func == (a: RemodelAR.ARMethod, b: RemodelAR.ARMethod) -> Swift.Bool
   public func hash(into hasher: inout Swift.Hasher)
   public var hashValue: Swift.Int {
     get
   }
 }
-extension SceneKit.SCNVector3 {
+public struct ImageCapture {
+  public let image: UIKit.UIImage
+  public let width: Swift.Double
+  public let height: Swift.Double
+  public init(image: UIKit.UIImage, width: Swift.Double, height: Swift.Double)
+}
+extension SceneKit.SCNVector3 : Swift.Hashable {
   public func printMel(name: Swift.String? = nil, scale: Swift.Float? = nil)
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (lhs: SceneKit.SCNVector3, rhs: SceneKit.SCNVector3) -> Swift.Bool
   public static func + (left: SceneKit.SCNVector3, right: SceneKit.SCNVector3) -> SceneKit.SCNVector3
   public static func += (left: inout SceneKit.SCNVector3, right: SceneKit.SCNVector3)
   public static func - (left: SceneKit.SCNVector3, right: SceneKit.SCNVector3) -> SceneKit.SCNVector3
@@ -169,6 +190,9 @@ extension SceneKit.SCNVector3 {
   public static func SCNVector3CrossProduct(left: SceneKit.SCNVector3, right: SceneKit.SCNVector3) -> SceneKit.SCNVector3
   public static func SCNVector3Lerp(vectorStart: SceneKit.SCNVector3, vectorEnd: SceneKit.SCNVector3, t: Swift.Float) -> SceneKit.SCNVector3
   public static func SCNVector3Project(vectorToProject: SceneKit.SCNVector3, projectionVector: SceneKit.SCNVector3) -> SceneKit.SCNVector3
+  public var hashValue: Swift.Int {
+    get
+  }
 }
 public protocol ARController : ObjectiveC.NSObject {
   var fps: Swift.Double { get }
@@ -200,6 +224,13 @@ public protocol ARController : ObjectiveC.NSObject {
   func dragStart(point: CoreGraphics.CGPoint)
   func dragMove(point: CoreGraphics.CGPoint)
   func dragEnd()
+  var abnormalitySelected: ((RemodelAR.Abnormality) -> Swift.Void)? { get set }
+  func setScanArea(rect: CoreGraphics.CGRect)
+  func captureAbnormalityImage(callback: @escaping (RemodelAR.ImageCapture) -> Swift.Void)
+  func deleteAbnormality(identifier: Swift.String)
+  func addAbnormality(name: Swift.String) -> Swift.String?
+  func updateAbnormality(abnormality: RemodelAR.Abnormality)
+  func retrieveAbnormalitiesInfo() -> RemodelAR.AbnormalitiesInfo?
 }
 public class ARStateModel : Combine.ObservableObject {
   public var cancellables: Swift.Set<Combine.AnyCancellable>
@@ -293,6 +324,46 @@ public class ARStateModel : Combine.ObservableObject {
     @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
     set
   }
+  @Combine.Published @_projectedValueProperty($capturedAbnormalityImage) public var capturedAbnormalityImage: RemodelAR.ImageCapture? {
+    get
+    set
+    _modify
+  }
+  public var $capturedAbnormalityImage: Combine.Published<RemodelAR.ImageCapture?>.Publisher {
+    get
+    @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
+    set
+  }
+  @Combine.Published @_projectedValueProperty($selectedAbnormality) public var selectedAbnormality: RemodelAR.Abnormality? {
+    get
+    set
+    _modify
+  }
+  public var $selectedAbnormality: Combine.Published<RemodelAR.Abnormality?>.Publisher {
+    get
+    @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
+    set
+  }
+  @Combine.Published @_projectedValueProperty($abnormalitiesInfo) public var abnormalitiesInfo: RemodelAR.AbnormalitiesInfo? {
+    get
+    set
+    _modify
+  }
+  public var $abnormalitiesInfo: Combine.Published<RemodelAR.AbnormalitiesInfo?>.Publisher {
+    get
+    @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
+    set
+  }
+  @Combine.Published @_projectedValueProperty($addedAbnormalityId) public var addedAbnormalityId: Swift.String? {
+    get
+    set
+    _modify
+  }
+  public var $addedAbnormalityId: Combine.Published<Swift.String?>.Publisher {
+    get
+    @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
+    set
+  }
   public init()
   public func pickColor(paint: RemodelAR.WallPaint)
   public func pickTexture(texture: UIKit.UIImage?)
@@ -317,6 +388,12 @@ public class ARStateModel : Combine.ObservableObject {
   public func dragStart(point: CoreGraphics.CGPoint)
   public func dragMove(point: CoreGraphics.CGPoint)
   public func dragEnd()
+  public func setScanArea(rect: CoreGraphics.CGRect)
+  public func captureAbnormalityImage()
+  public func deleteAbnormality(id: Swift.String)
+  public func addAbnormality(name: Swift.String)
+  public func updateAbnormality(abnormality: RemodelAR.Abnormality)
+  public func retrieveAbnormalitiesInfo()
   public typealias ObjectWillChangePublisher = Combine.ObservableObjectPublisher
   @objc deinit
 }
@@ -360,6 +437,12 @@ public class ARStateModel : Combine.ObservableObject {
   @_Concurrency.MainActor(unsafe) public func dragStart(point: CoreGraphics.CGPoint)
   @_Concurrency.MainActor(unsafe) public func dragMove(point: CoreGraphics.CGPoint)
   @_Concurrency.MainActor(unsafe) public func dragEnd()
+  @_Concurrency.MainActor(unsafe) public func captureAbnormalityImage() -> Combine.AnyPublisher<RemodelAR.ImageCapture, Swift.Never>
+  @_Concurrency.MainActor(unsafe) public func addAbnormality(name: Swift.String) -> Swift.String?
+  @_Concurrency.MainActor(unsafe) public func updateAbnormality(abnormality: RemodelAR.Abnormality)
+  @_Concurrency.MainActor(unsafe) public func setScanArea(rect: CoreGraphics.CGRect)
+  @_Concurrency.MainActor(unsafe) public func retrieveAbnormalitiesInfo() -> RemodelAR.AbnormalitiesInfo?
+  @_Concurrency.MainActor(unsafe) public func deleteAbnormality(id: Swift.String)
   public typealias ObjectWillChangePublisher = Combine.ObservableObjectPublisher
   @objc deinit
 }
@@ -450,6 +533,11 @@ extension CoreImage.CIImage {
     get
   }
   public func perspectiveCorrected(topLeft: CoreGraphics.CGPoint, topRight: CoreGraphics.CGPoint, bottomLeft: CoreGraphics.CGPoint, bottomRight: CoreGraphics.CGPoint) -> CoreImage.CIImage
+}
+public protocol Abnormality {
+  var identifier: Swift.String { get }
+  var name: Swift.String { get }
+  var area: RemodelAR.AreaInfo { get }
 }
 extension ARKit.ARFrame {
   public func color(at point: CoreGraphics.CGPoint, poiSize: CoreGraphics.CGFloat, screenSize: CoreGraphics.CGSize) -> UIKit.UIColor?
