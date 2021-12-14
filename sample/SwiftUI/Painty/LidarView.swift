@@ -11,17 +11,13 @@ import SwiftUI
 import RemodelAR
 
 struct LidarView: View {
-    var cancellables = Set<AnyCancellable>()
-    @ObservedObject var model = ARStateModel()
-
     @State private var colorIndex = 0
     @State private var textureIndex = -1
     @State private var showStroke = true
     @State private var showTextureStroke = false
-    @State private var debugString = ""
-    @State private var debugTimer: Timer?
     @State private var touchModeIndex = 3
     @State private var occlusionThreshold: Double = 10
+    @EnvironmentObject var settings: SettingsData
     
     init() {
 
@@ -29,9 +25,9 @@ struct LidarView: View {
     
     var body: some View {
         ZStack {
-            ZStack(alignment: .bottom, content: {
-                arView
-                    .edgesIgnoringSafeArea(.all)
+            arView
+                .edgesIgnoringSafeArea(.all)
+            if settings.uiVisible {
                 VStack {
                     HStack {
                         savePhotoButton
@@ -39,39 +35,60 @@ struct LidarView: View {
                         resetSceneButton
                         getPaintInfoButton
                     }
-                    if !debugString.isEmpty {
+                    if !settings.debugString.isEmpty {
                         debugText
                     }
-                    Text("Planar Meshes: \(model.planarMeshCount)")
+                    Text("Planar Meshes: \(settings.model.planarMeshCount)")
                     Spacer()
-                    VStack(spacing: 0) {
-                        texturePicker
-                            .offset(y: 20)
-                        colorPicker
-                    }.padding(.bottom, 30)
                 }
-            })
+                VStack {
+                    Spacer()
+                    texturePicker
+                    colorPicker
+                }.offset(y: -60)
+            }
         }
         .onAppear {
-            model.pickColor(paint: colorItems[0])
+            settings.model.planarMeshCount = 0
+            settings.model.pickColor(paint: colorItems[0])
             setupBindings()
         }
     }
     
     var arView: ARView {
-        RemodelARLib.makeARView(model: model, arMethod: .Lidar)
+        RemodelARLib.makeARView(model: settings.model, arMethod: .Lidar)
+    }
+    
+    var debugText: some View {
+        VStack(alignment: .center, spacing: nil, content: {
+            Text(settings.debugString)
+                .bold()
+                .padding(.all)
+                .foregroundColor(.white)
+                .background(Color(.sRGB, white: 0, opacity: 0.25))
+                .cornerRadius(10)
+            Spacer()
+        })
+    }
+    
+    func showDebugMessage(message: String) {
+        settings.debugString = message
+        settings.debugTimer?.invalidate()
+        settings.debugTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: false, block: { _ in
+            settings.debugString = ""
+        })
     }
     
     func setupBindings() {
-        model.$paintInfo.sink { [self] paintInfo in
+        settings.model.$paintInfo.sink { [self] paintInfo in
             guard let paintInfo = paintInfo else { return }
             var output = [String]()
             for (_, wall) in paintInfo.paintedWalls.enumerated() {
                 output.append("\(wall.area.width.formatted())x\(wall.area.height.formatted()) (\(wall.area.area.formatted()))")
                 output.append("estimated: \(wall.area.estimatedActualArea.formatted()) m²")
             }
-            debugString = output.joined(separator: "\n")
-        }.store(in: &model.cancellables)
+            settings.debugString = output.joined(separator: "\n")
+        }.store(in: &settings.model.cancellables)
     }
 }
 
@@ -116,7 +133,7 @@ private extension LidarView {
                     Button(action: {
                         showStroke = true
                         colorIndex = i
-                        model.pickColor(paint: colorItems[i])
+                        settings.model.pickColor(paint: colorItems[i])
                     }) {
                         RoundedRectangle(cornerRadius: 17)
                             .strokeBorder(lineWidth: (showStroke && i == colorIndex) ? 5 : 0)
@@ -137,21 +154,9 @@ private extension LidarView {
 }
 
 private extension LidarView {
-    var debugText: some View {
-        VStack(alignment: .center, spacing: nil, content: {
-            Text(debugString)
-                .bold()
-                .padding(.all)
-                .foregroundColor(.white)
-                .background(Color(.sRGB, white: 0, opacity: 0.25))
-                .cornerRadius(10)
-            Spacer()
-        })
-    }
-
     var savePhotoButton: some View {
         Button(action: {
-            model.sharePhoto()
+            settings.model.sharePhoto()
             showDebugMessage(message: "Image Saved!")
         }, label: {
             Image(systemName: "camera.fill")
@@ -163,7 +168,7 @@ private extension LidarView {
     }
 
     var save3DModelButton: some View {
-        Button(action: { model.save3DModel() }, label: {
+        Button(action: { settings.model.save3DModel() }, label: {
             Image("saveMesh")
                 .foregroundColor(.white)
         })
@@ -173,7 +178,10 @@ private extension LidarView {
     }
     
     var resetSceneButton: some View {
-        Button(action: { model.resetScene() },
+        Button(action: {
+            settings.model.resetScene()
+            showDebugMessage(message: "Scene reset!")
+        },
                label: {
                 Image("reset")
                     .foregroundColor(.white)
@@ -184,7 +192,7 @@ private extension LidarView {
     }
     
     var getPaintInfoButton: some View {
-        Button(action: { model.getPaintInfo() },
+        Button(action: { settings.model.getPaintInfo() },
                label: {
                 Image(systemName: "info.circle.fill")
                     .foregroundColor(.white)
@@ -192,14 +200,6 @@ private extension LidarView {
         .padding()
         .background(Color(.sRGB, white: 0, opacity: 0.15))
         .cornerRadius(10)
-    }
-    
-    func showDebugMessage(message: String) {
-        debugString = message
-        debugTimer?.invalidate()
-        debugTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: false, block: { _ in
-            debugString = ""
-        })
     }
 }
 
@@ -241,11 +241,11 @@ private extension LidarView {
                         if i == textureIndex {
                             showTextureStroke = false
                             textureIndex = -1
-                            model.pickTexture(texture: nil)
+                            settings.model.pickTexture(texture: nil)
                         } else {
                             showTextureStroke = true
                             textureIndex = i
-                            model.pickTexture(texture: textureImages[i])
+                            settings.model.pickTexture(texture: textureImages[i])
                         }
                     }) {
                         RoundedRectangle(cornerRadius: 17)
@@ -262,7 +262,7 @@ private extension LidarView {
                 }
             }
             .padding()
-        }
+        }.offset(y: 30)
     }
 }
 

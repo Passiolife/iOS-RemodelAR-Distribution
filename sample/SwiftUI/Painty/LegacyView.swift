@@ -11,84 +11,117 @@ import SwiftUI
 import RemodelAR
 
 struct LegacyView: View {
-    @ObservedObject var model = ARStateModel()
-    
     @State private var colorIndex = 0
     @State private var textureIndex = -1
     @State private var showStroke = true
     @State private var showTextureStroke = false
+    @EnvironmentObject var settings: SettingsData
     
     var body: some View {
         GeometryReader { geometry in
-            ZStack(alignment: .bottom, content: {
+            ZStack {
                 arView
-                VStack {
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        centerDot
-                        Spacer()
-                    }
-                    Spacer()
-                }
-                VStack {
+                    .edgesIgnoringSafeArea(.all)
+                if settings.uiVisible {
                     VStack {
+                        Spacer()
                         HStack {
-                            Text("Coaching: \(model.coachingVisible ? "on" : "off")")
-                            Text("Tracking Ready: \(model.trackingReady ? "yes" : "no")")
+                            Spacer()
+                            centerDot
+                            Spacer()
                         }
-                        Text("Wall State: \(wallState)")
-                        Text("Place Wall State: \(placeWallState)")
-                    }.offset(y: 40)
-                    Spacer()
-                    HStack {
-                        addWallButton
-                        placeBasePlaneButton
-                        cancelAddWallButton
-                        resetSceneButton
-                    }.offset(y: 40)
-                    HStack {
-                        updateBasePlaneButton
-                        setUpperLeftCornerButton
-                        setLowerRightCornerButton
-                    }.offset(y: 40)
-                    VStack {
-                        texturePicker
-                            .offset(y: 30)
-                        colorPicker
+                        Spacer()
                     }
+                    VStack {
+                        VStack {
+                            HStack {
+                                savePhotoButton
+                                resetSceneButton
+                            }
+                            HStack {
+                                Text("Coaching: \(settings.model.coachingVisible ? "on" : "off")")
+                                Text("Tracking Ready: \(settings.model.trackingReady ? "yes" : "no")")
+                            }
+                            Text("Wall State: \(wallState)")
+                            Text("Place Wall State: \(placeWallState)")
+                        }
+                        if !settings.debugString.isEmpty {
+                            debugText
+                        }
+                        Spacer()
+                    }
+                    VStack {
+                        Spacer()
+                        VStack {
+                            HStack {
+                                addWallButton
+                                placeBasePlaneButton
+                                cancelAddWallButton
+                            }
+                            HStack {
+                                updateBasePlaneButton
+                                setUpperLeftCornerButton
+                                setLowerRightCornerButton
+                            }
+                        }.offset(y: 40)
+                        VStack {
+                            texturePicker
+                            colorPicker
+                        }
+                    }.offset(y: -60)
                 }
-                .padding(.bottom, 40)
-            }).onAppear(perform: {
-                model.pickColor(paint: colorItems[colorIndex])
-                model.setScanPoint(
+            }.onAppear {
+                settings.model.pickColor(paint: colorItems[colorIndex])
+                settings.model.setScanPoint(
                     point: CGPoint(x: geometry.size.width / 2,
                                    y: geometry.size.height / 2)
                 )
-            })
-        }.edgesIgnoringSafeArea(.all)
-    }
-    
-    func setupBindings() {
-        model.$trackingReady.sink { ready in
-            print("Ready: \(ready ? "yes" : "no")")
-        }.store(in: &model.cancellables)
+            }
+        }
     }
     
     var arView: some View {
-        RemodelARLib.makeARView(model: model, arMethod: .Legacy)
+        RemodelARLib.makeARView(model: settings.model, arMethod: .Legacy)
             .gesture(
                 DragGesture()
                     .onChanged { gesture in
-                        model.dragStart(point: gesture.startLocation)
-                        model.dragMove(point: gesture.location)
+                        settings.model.dragStart(point: gesture.startLocation)
+                        settings.model.dragMove(point: gesture.location)
                     }
                     .onEnded { _ in
-                        model.dragEnd()
+                        settings.model.dragEnd()
                     }
             )
     }
     
+    var debugText: some View {
+        VStack(alignment: .center, spacing: nil, content: {
+            Text(settings.debugString)
+                .bold()
+                .padding(.all)
+                .foregroundColor(.white)
+                .background(Color(.sRGB, white: 0, opacity: 0.25))
+                .cornerRadius(10)
+            Spacer()
+        })
+    }
+    
+    func showDebugMessage(message: String) {
+        settings.debugString = message
+        settings.debugTimer?.invalidate()
+        settings.debugTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: false, block: { _ in
+            settings.debugString = ""
+        })
+    }
+    
+    func setupBindings() {
+        settings.model.$trackingReady.sink { ready in
+            print("Ready: \(ready ? "yes" : "no")")
+        }.store(in: &settings.model.cancellables)
+    }
+}
+
+private extension LegacyView {
     var centerDot: some View {
         ZStack {
             Circle()
@@ -106,7 +139,7 @@ struct LegacyView: View {
     
     var addWallButton: some View {
         Button(action: {
-            model.addWall()
+            settings.model.addWall()
         }, label: {
             Text("Add Wall")
                 .bold()
@@ -119,7 +152,7 @@ struct LegacyView: View {
     
     var placeBasePlaneButton: some View {
         Button(action: {
-            model.placeBasePlane()
+            settings.model.placeBasePlane()
         }, label: {
             Text("Place Plane")
                 .bold()
@@ -132,7 +165,7 @@ struct LegacyView: View {
     
     var updateBasePlaneButton: some View {
         Button(action: {
-            model.updateBasePlane()
+            settings.model.updateBasePlane()
         }, label: {
             Text("Update Plane")
                 .bold()
@@ -145,7 +178,7 @@ struct LegacyView: View {
     
     var setUpperLeftCornerButton: some View {
         Button(action: {
-            model.setUpperLeftCorner()
+            settings.model.setUpperLeftCorner()
         }, label: {
             Text("Set UL")
                 .bold()
@@ -158,7 +191,7 @@ struct LegacyView: View {
     
     var setLowerRightCornerButton: some View {
         Button(action: {
-            model.setLowerRightCorner()
+            settings.model.setLowerRightCorner()
         }, label: {
             Text("Set LR")
                 .bold()
@@ -170,9 +203,9 @@ struct LegacyView: View {
     }
     
     var cancelAddWallButton: some View {
-        Button(action: { model.cancelAddWall() },
+        Button(action: { settings.model.cancelAddWall() },
                label: {
-                Text("Cancel")
+                Text("Cancel Wall")
                     .bold()
                     .foregroundColor(.white)
                })
@@ -181,8 +214,21 @@ struct LegacyView: View {
         .cornerRadius(10)
     }
     
+    var savePhotoButton: some View {
+        Button(action: {
+            settings.model.sharePhoto()
+            showDebugMessage(message: "Image Saved!")
+        }, label: {
+            Image(systemName: "camera.fill")
+                .foregroundColor(.white)
+        })
+        .padding()
+        .background(Color(.sRGB, white: 0, opacity: 0.15))
+        .cornerRadius(10)
+    }
+    
     var resetSceneButton: some View {
-        Button(action: { model.resetScene() },
+        Button(action: { settings.model.resetScene() },
                label: {
                 Image("reset")
                     .foregroundColor(.white)
@@ -193,16 +239,18 @@ struct LegacyView: View {
     }
     
     var wallState: String {
-        switch model.wallState {
+        switch settings.model.wallState {
         case .idle:
             return "idle"
         case .addingWall:
             return "addingWall"
+        @unknown default:
+            return ""
         }
     }
     
     var placeWallState: String {
-        switch model.placeWallState {
+        switch settings.model.placeWallState {
         case .placingBasePlane:
             return "placingBasePlane"
         case .placingUpperLeftCorner:
@@ -211,6 +259,8 @@ struct LegacyView: View {
             return "placingBottomRightCorner"
         case .done:
             return "done"
+        @unknown default:
+            return ""
         }
     }
 }
@@ -249,7 +299,7 @@ private extension LegacyView {
                     Button(action: {
                         showStroke = true
                         colorIndex = i
-                        model.pickColor(paint: colorItems[i])
+                        settings.model.pickColor(paint: colorItems[i])
                     }) {
                         RoundedRectangle(cornerRadius: 17)
                             .strokeBorder(lineWidth: (showStroke && i == colorIndex) ? 5 : 0)
@@ -307,11 +357,11 @@ private extension LegacyView {
                         if i == textureIndex {
                             showTextureStroke = false
                             textureIndex = -1
-                            model.pickTexture(texture: nil)
+                            settings.model.pickTexture(texture: nil)
                         } else {
                             showTextureStroke = true
                             textureIndex = i
-                            model.pickTexture(texture: textureImages[i])
+                            settings.model.pickTexture(texture: textureImages[i])
                         }
                     }) {
                         RoundedRectangle(cornerRadius: 17)
@@ -331,7 +381,7 @@ private extension LegacyView {
                 }
             }
             .padding()
-        }
+        }.offset(y: 30)
     }
 }
 

@@ -9,7 +9,7 @@ import RemodelAR
 import SwiftUI
 
 struct PaintyView: View {
-    @ObservedObject var model = ARStateModel()
+    @StateObject var model = ARStateModel()
     
     @State private var colorIndex = 0
     @State private var showStroke = true
