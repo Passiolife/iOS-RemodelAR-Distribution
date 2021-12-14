@@ -15,28 +15,22 @@ import SwiftUI
 /// - legacy - User manually places a square mesh on the wall.
 /// - shaderPaint - User selects colors on the wall to determine which objects are removed from painting as occlusions, works best with even, diffuse lighting and high contrast wall colors.
 enum RunMode {
-    case painty
-    case lidar
-    case legacy
-    case shaderPaint
+    case paintyDemo
+    case techDemo
 }
 
 @main
 struct PaintyApp: App {
     
-    var runMode: RunMode = .legacy
+    var runMode: RunMode = .techDemo
     
     var body: some Scene {
         WindowGroup {
             switch runMode {
-            case .painty:
+            case .paintyDemo:
                 PaintyView()
-            case .lidar:
-                LidarView()
-            case .legacy:
-                LegacyView()
-            case .shaderPaint:
-                ShaderPaintView()
+            case .techDemo:
+                TechDemoView()
             }
         }
     }

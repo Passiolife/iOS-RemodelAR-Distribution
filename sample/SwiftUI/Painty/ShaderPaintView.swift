@@ -11,8 +11,6 @@ import SwiftUI
 import RemodelAR
 
 struct ShaderPaintView: View {
-    @ObservedObject var model = ARStateModel()
-    
     @State private var colorIndex = 0
     @State private var textureIndex = -1
     @State private var showStroke = true
@@ -20,63 +18,88 @@ struct ShaderPaintView: View {
     @State private var abModeIndex = 2
     @State private var touchModeIndex = 3
     @State private var occlusionThreshold: Double = 10
+    @EnvironmentObject var settings: SettingsData
     
     var body: some View {
         GeometryReader { geometry in
-            ZStack(alignment: .bottom, content: {
+            ZStack {
                 arView
-                VStack {
-                    Spacer()
+                    .edgesIgnoringSafeArea(.all)
+                if settings.uiVisible {
                     if abModeIndex == 0 {
+                        VStack {
+                            Spacer()
+                            HStack {
+                                Spacer()
+                                centerDot
+                                Spacer()
+                            }
+                            Spacer()
+                        }
+                    }
+                    VStack {
                         HStack {
-                            Spacer()
-                            centerDot
-                            Spacer()
+                            savePhotoButton
+                            resetSceneButton
+                        }
+                        if !settings.debugString.isEmpty {
+                            debugText
                         }
                         Spacer()
                     }
-                }
-//                if touchModeIndex == 0 {
-//                    centerDot
-//                }
-                VStack {
-                    Spacer()
-                    savePhotoButton
                     VStack {
-                        thresholdSlider
-                            .offset(y: 30)
-                        abModePicker
-                        touchModePicker
+                        Spacer()
+                        VStack {
+                            thresholdSlider
+                            abModePicker
+                            touchModePicker
+                        }.offset(y: -30)
                         colorPicker
-                            .offset(y: 30)
-                    }
-                    .padding(EdgeInsets(top: -20, leading: 0, bottom: 40, trailing: 0))
-                    .background(
-                        VisualEffectView(effect: UIBlurEffect(style: .systemUltraThinMaterial))
-                    )
+                    }.offset(y: -60)
                 }
-            }).onAppear(perform: {
-                model.pickColor(paint: colorItems[colorIndex])
-                model.setTouchMode(mode: TouchMode(rawValue: touchModeIndex)!)
-            })
+            }.onAppear {
+                settings.model.pickColor(paint: colorItems[colorIndex])
+                settings.model.setTouchMode(mode: TouchMode(rawValue: touchModeIndex)!)
+            }
         }
-        .edgesIgnoringSafeArea(.all)
     }
     
     var arView: some View {
-        RemodelARLib.makeARView(model: model, arMethod: .ShaderPainting)
+        RemodelARLib.makeARView(model: settings.model, arMethod: .ShaderPainting)
             .gesture(
                 DragGesture()
                     .onChanged { gesture in
-                        model.dragStart(point: gesture.startLocation)
-                        model.dragMove(point: gesture.location)
+                        settings.model.dragStart(point: gesture.startLocation)
+                        settings.model.dragMove(point: gesture.location)
                     }
                     .onEnded { _ in
-                        model.dragEnd()
+                        settings.model.dragEnd()
                     }
             )
     }
     
+    var debugText: some View {
+        VStack(alignment: .center, spacing: nil, content: {
+            Text(settings.debugString)
+                .bold()
+                .padding(.all)
+                .foregroundColor(.white)
+                .background(Color(.sRGB, white: 0, opacity: 0.25))
+                .cornerRadius(10)
+            Spacer()
+        })
+    }
+    
+    func showDebugMessage(message: String) {
+        settings.debugString = message
+        settings.debugTimer?.invalidate()
+        settings.debugTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: false, block: { _ in
+            settings.debugString = ""
+        })
+    }
+}
+
+private extension ShaderPaintView {
     var centerDot: some View {
         ZStack {
             Circle()
@@ -96,31 +119,35 @@ struct ShaderPaintView: View {
         Slider(value: $occlusionThreshold, in: 4...30)
             .padding()
             .valueChanged(value: occlusionThreshold) { threshold in
-                model.setColorThreshold(threshold: Float(threshold))
-            }
+                settings.model.setColorThreshold(threshold: Float(threshold))
+            }.offset(y: 40)
     }
     
     var resetSceneButton: some View {
-        Button(action: { model.resetScene() },
+        Button(action: {
+            settings.model.resetScene()
+            showDebugMessage(message: "Scene reset!")
+        },
                label: {
-                Image("reset")
-                    .foregroundColor(.white)
-               })
-        .padding()
-        .background(Color(.sRGB, white: 0, opacity: 0.15))
-        .cornerRadius(10)
+            Image("reset")
+                .foregroundColor(.white)
+        })
+            .padding()
+            .background(Color(.sRGB, white: 0, opacity: 0.15))
+            .cornerRadius(10)
     }
     
     var savePhotoButton: some View {
         Button(action: {
-            model.sharePhoto()
+            settings.model.sharePhoto()
+            showDebugMessage(message: "Image Saved!")
         }, label: {
             Image(systemName: "camera.fill")
                 .foregroundColor(.white)
         })
-        .padding()
-        .background(Color(.sRGB, white: 0, opacity: 0.15))
-        .cornerRadius(10)
+            .padding()
+            .background(Color(.sRGB, white: 0, opacity: 0.15))
+            .cornerRadius(10)
     }
     
     var abModePicker: some View {
@@ -130,17 +157,17 @@ struct ShaderPaintView: View {
                 let index = $0
                 let mode = modes[index]
                 Button(action: {
-                    model.setTestingMode(mode: index)
+                    settings.model.setTestingMode(mode: index)
                     abModeIndex = index
                 },
                        label: {
-                        Text("\(mode)")
-                            .bold()
-                            .foregroundColor(.white)
-                       })
-                .padding(17)
-                .background(Color(.sRGB, white: 0, opacity: abModeIndex == index ? 0.75 : 0.15))
-                .cornerRadius(10)
+                    Text("\(mode)")
+                        .bold()
+                        .foregroundColor(.white)
+                })
+                    .padding(17)
+                    .background(Color(.sRGB, white: 0, opacity: abModeIndex == index ? 0.75 : 0.15))
+                    .cornerRadius(10)
             }
         }.offset(y: 40)
     }
@@ -152,19 +179,18 @@ struct ShaderPaintView: View {
                 let index = $0
                 let mode = modes[index]
                 Button(action: {
-                    model.setTouchMode(mode: TouchMode(rawValue: index)!)
+                    settings.model.setTouchMode(mode: TouchMode(rawValue: index)!)
                     touchModeIndex = index
                 },
                        label: {
-                        Text("\(mode)")
-                            .bold()
-                            .foregroundColor(.white)
-                       })
-                .padding(EdgeInsets(top: 17, leading: 12, bottom: 17, trailing: 12))
-                .background(Color(.sRGB, white: 0, opacity: touchModeIndex == index ? 0.75 : 0.15))
-                .cornerRadius(10)
+                    Text("\(mode)")
+                        .bold()
+                        .foregroundColor(.white)
+                })
+                    .padding(EdgeInsets(top: 17, leading: 12, bottom: 17, trailing: 12))
+                    .background(Color(.sRGB, white: 0, opacity: touchModeIndex == index ? 0.75 : 0.15))
+                    .cornerRadius(10)
             }
-            resetSceneButton
         }.offset(y: 40)
     }
 }
@@ -202,7 +228,7 @@ private extension ShaderPaintView {
         }
         return colors
     }
-
+    
     var colorPicker: some View {
         ScrollView(.horizontal) {
             HStack {
@@ -210,7 +236,7 @@ private extension ShaderPaintView {
                     Button(action: {
                         showStroke = true
                         colorIndex = i
-                        model.pickColor(paint: colorItems[i])
+                        settings.model.pickColor(paint: colorItems[i])
                     }) {
                         RoundedRectangle(cornerRadius: 17)
                             .strokeBorder(lineWidth: (showStroke && i == colorIndex) ? 5 : 0)
@@ -268,11 +294,11 @@ private extension ShaderPaintView {
                         if i == textureIndex {
                             showTextureStroke = false
                             textureIndex = -1
-                            model.pickTexture(texture: nil)
+                            settings.model.pickTexture(texture: nil)
                         } else {
                             showTextureStroke = true
                             textureIndex = i
-                            model.pickTexture(texture: textureImages[i])
+                            settings.model.pickTexture(texture: textureImages[i])
                         }
                     }) {
                         RoundedRectangle(cornerRadius: 17)
@@ -300,12 +326,6 @@ struct ShaderPaint_Previews: PreviewProvider {
     static var previews: some View {
         ShaderPaintView()
     }
-}
-
-struct VisualEffectView: UIViewRepresentable {
-    var effect: UIVisualEffect?
-    func makeUIView(context: UIViewRepresentableContext<Self>) -> UIVisualEffectView { UIVisualEffectView() }
-    func updateUIView(_ uiView: UIVisualEffectView, context: UIViewRepresentableContext<Self>) { uiView.effect = effect }
 }
 
 extension View {

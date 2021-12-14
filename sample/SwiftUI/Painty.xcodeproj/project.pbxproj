@@ -14,6 +14,9 @@
 		5893090A2758336600864F2E /* LidarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589309072758336500864F2E /* LidarView.swift */; };
 		5893090B2758336600864F2E /* ShaderPaintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589309082758336600864F2E /* ShaderPaintView.swift */; };
 		5893090C2758336600864F2E /* LegacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589309092758336600864F2E /* LegacyView.swift */; };
+		58C48F032768030000DECE51 /* AbnormalitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C48F022768030000DECE51 /* AbnormalitiesView.swift */; };
+		58C48F052768086200DECE51 /* TechDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C48F042768086200DECE51 /* TechDemoView.swift */; };
+		58C48F2D27690AB600DECE51 /* Republished.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C48F2C27690AB600DECE51 /* Republished.swift */; };
 		B8572464275E414900A2ABF9 /* RemodelAR.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8572463275E414900A2ABF9 /* RemodelAR.xcframework */; };
 		B8572465275E414900A2ABF9 /* RemodelAR.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B8572463275E414900A2ABF9 /* RemodelAR.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -41,6 +44,9 @@
 		589309072758336500864F2E /* LidarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LidarView.swift; sourceTree = "<group>"; };
 		589309082758336600864F2E /* ShaderPaintView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShaderPaintView.swift; sourceTree = "<group>"; };
 		589309092758336600864F2E /* LegacyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LegacyView.swift; sourceTree = "<group>"; };
+		58C48F022768030000DECE51 /* AbnormalitiesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbnormalitiesView.swift; sourceTree = "<group>"; };
+		58C48F042768086200DECE51 /* TechDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechDemoView.swift; sourceTree = "<group>"; };
+		58C48F2C27690AB600DECE51 /* Republished.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Republished.swift; sourceTree = "<group>"; };
 		B8572463275E414900A2ABF9 /* RemodelAR.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RemodelAR.xcframework; path = ../../framework/RemodelAR.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -76,11 +82,14 @@
 		588A2E18273F25C00014CA27 /* Painty */ = {
 			isa = PBXGroup;
 			children = (
+				58C48F2E27690DCA00DECE51 /* support */,
 				588A2E19273F25C00014CA27 /* PaintyApp.swift */,
 				588A2E1B273F25C00014CA27 /* PaintyView.swift */,
+				58C48F042768086200DECE51 /* TechDemoView.swift */,
 				589309092758336600864F2E /* LegacyView.swift */,
 				589309072758336500864F2E /* LidarView.swift */,
 				589309082758336600864F2E /* ShaderPaintView.swift */,
+				58C48F022768030000DECE51 /* AbnormalitiesView.swift */,
 				588A2E1D273F25C20014CA27 /* Assets.xcassets */,
 				588A2E1F273F25C20014CA27 /* Preview Content */,
 			);
@@ -101,6 +110,14 @@
 				B8572463275E414900A2ABF9 /* RemodelAR.xcframework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		58C48F2E27690DCA00DECE51 /* support */ = {
+			isa = PBXGroup;
+			children = (
+				58C48F2C27690AB600DECE51 /* Republished.swift */,
+			);
+			path = support;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -181,8 +198,11 @@
 				588A2E1C273F25C00014CA27 /* PaintyView.swift in Sources */,
 				5893090A2758336600864F2E /* LidarView.swift in Sources */,
 				5893090B2758336600864F2E /* ShaderPaintView.swift in Sources */,
+				58C48F2D27690AB600DECE51 /* Republished.swift in Sources */,
 				5893090C2758336600864F2E /* LegacyView.swift in Sources */,
 				588A2E1A273F25C00014CA27 /* PaintyApp.swift in Sources */,
+				58C48F032768030000DECE51 /* AbnormalitiesView.swift in Sources */,
+				58C48F052768086200DECE51 /* TechDemoView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,11 +330,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Painty/Preview Content\"";
-				DEVELOPMENT_TEAM = 7224G6JACN;
+				DEVELOPMENT_TEAM = LCT9TTNDNR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need your camera for awesome AR experiences!";
@@ -331,7 +351,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.passio.Painty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = MI_WildCard_Dev;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -343,11 +363,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Painty/Preview Content\"";
-				DEVELOPMENT_TEAM = 7224G6JACN;
+				DEVELOPMENT_TEAM = LCT9TTNDNR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "We need your camera for awesome AR experiences!";
@@ -364,7 +384,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.passio.Painty;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = MI_WildCard_Dev;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
