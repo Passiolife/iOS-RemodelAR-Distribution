@@ -58,6 +58,18 @@ extension SceneKit.SCNGeometry {
   public func vertices() -> [SceneKit.SCNVector3]
   public func printMel()
 }
+@propertyWrapper public struct Republished<Object> where Object : Combine.ObservableObject {
+  public static subscript<T>(_enclosingInstance instance: T, wrapped wrappedKeyPath: Swift.ReferenceWritableKeyPath<T, Object>, storage storageKeyPath: Swift.ReferenceWritableKeyPath<T, RemodelAR.Republished<Object>>) -> Object where T : Combine.ObservableObject, T.ObjectWillChangePublisher : Combine.ObservableObjectPublisher {
+    get
+    set
+  }
+  @available(*, unavailable)
+  public var wrappedValue: Object {
+    get
+    set
+  }
+  public init(wrappedValue: Object)
+}
 public enum WallState {
   case idle
   case addingWall

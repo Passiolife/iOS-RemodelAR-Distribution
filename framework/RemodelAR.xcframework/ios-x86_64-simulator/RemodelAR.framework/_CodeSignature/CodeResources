@@ -26,11 +26,11 @@
 		</data>
 		<key>Modules/RemodelAR.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		g7FFKs0vDkWr5UmPYsYBSspQvq4=
+		mgWQMxShapg3FOERSkJtQ0TO/ts=
 		</data>
 		<key>Modules/RemodelAR.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		PNKVYwVLLLPIYd2Os7a/k+dRuc8=
+		49pq4/h6wVLvTYonzUAR7MyDrbU=
 		</data>
 		<key>Modules/RemodelAR.swiftmodule/x86_64.swiftdoc</key>
 		<data>
@@ -38,11 +38,11 @@
 		</data>
 		<key>Modules/RemodelAR.swiftmodule/x86_64.swiftinterface</key>
 		<data>
-		g7FFKs0vDkWr5UmPYsYBSspQvq4=
+		mgWQMxShapg3FOERSkJtQ0TO/ts=
 		</data>
 		<key>Modules/RemodelAR.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		PNKVYwVLLLPIYd2Os7a/k+dRuc8=
+		49pq4/h6wVLvTYonzUAR7MyDrbU=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -99,14 +99,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			vHxcrD84eJIDYQaGoDxDGgi4WsD/wy/iAkpE39C1J6w=
+			8/obLPFMvWNe5qWvMFLYKiSD4s1pBcjAlkxgZ6cHv0E=
 			</data>
 		</dict>
 		<key>Modules/RemodelAR.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			pBZJYk59Ci8mgHWzut1avdZseCtz2YH+Evar4HU6fjM=
+			zamRdnuizBrQiQuX29rV5kssXEHfYIBTTXlaEa4Lp0s=
 			</data>
 		</dict>
 		<key>Modules/RemodelAR.swiftmodule/x86_64.swiftdoc</key>
@@ -120,14 +120,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			vHxcrD84eJIDYQaGoDxDGgi4WsD/wy/iAkpE39C1J6w=
+			8/obLPFMvWNe5qWvMFLYKiSD4s1pBcjAlkxgZ6cHv0E=
 			</data>
 		</dict>
 		<key>Modules/RemodelAR.swiftmodule/x86_64.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			pBZJYk59Ci8mgHWzut1avdZseCtz2YH+Evar4HU6fjM=
+			zamRdnuizBrQiQuX29rV5kssXEHfYIBTTXlaEa4Lp0s=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
