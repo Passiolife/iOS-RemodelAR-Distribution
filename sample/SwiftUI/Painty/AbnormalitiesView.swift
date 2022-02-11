@@ -1,18 +1,16 @@
 //
 //  AbnormalitiesView.swift
-//  RemodelAR-Demo
+//  Painty
 //
-//  Copyright © 2021 Passio Inc. All rights reserved.
+//  Copyright © 2022 Passio Inc. All rights reserved.
 //
 
-import ARKit
-import Combine
 import SwiftUI
 import RemodelAR
 
 struct AbnormalitiesView: View {
     @EnvironmentObject var settings: SettingsData
-    
+
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -26,137 +24,84 @@ struct AbnormalitiesView: View {
                                 savePhotoButton
                                 resetSceneButton
                             }
-                            if !settings.debugString.isEmpty {
-                                debugText
-                            }
+                            scanModeButton
                             Spacer()
-                        }
-                        HStack {
-                            captureImageButton
-                            retrieveAbnormalitiesButton
-                        }.offset(y: -80)
+                        }.padding([.top], 40)
+                        VStack {
+                            Spacer()
+                            HStack {
+                                captureImageButton
+                                retrieveAbnormalitiesButton
+                            }
+                        }.padding([.bottom], 100)
                     }
                 })
             }.onAppear(perform: {
+                settings.reset()
                 setScanArea(geometry: geometry)
                 setupBindings()
             })
         }
     }
-    
+
     var arView: some View {
         RemodelARLib.makeARView(model: settings.model, arMethod: .Abnormalities)
     }
-    
-    var debugText: some View {
-        VStack(alignment: .center, spacing: nil, content: {
-            Text(settings.debugString)
-                .bold()
-                .padding(.all)
-                .foregroundColor(.white)
-                .background(Color(.sRGB, white: 0, opacity: 0.25))
-                .cornerRadius(10)
-            Spacer()
-        })
-    }
-    
-    func showDebugMessage(message: String) {
-        settings.debugString = message
-        settings.debugTimer?.invalidate()
-        settings.debugTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: false, block: { _ in
-            settings.debugString = ""
-        })
-    }
-    
+
     func setupBindings() {
-        settings.model.$selectedAbnormality.sink { [self] abnormality in
+        settings.model.selectedAbnormality.sink { [self] abnormality in
             guard let abnormality = abnormality else { return }
             settings.model.updateAbnormality(
-                abnormality: AbnormalityInfo(identifier: abnormality.identifier,
-                                             name: "New Crack")
+                abnormality:
+                    AbnormalityInfo(identifier: abnormality.identifier,
+                                    name: "New Crack")
             )
         }.store(in: &settings.model.cancellables)
-        
-        settings.model.$capturedAbnormalityImage.sink { [self] capturedImage in
+        settings.model.capturedAbnormalityImage.sink { [self] _ in
             // Feed image to Passio SDK
             settings.model.addAbnormality(name: "Crack")
         }.store(in: &settings.model.cancellables)
-        
-        settings.model.$addedAbnormalityId.sink { abnormalityId in
+
+        settings.model.addedAbnormalityId.sink { abnormalityId in
             guard let abnormalityId = abnormalityId
             else { return }
-            showDebugMessage(message: "Added abnormality: \(abnormalityId)")
+            print("Added abnormality: \(abnormalityId)")
         }.store(in: &settings.model.cancellables)
-        
-        settings.model.$capturedPhoto.sink { capturedPhoto in
+
+        settings.model.capturedPhoto.sink { capturedPhoto in
             guard let img = capturedPhoto else { return }
             // Do something with the saved photo
             UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil)
         }.store(in: &settings.model.cancellables)
-        
-        settings.model.$abnormalitiesInfo.sink { abnormalities in
+
+        settings.model.abnormalitiesInfo.sink { abnormalities in
             guard let abnormalities = abnormalities?.abnormalities else { return }
-            var output = [String]()
             for abnormality in abnormalities {
-                output.append("\(abnormality.identifier), \(abnormality.name), \(abnormality.area.width)x\(abnormality.area.height)")
+                print("\(abnormality.identifier), \(abnormality.name), \(abnormality.area.width)x\(abnormality.area.height)")
             }
-            showDebugMessage(message: output.joined(separator: "\n"))
         }.store(in: &settings.model.cancellables)
     }
-}
 
-private extension AbnormalitiesView {
-    var captureImageButton: some View {
+    var scanModeButton: some View {
         Button(action: {
-            settings.model.captureAbnormalityImage()
-        }, label: {
-            Text("Scan Abnormality")
-                .bold()
-                .foregroundColor(.black)
-        })
-        .padding()
-        .background(Color.white)
-        .cornerRadius(14)
-    }
-    
-    var resetSceneButton: some View {
-        Button(action: {
-            settings.model.resetScene()
-            showDebugMessage(message: "Scene reset!")
+            switch settings.scanMode {
+            case .scanning:
+                settings.model.setScanMode(scanMode: .paused)
+                settings.scanMode = .paused
+
+            case .paused:
+                settings.model.setScanMode(scanMode: .scanning)
+                settings.scanMode = .scanning
+            }
         },
                label: {
-                Image("reset")
-                    .foregroundColor(.white)
-               })
-        .padding()
-        .background(Color(.sRGB, white: 0, opacity: 0.15))
-        .cornerRadius(10)
-    }
-    
-    var retrieveAbnormalitiesButton: some View {
-        Button(action: {
-            settings.model.retrieveAbnormalitiesInfo()
-        }, label: {
-            Text("Retrieve Abnormalities")
+            Text(settings.scanMode == .scanning ? "Pause Lidar" : "Start Lidar")
                 .bold()
-                .foregroundColor(.black)
-        })
-        .padding()
-        .background(Color.white)
-        .cornerRadius(14)
-    }
-    
-    var savePhotoButton: some View {
-        Button(action: {
-            settings.model.savePhoto()
-            showDebugMessage(message: "Image Saved!")
-        }, label: {
-            Image(systemName: "camera.fill")
                 .foregroundColor(.white)
         })
-        .padding()
-        .background(Color(.sRGB, white: 0, opacity: 0.15))
-        .cornerRadius(10)
+            .padding()
+            .background(Color(.sRGB, white: 0, opacity: 0.15))
+            .cornerRadius(10)
     }
     
     func viewFinder(cornerRadius: CGFloat) -> some View {
@@ -168,7 +113,59 @@ private extension AbnormalitiesView {
         }
         .allowsHitTesting(false)
     }
-    
+
+    var captureImageButton: some View {
+        Button(action: {
+            settings.model.captureAbnormalityImage()
+        }, label: {
+            Text("Scan Abnormality")
+                .bold()
+                .foregroundColor(.black)
+        })
+            .padding()
+            .background(Color.white)
+            .cornerRadius(14)
+    }
+
+    var resetSceneButton: some View {
+        Button(action: {
+            settings.model.resetScene()
+            settings.reset()
+        },
+               label: {
+            Image("reset")
+                .foregroundColor(.white)
+        })
+            .padding()
+            .background(Color(.sRGB, white: 0, opacity: 0.15))
+            .cornerRadius(10)
+    }
+
+    var retrieveAbnormalitiesButton: some View {
+        Button(action: {
+            settings.model.retrieveAbnormalitiesInfo()
+        }, label: {
+            Text("Retrieve Abnormalities")
+                .bold()
+                .foregroundColor(.black)
+        })
+            .padding()
+            .background(Color.white)
+            .cornerRadius(14)
+    }
+
+    var savePhotoButton: some View {
+        Button(action: {
+            settings.model.savePhoto()
+        }, label: {
+            Image(systemName: "camera.fill")
+                .foregroundColor(.white)
+        })
+            .padding()
+            .background(Color(.sRGB, white: 0, opacity: 0.15))
+            .cornerRadius(10)
+    }
+
     func viewFinderBackground(geometry: GeometryProxy, cornerRadius: CGFloat) -> some View {
         ZStack(alignment: .center) {
             Color(.sRGB, white: 0.25, opacity: 1)
@@ -183,7 +180,7 @@ private extension AbnormalitiesView {
         .compositingGroup()
         .luminanceToAlpha()
     }
-    
+
     func viewFinderForeground(geometry: GeometryProxy, cornerRadius: CGFloat) -> some View {
         ZStack(alignment: .center) {
             Color(.sRGB, white: 1, opacity: 1)
@@ -215,9 +212,9 @@ extension AbnormalitiesView {
         let paddingX: CGFloat = (viewSize.size.width - width) / 2 + viewSize.origin.x
         let paddingY: CGFloat = (viewSize.size.height - width) / 2 + viewSize.origin.y
         let cropRect = CGRect(x: paddingX,
-                          y: paddingY,
-                          width: width,
-                          height: width)
+                              y: paddingY,
+                              width: width,
+                              height: width)
         settings.model.setScanArea(rect: cropRect)
     }
 }
