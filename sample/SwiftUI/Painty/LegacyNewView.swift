@@ -1,5 +1,5 @@
 //
-//  LegacyView.swift
+//  LegacyNewView.swift
 //  Painty
 //
 //  Copyright © 2022 Passio Inc. All rights reserved.
@@ -10,9 +10,9 @@ import Combine
 import SwiftUI
 import RemodelAR
 
-struct LegacyView: View {
+struct LegacyNewView: View {
     @EnvironmentObject var settings: SettingsData
-
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -20,26 +20,20 @@ struct LegacyView: View {
                     .edgesIgnoringSafeArea(.all)
                 if settings.uiVisible {
                     VStack {
-                        Spacer()
-                        HStack {
-                            Spacer()
-                            centerDot
-                            Spacer()
-                        }
-                        Spacer()
-                    }
-                    VStack {
                         VStack {
                             HStack {
                                 savePhotoButton
+                                save3DModelButton
                                 resetSceneButton
+                                getPaintInfoButton
                             }
                             HStack {
                                 Text("Coaching: \(settings.coachingVisible ? "on" : "off")")
                                 Text("Tracking Ready: \(settings.trackingReady ? "yes" : "no")")
                             }
-                            Text("Wall State: \(wallState)")
-                            Text("Place Wall State: \(placeWallState)")
+                            if !settings.debugString.isEmpty {
+                                debugText
+                            }
                             occlusionColorPicker
                             thresholdSlider
                         }
@@ -49,14 +43,9 @@ struct LegacyView: View {
                         Spacer()
                         VStack {
                             HStack {
-                                addWallButton
-                                placeBasePlaneButton
+                                finishCornersButton
+                                finishHeightButton
                                 cancelAddWallButton
-                            }
-                            HStack {
-                                updateBasePlaneButton
-                                setUpperLeftCornerButton
-                                setLowerRightCornerButton
                             }
                         }.offset(y: 40)
                         VStack {
@@ -76,27 +65,28 @@ struct LegacyView: View {
             }
         }
     }
-
+    
     func setupBindings() {
-        settings.model.coachingVisible.sink { coachingVisible in
+        settings.model.paintInfo.sink { [self] paintInfo in
+            guard let paintInfo = paintInfo else { return }
+            var output = [String]()
+            for wall in paintInfo.paintedWalls {
+                output.append("\(wall.area.width.formatted())x\(wall.area.height.formatted()) (\(wall.area.area.formatted()) m²)")
+            }
+            showDebugMessage(message: output.joined(separator: "\n"))
+        }.store(in: &settings.model.cancellables)
+        
+        settings.model.coachingVisible.sink { [self] coachingVisible in
             settings.coachingVisible = coachingVisible
         }.store(in: &settings.model.cancellables)
         
-        settings.model.trackingReady.sink { trackingReady in
+        settings.model.trackingReady.sink { [self] trackingReady in
             settings.trackingReady = trackingReady
         }.store(in: &settings.model.cancellables)
-        
-        settings.model.wallState.sink { wallState in
-            settings.wallState = wallState
-        }.store(in: &settings.model.cancellables)
-        
-        settings.model.placeWallState.sink { placeWallState in
-            settings.placeWallState = placeWallState
-        }.store(in: &settings.model.cancellables)
     }
-
+    
     var arView: some View {
-        RemodelARLib.makeARView(model: settings.model, arMethod: .Legacy)
+        RemodelARLib.makeARView(model: settings.model, arMethod: .LegacyNew)
             .gesture(
                 DragGesture()
                     .onChanged { gesture in
@@ -108,27 +98,25 @@ struct LegacyView: View {
                     }
             )
     }
-
-    var centerDot: some View {
-        ZStack {
-            Circle()
-                .fill(Color(.sRGB, white: 0, opacity: 0.2))
-                .frame(width: 80, height: 80)
-                .overlay(
-                    Circle()
-                        .strokeBorder(Color.blue, lineWidth: 2, antialiased: true)
-                )
-            Circle()
-                .fill(Color.blue)
-                .frame(width: 20, height: 20)
-        }
-    }
-
-    var addWallButton: some View {
+    
+    var unpaintedVisibleButton: some View {
         Button(action: {
-            settings.model.addWall()
+            settings.unpaintedVisible.toggle()
+            settings.model.showUnpaintedWalls(visible: settings.unpaintedVisible)
         }, label: {
-            Text("Add Wall")
+            Image(systemName: settings.unpaintedVisible ? "eye.fill" : "eye.slash.fill")
+                .foregroundColor(.white)
+        })
+            .padding()
+            .background(Color(.sRGB, white: 0, opacity: 0.15))
+            .cornerRadius(10)
+    }
+    
+    var finishCornersButton: some View {
+        Button(action: {
+            settings.model.finishCorners(closeShape: false)
+        }, label: {
+            Text("Finish Corners")
                 .bold()
                 .foregroundColor(.white)
         })
@@ -136,12 +124,12 @@ struct LegacyView: View {
             .background(Color(.sRGB, white: 0, opacity: 0.15))
             .cornerRadius(10)
     }
-
-    var placeBasePlaneButton: some View {
+    
+    var finishHeightButton: some View {
         Button(action: {
-            settings.model.placeBasePlane()
+            settings.model.finishHeight()
         }, label: {
-            Text("Place Plane")
+            Text("Finish Height")
                 .bold()
                 .foregroundColor(.white)
         })
@@ -149,46 +137,7 @@ struct LegacyView: View {
             .background(Color(.sRGB, white: 0, opacity: 0.15))
             .cornerRadius(10)
     }
-
-    var updateBasePlaneButton: some View {
-        Button(action: {
-            settings.model.updateBasePlane()
-        }, label: {
-            Text("Update Plane")
-                .bold()
-                .foregroundColor(.white)
-        })
-            .padding()
-            .background(Color(.sRGB, white: 0, opacity: 0.15))
-            .cornerRadius(10)
-    }
-
-    var setUpperLeftCornerButton: some View {
-        Button(action: {
-            settings.model.setUpperLeftCorner()
-        }, label: {
-            Text("Set UL")
-                .bold()
-                .foregroundColor(.white)
-        })
-            .padding()
-            .background(Color(.sRGB, white: 0, opacity: 0.15))
-            .cornerRadius(10)
-    }
-
-    var setLowerRightCornerButton: some View {
-        Button(action: {
-            settings.model.setLowerRightCorner()
-        }, label: {
-            Text("Set LR")
-                .bold()
-                .foregroundColor(.white)
-        })
-            .padding()
-            .background(Color(.sRGB, white: 0, opacity: 0.15))
-            .cornerRadius(10)
-    }
-
+    
     var cancelAddWallButton: some View {
         Button(action: { settings.model.cancelAddWall() },
                label: {
@@ -200,7 +149,7 @@ struct LegacyView: View {
             .background(Color(.sRGB, white: 0, opacity: 0.15))
             .cornerRadius(10)
     }
-
+    
     var savePhotoButton: some View {
         Button(action: {
             settings.model.sharePhoto()
@@ -212,7 +161,17 @@ struct LegacyView: View {
             .background(Color(.sRGB, white: 0, opacity: 0.15))
             .cornerRadius(10)
     }
-
+    
+    var save3DModelButton: some View {
+        Button(action: { settings.model.save3DModel() }, label: {
+            Image("saveMesh")
+                .foregroundColor(.white)
+        })
+            .padding()
+            .background(Color(.sRGB, white: 0, opacity: 0.15))
+            .cornerRadius(10)
+    }
+    
     var resetSceneButton: some View {
         Button(action: {
             settings.model.resetScene()
@@ -226,29 +185,7 @@ struct LegacyView: View {
             .background(Color(.sRGB, white: 0, opacity: 0.15))
             .cornerRadius(10)
     }
-
-    var wallState: String {
-        switch settings.wallState {
-        case .idle:
-            return "idle"
-        case .addingWall:
-            return "addingWall"
-        }
-    }
-
-    var placeWallState: String {
-        switch settings.placeWallState {
-        case .placingBasePlane:
-            return "placingBasePlane"
-        case .placingUpperLeftCorner:
-            return "placingUpperLeftCorner"
-        case .placingBottomRightCorner:
-            return "placingBottomRightCorner"
-        case .done:
-            return "done"
-        }
-    }
-
+    
     var thresholdSlider: some View {
         Slider(value: $settings.occlusionThreshold, in: 4...30)
             .padding()
@@ -258,31 +195,69 @@ struct LegacyView: View {
     }
 
     var occlusionColorPicker: some View {
-        let modes = ["C1", "C2", "C3", "Brightness"]
-        return HStack(spacing: 5) {
-            ForEach(0..<modes.count, id: \.self) {
-                let index = $0
-                let mode = modes[index]
-                Button(action: {
-                    if let touchMode = TouchMode(rawValue: index) {
-                        settings.model.setTouchMode(mode: touchMode)
-                        settings.touchModeIndex = index
-                    }
-                },
-                       label: {
-                    Text("\(mode)")
-                        .bold()
-                        .foregroundColor(.white)
-                })
-                    .padding(EdgeInsets(top: 17, leading: 12, bottom: 17, trailing: 12))
-                    .background(Color(.sRGB, white: 0, opacity: settings.touchModeIndex == index ? 0.75 : 0.15))
-                    .cornerRadius(10)
+        let modes = ["C1", "C2", "C3", "AR Picker"]
+        return VStack {
+            HStack(spacing: 5) {
+                ForEach(0..<modes.count, id: \.self) {
+                    let index = $0
+                    let mode = modes[index]
+                    Button(action: {
+                        if let touchMode = TouchMode(rawValue: index) {
+                            settings.model.setTouchMode(mode: touchMode)
+                            settings.touchModeIndex = index
+                        }
+                    },
+                           label: {
+                        Text("\(mode)")
+                            .bold()
+                            .foregroundColor(.white)
+                    })
+                        .padding(EdgeInsets(top: 17, leading: 12, bottom: 17, trailing: 12))
+                        .background(Color(.sRGB, white: 0, opacity: settings.touchModeIndex == index ? 0.75 : 0.15))
+                        .cornerRadius(10)
+                }
+                unpaintedVisibleButton
+            }
+            if settings.touchModeIndex < 3 {
+                Text("Setting occlusion color \(settings.touchModeIndex + 1),\n*AR touch won't work until AR Picker is selected")
+                    .font(.system(size: 14))
             }
         }.offset(y: 40)
     }
+    
+    var getPaintInfoButton: some View {
+        Button(action: { settings.model.getPaintInfo() },
+               label: {
+            Image(systemName: "info.circle.fill")
+                .foregroundColor(.white)
+        })
+            .padding()
+            .background(Color(.sRGB, white: 0, opacity: 0.15))
+            .cornerRadius(10)
+    }
+    
+    var debugText: some View {
+        VStack(alignment: .center, spacing: nil, content: {
+            Text(settings.debugString)
+                .bold()
+                .padding(.all)
+                .foregroundColor(.white)
+                .background(Color(.sRGB, white: 0, opacity: 0.25))
+                .cornerRadius(10)
+            Spacer()
+        })
+    }
+    
+    func showDebugMessage(message: String) {
+        settings.debugString = message
+        settings.debugTimer?.invalidate()
+        settings.debugTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: false, block: { _ in
+            settings.debugString = ""
+        })
+    }
 }
 
-private extension LegacyView {
+private extension LegacyNewView {
     var colorItems: [WallPaint] {
         let numHues = 20
         var colors = [WallPaint]()
@@ -303,7 +278,7 @@ private extension LegacyView {
             let color_8_2 = Color(hue: Double(i) / Double(numHues),
                                   saturation: 0.8,
                                   brightness: 0.2)
-
+            
             colors.append(WallPaint(id: "\(i * 5 + 1)", color: color_8_8.uiColor()))
             colors.append(WallPaint(id: "\(i * 5 + 2)", color: color_8_6.uiColor()))
             colors.append(WallPaint(id: "\(i * 5 + 3)", color: color_8_4.uiColor()))
@@ -311,7 +286,7 @@ private extension LegacyView {
         }
         return colors
     }
-
+    
     var colorPicker: some View {
         ScrollView(.horizontal) {
             HStack {
@@ -339,7 +314,7 @@ private extension LegacyView {
     }
 }
 
-private extension LegacyView {
+private extension LegacyNewView {
     var textureNames: [String] {
         [
             "ChalkPaints",
@@ -364,11 +339,11 @@ private extension LegacyView {
             "Worood"
         ]
     }
-
+    
     var textureImages: [UIImage] {
         textureNames.compactMap({ UIImage(named: $0) })
     }
-
+    
     var texturePicker: some View {
         ScrollView(.horizontal) {
             HStack {
@@ -405,8 +380,8 @@ private extension LegacyView {
     }
 }
 
-struct LegacyView_Previews: PreviewProvider {
+struct LegacyNewView_Previews: PreviewProvider {
     static var previews: some View {
-        LegacyView()
+        LegacyNewView()
     }
 }

@@ -2,7 +2,7 @@
 //  TechDemoView.swift
 //  Painty
 //
-//  Created by Davido Hyer on 12/13/21.
+//  Copyright © 2022 Passio Inc. All rights reserved.
 //
 
 import ARKit
@@ -11,11 +11,47 @@ import SwiftUI
 import RemodelAR
 
 final class SettingsData: ObservableObject {
+    @Republished var model = ARStateModel()
     @Published var uiVisible = true
     @Published var tabSwitchingActive = true
+    @Published var colorIndex = 0
+    @Published var textureIndex = -1
+    @Published var showStroke = true
+    @Published var showTextureStroke = false
     @Published var debugString = ""
     @Published var debugTimer: Timer?
-    @Republished var model = ARStateModel()
+    @Published var abModeIndex = 2
+    @Published var touchModeIndex = 3
+    @Published var occlusionThreshold: Double = 10
+    @Published var scanMode: ScanMode = .scanning
+    @Published var unpaintedVisible = true
+    @Published var coachingVisible = true
+    @Published var trackingReady = false
+    @Published var wallState: WallState = .idle
+    @Published var placeWallState: PlaceWallState = .done
+    @Published var planarMeshCount = 0
+    
+    func reset() {
+        uiVisible = true
+        colorIndex = 0
+        textureIndex = -1
+        showStroke = true
+        showTextureStroke = false
+        debugString = ""
+        debugTimer?.invalidate()
+        debugTimer = nil
+        abModeIndex = 2
+        touchModeIndex = 3
+        occlusionThreshold = 10
+        scanMode = .scanning
+        unpaintedVisible = true
+        coachingVisible = true
+        trackingReady = false
+        wallState = .idle
+        placeWallState = .done
+        planarMeshCount = 0
+        model.resetScene()
+    }
 }
 
 struct TechDemoView: View {
@@ -24,21 +60,28 @@ struct TechDemoView: View {
     
     var body: some View {
         ZStack {
+            Color.white
+                .edgesIgnoringSafeArea(.all)
             if currentTab == 0 {
                 if supportsLidar {
                     LidarView()
                 } else {
-                    Color.white
-                        .edgesIgnoringSafeArea(.all)
                     Text("Lidar not supported on this device")
                         .foregroundColor(.black)
                 }
             } else if currentTab == 1 {
                 LegacyView()
             } else if currentTab == 2 {
-                ShaderPaintView()
+                LegacyNewView()
             } else if currentTab == 3 {
-                AbnormalitiesView()
+                ShaderPaintView()
+            } else if currentTab == 4 {
+                if supportsLidar {
+                    AbnormalitiesView()
+                } else {
+                    Text("Lidar not supported on this device")
+                        .foregroundColor(.black)
+                }
             }
             if settings.uiVisible {
                 VStack {
@@ -51,11 +94,13 @@ struct TechDemoView: View {
                     Spacer()
                     uiVisibleButton
                         .padding(.trailing, 10)
+                        .padding(.top, 42)
                 }
                 Spacer()
             }
         }
         .environmentObject(settings)
+        .edgesIgnoringSafeArea(.all)
     }
     
     var supportsLidar: Bool {
@@ -75,42 +120,39 @@ struct TechDemoView: View {
     }
     
     var viewModePicker: some View {
-        let modes = ["Lidar", "Legacy", "Shader", "Defects"]
+        let modes = ["Lidar", "Legacy", "Legacy 2", "Shader", "Defects"]
         return HStack(spacing: 5) {
             ForEach(0..<modes.count, id: \.self) {
                 let index = $0
                 let mode = modes[index]
                 Button(action: {
                     currentTab = index
-                    settings.tabSwitchingActive = false
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                        settings.tabSwitchingActive = true
+                    if !supportsLidar,
+                       mode == "Lidar" || mode == "Defects" {
+                        return
+                    } else {
+                        settings.tabSwitchingActive = false
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                            settings.tabSwitchingActive = true
+                        }
                     }
                 },
                        label: {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 17)
-                            .strokeBorder(lineWidth: index == currentTab ? 2 : 0)
-                            .background(
-                                VStack(spacing: 3) {
-                                    Image("\(modes[index].lowercased())")
-                                    Text("\(mode)")
-                                        .fontWeight(.bold)
-                                        .font(.system(size: 16))
-                                }
-                            )
-                            .foregroundColor(settings.tabSwitchingActive ? .white : .gray)
-                            .background(Color(.sRGB, white: 0, opacity: currentTab == index ? 0.75 : 0.15))
-                            .clipShape(RoundedRectangle(cornerRadius: 17))
-                            .frame(height: 60)
-                            .frame(minWidth: 0, maxWidth: .infinity)
-                            .animation(Animation.interpolatingSpring(stiffness: 60, damping: 15))
-
-                    }
+                    VStack(spacing: 3) {
+                        Image("\(modes[index].lowercased())")
+                        Text("\(mode)")
+                            .bold()
+                            .font(.system(size: 12))
+                    }.foregroundColor(settings.tabSwitchingActive ? .white : .gray)
                 })
+                    .frame(minWidth: 0, maxWidth: .infinity)
+                    .padding(10)
+                    .background(Color(.sRGB, white: 0, opacity: currentTab == index ? 0.75 : 0.15))
+                    .cornerRadius(10)
             }
         }
         .padding([.leading, .trailing], 10)
+        .padding([.top, .bottom], 20)
         .disabled(!settings.tabSwitchingActive)
     }
 }

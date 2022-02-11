@@ -1,8 +1,8 @@
 //
 //  ShaderPaintView.swift
-//  RemodelAR-Demo
+//  Painty
 //
-//  Copyright © 2021 Passio Inc. All rights reserved.
+//  Copyright © 2022 Passio Inc. All rights reserved.
 //
 
 import ARKit
@@ -11,22 +11,15 @@ import SwiftUI
 import RemodelAR
 
 struct ShaderPaintView: View {
-    @State private var colorIndex = 0
-    @State private var textureIndex = -1
-    @State private var showStroke = true
-    @State private var showTextureStroke = false
-    @State private var abModeIndex = 2
-    @State private var touchModeIndex = 3
-    @State private var occlusionThreshold: Double = 10
     @EnvironmentObject var settings: SettingsData
-    
+
     var body: some View {
-        GeometryReader { geometry in
+        GeometryReader { _ in
             ZStack {
                 arView
                     .edgesIgnoringSafeArea(.all)
                 if settings.uiVisible {
-                    if abModeIndex == 0 {
+                    if settings.abModeIndex == 0 {
                         VStack {
                             Spacer()
                             HStack {
@@ -42,28 +35,28 @@ struct ShaderPaintView: View {
                             savePhotoButton
                             resetSceneButton
                         }
-                        if !settings.debugString.isEmpty {
-                            debugText
-                        }
                         Spacer()
-                    }
+                    }.padding([.top], 40)
                     VStack {
                         Spacer()
                         VStack {
                             thresholdSlider
-                            abModePicker
                             touchModePicker
                         }.offset(y: -30)
                         colorPicker
-                    }.offset(y: -60)
+                    }.padding([.bottom], 80)
                 }
             }.onAppear {
-                settings.model.pickColor(paint: colorItems[colorIndex])
-                settings.model.setTouchMode(mode: TouchMode(rawValue: touchModeIndex)!)
+                settings.reset()
+                settings.model.pickColor(paint: colorItems[settings.colorIndex])
+                if let touchMode = TouchMode(rawValue: settings.touchModeIndex) {
+                    settings.model.setTouchMode(mode: touchMode)
+                }
+                setupBindings()
             }
         }
     }
-    
+
     var arView: some View {
         RemodelARLib.makeARView(model: settings.model, arMethod: .ShaderPainting)
             .gesture(
@@ -78,28 +71,9 @@ struct ShaderPaintView: View {
             )
     }
     
-    var debugText: some View {
-        VStack(alignment: .center, spacing: nil, content: {
-            Text(settings.debugString)
-                .bold()
-                .padding(.all)
-                .foregroundColor(.white)
-                .background(Color(.sRGB, white: 0, opacity: 0.25))
-                .cornerRadius(10)
-            Spacer()
-        })
+    func setupBindings() {
     }
-    
-    func showDebugMessage(message: String) {
-        settings.debugString = message
-        settings.debugTimer?.invalidate()
-        settings.debugTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: false, block: { _ in
-            settings.debugString = ""
-        })
-    }
-}
 
-private extension ShaderPaintView {
     var centerDot: some View {
         ZStack {
             Circle()
@@ -114,19 +88,19 @@ private extension ShaderPaintView {
                 .frame(width: 20, height: 20)
         }
     }
-    
+
     var thresholdSlider: some View {
-        Slider(value: $occlusionThreshold, in: 4...30)
+        Slider(value: $settings.occlusionThreshold, in: 4...30)
             .padding()
-            .valueChanged(value: occlusionThreshold) { threshold in
+            .valueChanged(value: settings.occlusionThreshold) { threshold in
                 settings.model.setColorThreshold(threshold: Float(threshold))
             }.offset(y: 40)
     }
-    
+
     var resetSceneButton: some View {
         Button(action: {
             settings.model.resetScene()
-            showDebugMessage(message: "Scene reset!")
+            settings.reset()
         },
                label: {
             Image("reset")
@@ -136,11 +110,10 @@ private extension ShaderPaintView {
             .background(Color(.sRGB, white: 0, opacity: 0.15))
             .cornerRadius(10)
     }
-    
+
     var savePhotoButton: some View {
         Button(action: {
             settings.model.sharePhoto()
-            showDebugMessage(message: "Image Saved!")
         }, label: {
             Image(systemName: "camera.fill")
                 .foregroundColor(.white)
@@ -149,7 +122,7 @@ private extension ShaderPaintView {
             .background(Color(.sRGB, white: 0, opacity: 0.15))
             .cornerRadius(10)
     }
-    
+
     var abModePicker: some View {
         let modes = ["Record", "Stop", "Idle"]
         return HStack(spacing: 2) {
@@ -157,8 +130,8 @@ private extension ShaderPaintView {
                 let index = $0
                 let mode = modes[index]
                 Button(action: {
-                    settings.model.setTestingMode(mode: index)
-                    abModeIndex = index
+//                    settings.model.setTestingMode(mode: index)
+//                    settings.abModeIndex = index
                 },
                        label: {
                     Text("\(mode)")
@@ -166,12 +139,12 @@ private extension ShaderPaintView {
                         .foregroundColor(.white)
                 })
                     .padding(17)
-                    .background(Color(.sRGB, white: 0, opacity: abModeIndex == index ? 0.75 : 0.15))
+                    .background(Color(.sRGB, white: 0, opacity: settings.abModeIndex == index ? 0.75 : 0.15))
                     .cornerRadius(10)
             }
         }.offset(y: 40)
     }
-    
+
     var touchModePicker: some View {
         let modes = ["Average", "Dark", "Light", "Brightness"]
         return HStack(spacing: 5) {
@@ -179,16 +152,17 @@ private extension ShaderPaintView {
                 let index = $0
                 let mode = modes[index]
                 Button(action: {
-                    settings.model.setTouchMode(mode: TouchMode(rawValue: index)!)
-                    touchModeIndex = index
-                },
-                       label: {
+                    if let touchMode = TouchMode(rawValue: index) {
+                        settings.model.setTouchMode(mode: touchMode)
+                        settings.touchModeIndex = index
+                    }
+                }, label: {
                     Text("\(mode)")
                         .bold()
                         .foregroundColor(.white)
                 })
                     .padding(EdgeInsets(top: 17, leading: 12, bottom: 17, trailing: 12))
-                    .background(Color(.sRGB, white: 0, opacity: touchModeIndex == index ? 0.75 : 0.15))
+                    .background(Color(.sRGB, white: 0, opacity: settings.touchModeIndex == index ? 0.75 : 0.15))
                     .cornerRadius(10)
             }
         }.offset(y: 40)
@@ -199,25 +173,49 @@ private extension ShaderPaintView {
     var colorItems: [WallPaint] {
         let numHues = 20
         var colors = [WallPaint]()
-        colors.append(WallPaint(id: "0", color: Color(red: 230.0/255.0, green: 224.0/255.0, blue: 200.0/255.0).uiColor()))
-        colors.append(WallPaint(id: "0", color: Color(red: 220.0/255.0, green: 195.0/255.0, blue: 235.0/255.0).uiColor()))
-        colors.append(WallPaint(id: "0", color: Color(red: 252.0/255.0, green: 247.0/255.0, blue: 235.0/255.0).uiColor()))
-        colors.append(WallPaint(id: "0", color: Color(red: 255.0/255.0, green: 255.0/255.0, blue: 251.0/255.0).uiColor()))
-        colors.append(WallPaint(id: "0", color: Color(red: 58.0/255.0, green: 59.0/255.0, blue: 61.0/255.0).uiColor()))
-        colors.append(WallPaint(id: "0", color: Color(red: 101.0/255.0, green: 118.0/255.0, blue: 134.0/255.0).uiColor()))
-        colors.append(WallPaint(id: "0", color: Color(red: 239.0/255.0, green: 234.0/255.0, blue: 196.0/255.0).uiColor()))
-        colors.append(WallPaint(id: "0", color: Color(red: 125.0/255.0, green: 83.0/255.0, blue: 68.0/255.0).uiColor()))
+        colors.append(WallPaint(id: "0",
+                                color: Color(red: 230.0 / 255.0,
+                                             green: 224.0 / 255.0,
+                                             blue: 200.0 / 255.0).uiColor()))
+        colors.append(WallPaint(id: "0",
+                                color: Color(red: 220.0 / 255.0,
+                                             green: 195.0 / 255.0,
+                                             blue: 235.0 / 255.0).uiColor()))
+        colors.append(WallPaint(id: "0",
+                                color: Color(red: 252.0 / 255.0,
+                                             green: 247.0 / 255.0,
+                                             blue: 235.0 / 255.0).uiColor()))
+        colors.append(WallPaint(id: "0",
+                                color: Color(red: 255.0 / 255.0,
+                                             green: 255.0 / 255.0,
+                                             blue: 251.0 / 255.0).uiColor()))
+        colors.append(WallPaint(id: "0",
+                                color: Color(red: 58.0 / 255.0,
+                                             green: 59.0 / 255.0,
+                                             blue: 61.0 / 255.0).uiColor()))
+        colors.append(WallPaint(id: "0",
+                                color: Color(red: 101.0 / 255.0,
+                                             green: 118.0 / 255.0,
+                                             blue: 134.0 / 255.0).uiColor()))
+        colors.append(WallPaint(id: "0",
+                                color: Color(red: 239.0 / 255.0,
+                                             green: 234.0 / 255.0,
+                                             blue: 196.0 / 255.0).uiColor()))
+        colors.append(WallPaint(id: "0",
+                                color: Color(red: 125.0 / 255.0,
+                                             green: 83.0 / 255.0,
+                                             blue: 68.0 / 255.0).uiColor()))
         for i in 0..<numHues {
-            let color_8_8 = Color(hue: Double(i)/Double(numHues),
+            let color_8_8 = Color(hue: Double(i) / Double(numHues),
                                   saturation: 0.8,
                                   brightness: 0.8)
-            let color_8_6 = Color(hue: Double(i)/Double(numHues),
+            let color_8_6 = Color(hue: Double(i) / Double(numHues),
                                   saturation: 0.8,
                                   brightness: 0.6)
-            let color_8_4 = Color(hue: Double(i)/Double(numHues),
+            let color_8_4 = Color(hue: Double(i) / Double(numHues),
                                   saturation: 0.8,
                                   brightness: 0.4)
-            let color_8_2 = Color(hue: Double(i)/Double(numHues),
+            let color_8_2 = Color(hue: Double(i) / Double(numHues),
                                   saturation: 0.8,
                                   brightness: 0.2)
             
@@ -233,13 +231,13 @@ private extension ShaderPaintView {
         ScrollView(.horizontal) {
             HStack {
                 ForEach(0..<colorItems.count) { i in
-                    Button(action: {
-                        showStroke = true
-                        colorIndex = i
+                    Button {
+                        settings.showStroke = true
+                        settings.colorIndex = i
                         settings.model.pickColor(paint: colorItems[i])
-                    }) {
+                    } label: {
                         RoundedRectangle(cornerRadius: 17)
-                            .strokeBorder(lineWidth: (showStroke && i == colorIndex) ? 5 : 0)
+                            .strokeBorder(lineWidth: (settings.showStroke && i == settings.colorIndex) ? 5 : 0)
                             .foregroundColor(.white)
                             .background(Color(colorItems[i].color))
                             .clipShape(RoundedRectangle(cornerRadius: 17))
@@ -247,73 +245,7 @@ private extension ShaderPaintView {
                             .animation(Animation.interpolatingSpring(stiffness: 60, damping: 15))
                     }
                     .onTapGesture {
-                        self.showStroke = true
-                    }
-                }
-            }
-            .padding()
-        }
-    }
-}
-
-private extension ShaderPaintView {
-    var textureNames: [String] {
-        [
-            "ChalkPaints",
-            "ConcreteEffects1",
-            "ConcreteEffects2",
-            "Corium",
-            "Ebdaa",
-            "Elora",
-            "Glostex",
-            "GraniteArenal",
-            "Khayal_Beauty",
-            "Linetex",
-            "Marmo",
-            "Marotex",
-            "Mashasco",
-            "Newtex",
-            "Rawa",
-            "RawaKothban",
-            "Said",
-            "Texture",
-            "Tourmaline",
-            "Worood"
-        ]
-    }
-    
-    var textureImages: [UIImage] {
-        textureNames.compactMap({ UIImage(named: $0) })
-    }
-    
-    var texturePicker: some View {
-        ScrollView(.horizontal) {
-            HStack {
-                ForEach(0..<textureImages.count) { i in
-                    Button(action: {
-                        if i == textureIndex {
-                            showTextureStroke = false
-                            textureIndex = -1
-                            settings.model.pickTexture(texture: nil)
-                        } else {
-                            showTextureStroke = true
-                            textureIndex = i
-                            settings.model.pickTexture(texture: textureImages[i])
-                        }
-                    }) {
-                        RoundedRectangle(cornerRadius: 17)
-                            .strokeBorder(lineWidth: (showTextureStroke && i == textureIndex) ? 5 : 0)
-                            .foregroundColor(.white)
-                            .background(
-                                Image(uiImage: textureImages[i])
-                                    .renderingMode(.original)
-                            )
-                            .clipShape(RoundedRectangle(cornerRadius: 17))
-                            .frame(width: 74, height: 74)
-                            .animation(Animation.interpolatingSpring(stiffness: 60, damping: 15))
-                    }
-                    .onTapGesture {
-                        self.showTextureStroke.toggle()
+                        settings.showStroke = true
                     }
                 }
             }
@@ -334,7 +266,7 @@ extension View {
         if #available(iOS 14.0, *) {
             self.onChange(of: value, perform: onChange)
         } else {
-            self.onReceive(Just(value)) { (value) in
+            self.onReceive(Just(value)) { value in
                 onChange(value)
             }
         }
