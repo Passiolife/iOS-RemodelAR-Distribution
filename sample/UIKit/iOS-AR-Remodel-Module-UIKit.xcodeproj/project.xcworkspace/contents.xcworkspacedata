@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:">
+      location = "self:/Users/davidohyer/Dropbox/Devotronix/Projects/Passio/XCode/iOS-AR-Remodel-Module/sample/UIKit/iOS-AR-Remodel-Module-UIKit.xcodeproj">
    </FileRef>
 </Workspace>

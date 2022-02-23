@@ -1,19 +1,19 @@
 //
 //  AppDelegate.swift
-//  iOS-AR-Remodel-Module-UIKit
+//  Painty
 //
-//  Created by mac-0002 on 03/12/21.
+//  Copyright © 2022 Passio Inc. All rights reserved.
 //
 
+import RemodelAR
 import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        // Replace "license_key" with your license key
+        PassioConfiguration.configure(license: "license_key")
+        
         return true
     }
 
@@ -30,7 +30,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-
-
 }
 

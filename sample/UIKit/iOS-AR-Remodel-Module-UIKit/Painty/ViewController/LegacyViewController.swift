@@ -21,7 +21,7 @@ final class LegacyViewController: UIViewController {
     
     //MARK: Properties
     private lazy var arController: ARController = {
-        return RemodelARLib.makeLidarARController(with: arscnView)
+        RemodelARLib.makeLegacyARController(with: arscnView)
     }()
     
     //MARK: View Lifecycle methods
@@ -34,7 +34,7 @@ final class LegacyViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        arController.startScene()
+        arController.startScene(reset: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -46,53 +46,34 @@ final class LegacyViewController: UIViewController {
 
 //MARK: - Configure UI
 extension LegacyViewController {
-    
     private func configureUI() {
-        
         createARView()
-        
-        let outerCenterPoint = CenterPoint(frame: CGRect(x: view.frame.width/2 - 30, y: view.frame.height/2 - 30, width: 60, height: 60))
-        let innerCenterPoint = CenterPoint(frame: CGRect(x: view.frame.width/2 - 8, y: view.frame.height/2 - 8, width: 16, height: 16))
-        
-        view.addSubview(outerCenterPoint)
-        view.addSubview(innerCenterPoint)
-        
         updateARLabelStatus()
     }
 }
 
 //MARK: - Create and configure ARView
 extension LegacyViewController {
-    
     private func createARView() {
-        
-        arController = RemodelARLib.makeLegacyARController(with: arscnView)
-        
         addGestureOnARView()
         
-        arController.setScanPoint(point: view.center)
-        arController.setColor(paint: colorPicker[0].color)
+        arController.setColor(paint: ColorPicker.colors[0].color)
         
-        colorPickerCollectionView.colorPicker = colorPicker
+        colorPickerCollectionView.colorPicker = ColorPicker.colors
         colorPickerCollectionView.arController = arController
         
-        texturePickerCollectionView.texturePicker = texturePicker
+        texturePickerCollectionView.texturePicker = TexturePicker.textures
         texturePickerCollectionView.arController = arController
     }
     
     private func addGestureOnARView() {
-        
         let dragGesture = UIPanGestureRecognizer(target: self, action: #selector(onDraggingARView(_:)))
         arscnView.isUserInteractionEnabled = true
         arscnView.addGestureRecognizer(dragGesture)
     }
     
     @objc private func onDraggingARView(_ sender: UIPanGestureRecognizer) {
-        
-        let gestureState = sender.state
-        
-        switch gestureState {
-            
+        switch sender.state {
         case .changed:
             arController.dragStart(point: sender.location(in: arscnView))
             arController.dragMove(point: sender.location(in: arscnView))
@@ -106,44 +87,45 @@ extension LegacyViewController {
     }
     
     private func updateARLabelStatus() {
-        
-        arController.trackingReady = { [weak self] isReadyForTracknig in
-            self?.trackingLabel.text = "Tracking Ready: \(isReadyForTracknig ? "On" : "Off")"
+        arController.trackingReady = { [weak self] isReadyForTracking in
+            DispatchQueue.main.async {
+                self?.trackingLabel.text = "Tracking Ready: \(isReadyForTracking ? "On" : "Off")"
+            }
         }
         
         arController.wallStateUpdated = { [weak self] wallState in
-            
-            switch wallState {
-                
-            case .idle:
-                self?.wallStateLabel.text = "Wall state: Idle"
-                
-            case .addingWall:
-                self?.wallStateLabel.text = "Wall state: Adding wall"
-                
-            @unknown default:
-                break
+            DispatchQueue.main.async {
+                switch wallState {
+                case .idle:
+                    self?.wallStateLabel.text = "Wall state: Idle"
+                    
+                case .addingWall:
+                    self?.wallStateLabel.text = "Wall state: Adding wall"
+                    
+                @unknown default:
+                    break
+                }
             }
         }
         
         arController.placeWallStateUpdated = { [weak self] placeWallState in
-            
-            switch placeWallState {
-                
-            case .placingBasePlane:
-                self?.placeWallStateLabel.text = "Place wall state: Placing base plane"
-                
-            case .placingUpperLeftCorner:
-                self?.placeWallStateLabel.text = "Place wall state: Placing upper left corner"
-                
-            case .placingBottomRightCorner:
-                self?.placeWallStateLabel.text = "Place wall state: Placing bottom right corner"
-                
-            case .done:
-                self?.placeWallStateLabel.text = "Place wall state: Done"
-                
-            @unknown default:
-                break
+            DispatchQueue.main.async {
+                switch placeWallState {
+                case .placingBasePlane:
+                    self?.placeWallStateLabel.text = "Place wall state: Placing base plane"
+                    
+                case .placingFirstCorner:
+                    self?.placeWallStateLabel.text = "Place wall state: Placing first corner"
+                    
+                case .placingSecondCorner:
+                    self?.placeWallStateLabel.text = "Place wall state: Placing second corner"
+                    
+                case .done:
+                    self?.placeWallStateLabel.text = "Place wall state: Done"
+                    
+                @unknown default:
+                    break
+                }
             }
         }
     }
@@ -151,13 +133,12 @@ extension LegacyViewController {
 
 //MARK: - IBActions
 extension LegacyViewController {
-    
     @IBAction func onSetLRTapped(_ sender: UIButton) {
-        arController.setLowerRightCorner()
+        arController.setSecondCorner()
     }
     
     @IBAction func onSetULTapped(_ sender: UIButton) {
-        arController.setUpperLeftCorner()
+        arController.setFirstCorner()
     }
     
     @IBAction func onUpdatePlaneTapped(_ sender: UIButton) {
@@ -166,10 +147,6 @@ extension LegacyViewController {
     
     @IBAction func onPlacePlaneTapped(_ sender: UIButton) {
         arController.placeWallBasePlane()
-    }
-    
-    @IBAction func onAddWallTapped(_ sender: UIButton) {
-        arController.addWall()
     }
     
     @IBAction func onCancelTapped(_ sender: UIButton) {
@@ -182,6 +159,7 @@ extension LegacyViewController {
 }
 
 //MARK: - Touches
+
 extension LegacyViewController {
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first

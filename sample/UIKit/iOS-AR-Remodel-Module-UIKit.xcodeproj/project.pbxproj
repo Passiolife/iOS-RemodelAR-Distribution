@@ -63,7 +63,7 @@
 		B86296AD275DCCE60035A265 /* TexturePickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexturePickerCell.swift; sourceTree = "<group>"; };
 		B86296AE275DCCE60035A265 /* TexturePickerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TexturePickerCell.xib; sourceTree = "<group>"; };
 		B89F4DF72759F89E000769F6 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
-		B89F4DFA2759FEFD000769F6 /* RemodelAR.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RemodelAR.xcframework; path = "iOS-AR-Remodel-Module-UIKit/frameworks/RemodelAR.xcframework"; sourceTree = "<group>"; };
+		B89F4DFA2759FEFD000769F6 /* RemodelAR.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RemodelAR.xcframework; path = ../Frameworks/RemodelAR.xcframework; sourceTree = "<group>"; };
 		B89F4DFF2759FF7B000769F6 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		B89F4E01275A0F87000769F6 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		B89F4E04275A1439000769F6 /* PaintyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintyButton.swift; sourceTree = "<group>"; };
@@ -451,10 +451,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7224G6JACN;
+				DEVELOPMENT_TEAM = LCT9TTNDNR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS-AR-Remodel-Module-UIKit/Info.plist";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Allow app to access camera for painting walls";
@@ -472,7 +472,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.passio.iOS-AR-Remodel-Module-UIKit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = MI_WildCard_Dev;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -484,10 +484,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7224G6JACN;
+				DEVELOPMENT_TEAM = LCT9TTNDNR;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "iOS-AR-Remodel-Module-UIKit/Info.plist";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Allow app to access camera for painting walls";
@@ -505,7 +505,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.passio.iOS-AR-Remodel-Module-UIKit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = MI_WildCard_Dev;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

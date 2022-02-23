@@ -1,5 +1,5 @@
 //
-//  LegacyNewView.swift
+//  FloorplanView.swift
 //  Painty
 //
 //  Copyright © 2022 Passio Inc. All rights reserved.
@@ -10,59 +10,53 @@ import Combine
 import SwiftUI
 import RemodelAR
 
-struct LegacyNewView: View {
+struct FloorplanView: View {
     @EnvironmentObject var settings: SettingsData
     
     var body: some View {
-        GeometryReader { geometry in
-            ZStack {
-                arView
-                    .edgesIgnoringSafeArea(.all)
-                if settings.uiVisible {
+        ZStack {
+            arView
+                .edgesIgnoringSafeArea(.all)
+            if settings.uiVisible {
+                VStack {
                     VStack {
-                        VStack {
-                            HStack {
-                                savePhotoButton
-                                save3DModelButton
-                                resetSceneButton
-                                getPaintInfoButton
-                            }
-                            HStack {
-                                Text("Coaching: \(settings.coachingVisible ? "on" : "off")")
-                                Text("Tracking Ready: \(settings.trackingReady ? "yes" : "no")")
-                            }
-                            if !settings.debugString.isEmpty {
-                                debugText
-                            }
-                            occlusionColorPicker
-                            thresholdSlider
+                        HStack {
+                            savePhotoButton
+                            save3DModelButton
+                            resetSceneButton
+                            getPaintInfoButton
                         }
-                        Spacer()
-                    }.padding([.top], 40)
+                        HStack {
+                            Text("Coaching: \(settings.coachingVisible ? "on" : "off")")
+                            Text("Tracking Ready: \(settings.trackingReady ? "yes" : "no")")
+                        }
+                        if !settings.debugString.isEmpty {
+                            debugText
+                        }
+                        occlusionColorPicker
+                        thresholdSlider
+                    }
+                    Spacer()
+                }.padding([.top], 40)
+                VStack {
+                    Spacer()
                     VStack {
-                        Spacer()
-                        VStack {
-                            HStack {
-                                finishCornersButton
-                                finishHeightButton
-                                cancelAddWallButton
-                            }
-                        }.offset(y: 40)
-                        VStack {
-                            texturePicker
-                            colorPicker
+                        HStack {
+                            finishCornersButton
+                            finishHeightButton
+                            cancelAddWallButton
                         }
-                    }.padding([.bottom], 80)
-                }
-            }.onAppear {
-                settings.reset()
-                settings.model.pickColor(paint: colorItems[settings.colorIndex])
-                settings.model.setScanPoint(
-                    point: CGPoint(x: geometry.size.width / 2,
-                                   y: geometry.size.height / 2)
-                )
-                setupBindings()
+                    }.offset(y: 40)
+                    VStack {
+                        texturePicker
+                        colorPicker
+                    }
+                }.padding([.bottom], 80)
             }
+        }.onAppear {
+            settings.reset()
+            settings.model.pickColor(paint: colorItems[settings.colorIndex])
+            setupBindings()
         }
     }
     
@@ -86,7 +80,7 @@ struct LegacyNewView: View {
     }
     
     var arView: some View {
-        RemodelARLib.makeARView(model: settings.model, arMethod: .LegacyNew)
+        RemodelARLib.makeARView(model: settings.model, arMethod: .Floorplan)
             .gesture(
                 DragGesture()
                     .onChanged { gesture in
@@ -257,7 +251,7 @@ struct LegacyNewView: View {
     }
 }
 
-private extension LegacyNewView {
+private extension FloorplanView {
     var colorItems: [WallPaint] {
         let numHues = 20
         var colors = [WallPaint]()
@@ -314,7 +308,7 @@ private extension LegacyNewView {
     }
 }
 
-private extension LegacyNewView {
+private extension FloorplanView {
     var textureNames: [String] {
         [
             "ChalkPaints",
@@ -380,8 +374,8 @@ private extension LegacyNewView {
     }
 }
 
-struct LegacyNewView_Previews: PreviewProvider {
+struct FloorplanView_Previews: PreviewProvider {
     static var previews: some View {
-        LegacyNewView()
+        FloorplanView()
     }
 }

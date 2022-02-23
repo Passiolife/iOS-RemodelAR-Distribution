@@ -5,6 +5,7 @@
 //  Copyright © 2022 Passio Inc. All rights reserved.
 //
 
+import RemodelAR
 import SwiftUI
 
 /// Enum that determines which view to run the app with
@@ -33,5 +34,10 @@ struct PaintyApp: App {
                 TechDemoView()
             }
         }
+    }
+    
+    init() {
+        // Replace "license_key" with your license key
+        PassioConfiguration.configure(license: "license_key")
     }
 }

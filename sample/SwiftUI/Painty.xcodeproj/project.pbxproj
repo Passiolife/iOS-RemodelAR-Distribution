@@ -19,7 +19,7 @@
 		58C48F2D27690AB600DECE51 /* Republished.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C48F2C27690AB600DECE51 /* Republished.swift */; };
 		58D0309B27B5DC51000B908C /* RemodelAR.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D0309A27B5DC51000B908C /* RemodelAR.xcframework */; };
 		58D0309C27B5DC51000B908C /* RemodelAR.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 58D0309A27B5DC51000B908C /* RemodelAR.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		58D0309F27B5DD5F000B908C /* LegacyNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D0309E27B5DD5F000B908C /* LegacyNewView.swift */; };
+		58D0309F27B5DD5F000B908C /* FloorplanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D0309E27B5DD5F000B908C /* FloorplanView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -48,8 +48,8 @@
 		58C48F022768030000DECE51 /* AbnormalitiesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbnormalitiesView.swift; sourceTree = "<group>"; };
 		58C48F042768086200DECE51 /* TechDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechDemoView.swift; sourceTree = "<group>"; };
 		58C48F2C27690AB600DECE51 /* Republished.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Republished.swift; sourceTree = "<group>"; };
-		58D0309A27B5DC51000B908C /* RemodelAR.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RemodelAR.xcframework; path = ../../../PaintAR/output/RemodelAR.xcframework; sourceTree = "<group>"; };
-		58D0309E27B5DD5F000B908C /* LegacyNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegacyNewView.swift; sourceTree = "<group>"; };
+		58D0309A27B5DC51000B908C /* RemodelAR.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RemodelAR.xcframework; path = ../Frameworks/RemodelAR.xcframework; sourceTree = "<group>"; };
+		58D0309E27B5DD5F000B908C /* FloorplanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloorplanView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,7 +89,7 @@
 				588A2E1B273F25C00014CA27 /* PaintyView.swift */,
 				58C48F042768086200DECE51 /* TechDemoView.swift */,
 				589309092758336600864F2E /* LegacyView.swift */,
-				58D0309E27B5DD5F000B908C /* LegacyNewView.swift */,
+				58D0309E27B5DD5F000B908C /* FloorplanView.swift */,
 				589309072758336500864F2E /* LidarView.swift */,
 				589309082758336600864F2E /* ShaderPaintView.swift */,
 				58C48F022768030000DECE51 /* AbnormalitiesView.swift */,
@@ -205,7 +205,7 @@
 				5893090C2758336600864F2E /* LegacyView.swift in Sources */,
 				588A2E1A273F25C00014CA27 /* PaintyApp.swift in Sources */,
 				58C48F032768030000DECE51 /* AbnormalitiesView.swift in Sources */,
-				58D0309F27B5DD5F000B908C /* LegacyNewView.swift in Sources */,
+				58D0309F27B5DD5F000B908C /* FloorplanView.swift in Sources */,
 				58C48F052768086200DECE51 /* TechDemoView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

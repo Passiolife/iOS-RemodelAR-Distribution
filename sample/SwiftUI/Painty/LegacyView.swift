@@ -14,69 +14,65 @@ struct LegacyView: View {
     @EnvironmentObject var settings: SettingsData
 
     var body: some View {
-        GeometryReader { geometry in
-            ZStack {
-                arView
-                    .edgesIgnoringSafeArea(.all)
-                if settings.uiVisible {
+        ZStack {
+            arView
+                .edgesIgnoringSafeArea(.all)
+            if settings.uiVisible {
+                VStack {
                     VStack {
-                        Spacer()
                         HStack {
-                            Spacer()
-                            centerDot
-                            Spacer()
+                            savePhotoButton
+                            resetSceneButton
                         }
-                        Spacer()
+                        HStack {
+                            Text("Coaching: \(settings.coachingVisible ? "on" : "off")")
+                            Text("Tracking Ready: \(settings.trackingReady ? "yes" : "no")")
+                        }
+                        Text("Wall State: \(wallState)")
+                        Text("Place Wall State: \(placeWallState)")
+                        occlusionColorPicker
+                        thresholdSlider
                     }
+                    Spacer()
+                }.padding([.top], 40)
+                VStack {
+                    Spacer()
                     VStack {
-                        VStack {
-                            HStack {
-                                savePhotoButton
-                                resetSceneButton
-                            }
-                            HStack {
-                                Text("Coaching: \(settings.coachingVisible ? "on" : "off")")
-                                Text("Tracking Ready: \(settings.trackingReady ? "yes" : "no")")
-                            }
-                            Text("Wall State: \(wallState)")
-                            Text("Place Wall State: \(placeWallState)")
-                            occlusionColorPicker
-                            thresholdSlider
+                        HStack {
+                            placeBasePlaneButton
+                            cancelAddWallButton
                         }
-                        Spacer()
-                    }.padding([.top], 40)
+                        HStack {
+                            updateBasePlaneButton
+                            setFirstCornerButton
+                            setSecondCornerButton
+                        }
+                    }.offset(y: 40)
                     VStack {
-                        Spacer()
-                        VStack {
-                            HStack {
-                                addWallButton
-                                placeBasePlaneButton
-                                cancelAddWallButton
-                            }
-                            HStack {
-                                updateBasePlaneButton
-                                setUpperLeftCornerButton
-                                setLowerRightCornerButton
-                            }
-                        }.offset(y: 40)
-                        VStack {
-                            texturePicker
-                            colorPicker
-                        }
-                    }.padding([.bottom], 80)
-                }
-            }.onAppear {
-                settings.reset()
-                settings.model.pickColor(paint: colorItems[settings.colorIndex])
-                settings.model.setScanPoint(
-                    point: CGPoint(x: geometry.size.width / 2,
-                                   y: geometry.size.height / 2)
-                )
-                setupBindings()
+                        texturePicker
+                        colorPicker
+                    }
+                }.padding([.bottom], 80)
             }
+        }.onAppear {
+            settings.reset()
+            settings.model.pickColor(paint: colorItems[settings.colorIndex])
+            // Uncomment this code to customize the UI images
+//            customizeColorTheme()
+            setupBindings()
         }
     }
 
+    func customizeColorTheme() {
+        if let gridImage = UIImage(named: "grid-WhiteAlt") {
+            settings.model.setGridImage(gridImage: gridImage)
+        }
+        if let centerDotImage = UIImage(named: "centerDotAlt") {
+            settings.model.setLegacyUIImages(cornerTextures: altCornerImages,
+                                             centerDot: centerDotImage)
+        }
+    }
+    
     func setupBindings() {
         settings.model.coachingVisible.sink { coachingVisible in
             settings.coachingVisible = coachingVisible
@@ -109,34 +105,6 @@ struct LegacyView: View {
             )
     }
 
-    var centerDot: some View {
-        ZStack {
-            Circle()
-                .fill(Color(.sRGB, white: 0, opacity: 0.2))
-                .frame(width: 80, height: 80)
-                .overlay(
-                    Circle()
-                        .strokeBorder(Color.blue, lineWidth: 2, antialiased: true)
-                )
-            Circle()
-                .fill(Color.blue)
-                .frame(width: 20, height: 20)
-        }
-    }
-
-    var addWallButton: some View {
-        Button(action: {
-            settings.model.addWall()
-        }, label: {
-            Text("Add Wall")
-                .bold()
-                .foregroundColor(.white)
-        })
-            .padding()
-            .background(Color(.sRGB, white: 0, opacity: 0.15))
-            .cornerRadius(10)
-    }
-
     var placeBasePlaneButton: some View {
         Button(action: {
             settings.model.placeBasePlane()
@@ -163,9 +131,9 @@ struct LegacyView: View {
             .cornerRadius(10)
     }
 
-    var setUpperLeftCornerButton: some View {
+    var setFirstCornerButton: some View {
         Button(action: {
-            settings.model.setUpperLeftCorner()
+            settings.model.setFirstCorner()
         }, label: {
             Text("Set UL")
                 .bold()
@@ -176,9 +144,9 @@ struct LegacyView: View {
             .cornerRadius(10)
     }
 
-    var setLowerRightCornerButton: some View {
+    var setSecondCornerButton: some View {
         Button(action: {
-            settings.model.setLowerRightCorner()
+            settings.model.setSecondCorner()
         }, label: {
             Text("Set LR")
                 .bold()
@@ -217,6 +185,8 @@ struct LegacyView: View {
         Button(action: {
             settings.model.resetScene()
             settings.reset()
+            settings.model.pickColor(paint: colorItems[settings.colorIndex])
+            settings.model.pickTexture(texture: nil)
         },
                label: {
             Image("reset")
@@ -240,10 +210,10 @@ struct LegacyView: View {
         switch settings.placeWallState {
         case .placingBasePlane:
             return "placingBasePlane"
-        case .placingUpperLeftCorner:
-            return "placingUpperLeftCorner"
-        case .placingBottomRightCorner:
-            return "placingBottomRightCorner"
+        case .placingFirstCorner:
+            return "placingFirstCorner"
+        case .placingSecondCorner:
+            return "placingSecondCorner"
         case .done:
             return "done"
         }
@@ -275,7 +245,13 @@ struct LegacyView: View {
                         .foregroundColor(.white)
                 })
                     .padding(EdgeInsets(top: 17, leading: 12, bottom: 17, trailing: 12))
-                    .background(Color(.sRGB, white: 0, opacity: settings.touchModeIndex == index ? 0.75 : 0.15))
+                    .background(
+                        Color(
+                            .sRGB,
+                            white: 0,
+                            opacity: settings.touchModeIndex == index ? 0.75 : 0.15
+                        )
+                    )
                     .cornerRadius(10)
             }
         }.offset(y: 40)
@@ -322,7 +298,9 @@ private extension LegacyView {
                         settings.model.pickColor(paint: colorItems[i])
                     } label: {
                         RoundedRectangle(cornerRadius: 17)
-                            .strokeBorder(lineWidth: (settings.showStroke && i == settings.colorIndex) ? 5 : 0)
+                            .strokeBorder(
+                                lineWidth: (settings.showStroke && i == settings.colorIndex) ? 5 : 0
+                            )
                             .foregroundColor(.white)
                             .background(Color(colorItems[i].color))
                             .clipShape(RoundedRectangle(cornerRadius: 17))
@@ -385,7 +363,9 @@ private extension LegacyView {
                         }
                     } label: {
                         RoundedRectangle(cornerRadius: 17)
-                            .strokeBorder(lineWidth: (settings.showTextureStroke && i == settings.textureIndex) ? 5 : 0)
+                            .strokeBorder(
+                                lineWidth: (settings.showTextureStroke && i == settings.textureIndex) ? 5 : 0
+                            )
                             .foregroundColor(.white)
                             .background(
                                 Image(uiImage: textureImages[i])
@@ -402,6 +382,20 @@ private extension LegacyView {
             }
             .padding()
         }.offset(y: 30)
+    }
+    
+    var altCornerImages: [Corners: UIImage] {
+        guard let ulImage = UIImage(named: "upperLeftCornerAlt"),
+              let urImage = UIImage(named: "upperRightCornerAlt"),
+              let lrImage = UIImage(named: "lowerRightCornerAlt"),
+              let llImage = UIImage(named: "lowerLeftCornerAlt")
+        else { return [:] }
+        return [
+            Corners.upperLeftCorner: ulImage,
+            Corners.upperRightCorner: urImage,
+            Corners.lowerRightCorner: lrImage,
+            Corners.lowerLeftCorner: llImage
+        ]
     }
 }
 

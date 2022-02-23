@@ -72,7 +72,7 @@ struct TechDemoView: View {
             } else if currentTab == 1 {
                 LegacyView()
             } else if currentTab == 2 {
-                LegacyNewView()
+                FloorplanView()
             } else if currentTab == 3 {
                 ShaderPaintView()
             } else if currentTab == 4 {
@@ -120,7 +120,7 @@ struct TechDemoView: View {
     }
     
     var viewModePicker: some View {
-        let modes = ["Lidar", "Legacy", "Legacy 2", "Shader", "Defects"]
+        let modes = ["Lidar", "Legacy", "Floorplan", "Shader", "Defects"]
         return HStack(spacing: 5) {
             ForEach(0..<modes.count, id: \.self) {
                 let index = $0

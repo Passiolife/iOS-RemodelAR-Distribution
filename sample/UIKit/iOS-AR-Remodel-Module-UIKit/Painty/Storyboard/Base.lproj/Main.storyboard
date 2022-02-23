@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="j7c-IJ-RUc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="j7c-IJ-RUc">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -21,33 +21,13 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                             </arscnView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="XiM-by-m6v">
-                                <rect key="frame" x="8" y="594" width="398" height="204"/>
+                                <rect key="frame" x="8" y="604" width="398" height="194"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Nhd-b5-fl9">
-                                        <rect key="frame" x="0.0" y="0.0" width="398" height="40"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="398" height="30"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hNU-Nc-50b" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="100.5" height="40"/>
-                                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="7HX-zP-O2d"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
-                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                <state key="normal" title="Add Wall">
-                                                    <color key="titleColor" systemColor="systemOrangeColor"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                        <real key="value" value="10"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <action selector="onAddWallTapped:" destination="65C-MD-Xef" eventType="touchUpInside" id="Kzt-T8-JLH"/>
-                                                </connections>
-                                            </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aOn-Bh-cfI" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
-                                                <rect key="frame" x="110.5" y="0.0" width="133.5" height="40"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="188.5" height="30"/>
                                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -59,7 +39,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hOs-PN-FlJ" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
-                                                <rect key="frame" x="254" y="0.0" width="79.5" height="40"/>
+                                                <rect key="frame" x="198.5" y="0.0" width="113" height="30"/>
                                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -71,7 +51,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wuN-r5-phy" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
-                                                <rect key="frame" x="343.5" y="0.0" width="54.5" height="40"/>
+                                                <rect key="frame" x="321.5" y="0.0" width="76.5" height="30"/>
                                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                                 <color key="tintColor" systemColor="systemOrangeColor"/>
@@ -86,7 +66,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="9" translatesAutoresizingMaskIntoConstraints="NO" id="shF-O3-G2e">
-                                        <rect key="frame" x="0.0" y="48" width="398" height="40"/>
+                                        <rect key="frame" x="0.0" y="38" width="398" height="40"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UE5-Se-Q2i" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="126.5" height="40"/>
@@ -108,7 +88,7 @@
                                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                <state key="normal" title="Set UL">
+                                                <state key="normal" title="Set 1st Point">
                                                     <color key="titleColor" systemColor="systemOrangeColor"/>
                                                 </state>
                                                 <connections>
@@ -120,7 +100,7 @@
                                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                <state key="normal" title="Set LR">
+                                                <state key="normal" title="Set 2nd Point">
                                                     <color key="titleColor" systemColor="systemOrangeColor"/>
                                                 </state>
                                                 <connections>
@@ -130,7 +110,7 @@
                                         </subviews>
                                     </stackView>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="F3m-yj-8oS" customClass="TexturePickerCollectionView" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="96" width="398" height="50"/>
+                                        <rect key="frame" x="0.0" y="86" width="398" height="50"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="OCO-FZ-skj"/>
@@ -144,7 +124,7 @@
                                         <cells/>
                                     </collectionView>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="rxu-Lm-a5G" customClass="ColorPickerCollectionView" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="154" width="398" height="50"/>
+                                        <rect key="frame" x="0.0" y="144" width="398" height="50"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="17a-jG-w6u"/>
@@ -354,7 +334,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                             </arscnView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="2fu-og-6uL">
-                                <rect key="frame" x="0.0" y="583" width="414" height="230"/>
+                                <rect key="frame" x="0.0" y="637" width="414" height="176"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y3a-HZ-nZ4">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="53"/>
@@ -374,70 +354,8 @@
                                             <constraint firstAttribute="trailing" secondItem="aqB-QK-9ig" secondAttribute="trailing" constant="8" id="euS-Ib-UBI"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GVK-Je-lTC">
-                                        <rect key="frame" x="0.0" y="61" width="414" height="46"/>
-                                        <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="fR6-sV-ggn">
-                                                <rect key="frame" x="87" y="0.0" width="240" height="46"/>
-                                                <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VVN-lr-vDz" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="70" height="46"/>
-                                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="sin-3V-fow"/>
-                                                        </constraints>
-                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                        <state key="normal" title="Record">
-                                                            <color key="titleColor" systemColor="systemOrangeColor"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="onABTestModeTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="CsA-mT-Tiw"/>
-                                                            <action selector="onRecordTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="mmn-Wb-Pv5"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GUQ-5m-wEv" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
-                                                        <rect key="frame" x="85" y="0.0" width="70" height="46"/>
-                                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="SvK-yt-uaj"/>
-                                                        </constraints>
-                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                        <state key="normal" title="Stop">
-                                                            <color key="titleColor" systemColor="systemOrangeColor"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="onABTestModeTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="6np-wT-4hg"/>
-                                                            <action selector="onStopTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="X3M-9s-60J"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cnU-D5-Wu4" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
-                                                        <rect key="frame" x="170" y="0.0" width="70" height="46"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="MBa-yc-S1A"/>
-                                                        </constraints>
-                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                        <state key="normal" title="Idle">
-                                                            <color key="titleColor" systemColor="systemOrangeColor"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="onABTestModeTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="pcg-aw-noI"/>
-                                                            <action selector="onIdleTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="9DD-Rb-iud"/>
-                                                        </connections>
-                                                    </button>
-                                                </subviews>
-                                            </stackView>
-                                        </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstItem="fR6-sV-ggn" firstAttribute="top" secondItem="GVK-Je-lTC" secondAttribute="top" id="ICv-s4-U3K"/>
-                                            <constraint firstAttribute="height" constant="46" id="RDu-1V-ZZF"/>
-                                            <constraint firstItem="fR6-sV-ggn" firstAttribute="centerX" secondItem="GVK-Je-lTC" secondAttribute="centerX" id="TtV-JY-RRb"/>
-                                            <constraint firstAttribute="bottom" secondItem="fR6-sV-ggn" secondAttribute="bottom" id="cE6-Jy-SVD"/>
-                                        </constraints>
-                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dn2-hi-MPc">
-                                        <rect key="frame" x="0.0" y="115" width="414" height="46"/>
+                                        <rect key="frame" x="0.0" y="61" width="414" height="46"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="x5n-ax-9Jd">
                                                 <rect key="frame" x="8" y="0.0" width="398" height="46"/>
@@ -519,7 +437,7 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jpb-2x-fIR">
-                                        <rect key="frame" x="0.0" y="169" width="414" height="61"/>
+                                        <rect key="frame" x="0.0" y="115" width="414" height="61"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="AXh-Fs-b2N">
                                                 <rect key="frame" x="8" y="0.0" width="398" height="53"/>
@@ -553,7 +471,7 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.79183050496688745" colorSpace="custom" customColorSpace="sRGB"/>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dVe-ug-cn7" customClass="PaintyButton" customModule="iOS_AR_Remodel_Module_UIKit" customModuleProvider="target">
-                                <rect key="frame" x="353" y="528.5" width="50" height="44.5"/>
+                                <rect key="frame" x="353" y="582.5" width="50" height="44.5"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="dVe-ug-cn7" secondAttribute="height" multiplier="9:8" id="MYW-Vu-Em7"/>
@@ -590,9 +508,6 @@
                         <outletCollection property="touchModeButtons" destination="bxv-Ra-ACD" collectionClass="NSMutableArray" id="NqB-1B-6WU"/>
                         <outletCollection property="touchModeButtons" destination="BW1-c0-vVM" collectionClass="NSMutableArray" id="zy1-yN-PWh"/>
                         <outletCollection property="touchModeButtons" destination="4Ej-uT-N4j" collectionClass="NSMutableArray" id="jqp-lI-Pjq"/>
-                        <outletCollection property="abTestbuttons" destination="VVN-lr-vDz" collectionClass="NSMutableArray" id="tAu-Yz-gMt"/>
-                        <outletCollection property="abTestbuttons" destination="GUQ-5m-wEv" collectionClass="NSMutableArray" id="qJd-F0-Tfo"/>
-                        <outletCollection property="abTestbuttons" destination="cnU-D5-Wu4" collectionClass="NSMutableArray" id="J3D-Wr-y2P"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ujd-vH-tj8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -633,20 +548,14 @@
         <designable name="BW1-c0-vVM">
             <size key="intrinsicContentSize" width="34" height="30"/>
         </designable>
-        <designable name="GUQ-5m-wEv">
-            <size key="intrinsicContentSize" width="38" height="34"/>
-        </designable>
         <designable name="J5i-TO-VHb">
             <size key="intrinsicContentSize" width="20" height="22"/>
         </designable>
         <designable name="UE5-Se-Q2i">
             <size key="intrinsicContentSize" width="95" height="30"/>
         </designable>
-        <designable name="VVN-lr-vDz">
-            <size key="intrinsicContentSize" width="58" height="34"/>
-        </designable>
         <designable name="XYm-RK-Z3K">
-            <size key="intrinsicContentSize" width="46" height="30"/>
+            <size key="intrinsicContentSize" width="95" height="30"/>
         </designable>
         <designable name="aOn-Bh-cfI">
             <size key="intrinsicContentSize" width="82" height="30"/>
@@ -654,17 +563,11 @@
         <designable name="bxv-Ra-ACD">
             <size key="intrinsicContentSize" width="76" height="30"/>
         </designable>
-        <designable name="cnU-D5-Wu4">
-            <size key="intrinsicContentSize" width="30" height="34"/>
-        </designable>
         <designable name="dVe-ug-cn7">
             <size key="intrinsicContentSize" width="24.5" height="22"/>
         </designable>
         <designable name="evh-a2-YdE">
             <size key="intrinsicContentSize" width="22" height="22"/>
-        </designable>
-        <designable name="hNU-Nc-50b">
-            <size key="intrinsicContentSize" width="62" height="30"/>
         </designable>
         <designable name="hOs-PN-FlJ">
             <size key="intrinsicContentSize" width="49" height="30"/>
@@ -673,7 +576,7 @@
             <size key="intrinsicContentSize" width="22" height="22"/>
         </designable>
         <designable name="rL3-fM-Jsz">
-            <size key="intrinsicContentSize" width="47" height="30"/>
+            <size key="intrinsicContentSize" width="88" height="30"/>
         </designable>
         <designable name="wuN-r5-phy">
             <size key="intrinsicContentSize" width="22" height="22"/>
