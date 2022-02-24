@@ -12,15 +12,13 @@ import RemodelAR
 final class AbnormalitiesViewController: UIViewController {
     
     //MARK: @IBOutlets
-    @IBOutlet weak private var arscnView: ARSCNView!
     @IBOutlet weak private var buttonsTopStackView: UIStackView!
     @IBOutlet weak private var buttonsBottomStackView: UIStackView!
     @IBOutlet weak var showUIButton: PaintyButton!
     
     //MARK: Properties
-    private lazy var arController: ARController = {
-        RemodelARLib.makeAbnormalitiesARController(with: arscnView)
-    }()
+    private var arscnView: ARSCNView?
+    private var arController: ARController?
     
     private var showUI = true {
         didSet {
@@ -34,7 +32,7 @@ final class AbnormalitiesViewController: UIViewController {
     private var isLidarScanning = true {
         didSet {
             let scanMode: ScanMode = isLidarScanning ? .scanning : .paused
-            arController.setScanMode(scanMode: scanMode)
+            arController?.setScanMode(scanMode: scanMode)
         }
     }
     
@@ -42,13 +40,12 @@ final class AbnormalitiesViewController: UIViewController {
         super.viewDidAppear(animated)
         
         configureView()
-        arController.startScene(reset: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        arController.pauseScene()
+        unconfigureView()
     }
 }
 
@@ -61,6 +58,66 @@ extension AbnormalitiesViewController {
             buttonsTopStackView.isHidden = true
             buttonsBottomStackView.isHidden = true
             
+        } else {
+            addAndConfigureARViews()
+            configureBindings()
+            arController?.startScene(reset: true)
+        }
+    }
+    
+    private func unconfigureView() {
+        arController = nil
+        arscnView?.removeFromSuperview()
+        arscnView = nil
+    }
+    
+    private func addAndConfigureARViews() {
+        arscnView = ARSCNView()
+        guard let arscnView = arscnView
+        else { return }
+        
+        view.addSubview(arscnView)
+        view.sendSubviewToBack(arscnView)
+        arscnView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            arscnView.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+                                               constant: 0),
+            arscnView.topAnchor.constraint(equalTo: view.topAnchor,
+                                           constant: 0),
+            arscnView.trailingAnchor.constraint(equalTo: view.trailingAnchor,
+                                                constant: 0),
+            arscnView.bottomAnchor.constraint(equalTo: view.bottomAnchor,
+                                              constant: 0)
+        ])
+        
+        arController = RemodelARLib.makeAbnormalitiesARController(with: arscnView)
+        
+        let viewSize = view.frame.size
+        let width: CGFloat = viewSize.width * 2 / 3
+        let paddingX: CGFloat = (viewSize.width - width) / 2
+        let paddingY: CGFloat = (viewSize.height - width) / 2
+        let cropRect = CGRect(x: paddingX,
+                              y: paddingY,
+                              width: width,
+                              height: width)
+        arController?.setScanArea(rect: cropRect)
+    }
+    
+    private func configureBindings() {
+        arController?.cameraAimInfoUpdated = { cameraAimInfo in
+            guard let cameraAimInfo = cameraAimInfo
+            else { return }
+            
+            print("Camera Aim: \(cameraAimInfo.angle), \(cameraAimInfo.surfaceType)")
+        }
+        arController?.trackingReady = { isReady in
+            print("Tracking Ready: \(isReady ? "true" : "false")")
+        }
+        arController?.abnormalitySelected = { [weak self] abnormality in
+            print("Selected Defect: \(abnormality.identifier)")
+            let newDefect = AbnormalityInfo(identifier: abnormality.identifier, name: "New Crack")
+            self?.arController?.updateAbnormality(abnormality: newDefect)
         }
     }
 }
@@ -68,22 +125,34 @@ extension AbnormalitiesViewController {
 //MARK: - @IBActions
 extension AbnormalitiesViewController {
     @IBAction func onSavePhotoTapped(_ sender: PaintyButton) {
-        let photo = arController.savePhoto()
+        guard let photo = arController?.savePhoto()
+        else { return }
+        
         let activityViewController = UIActivityViewController(activityItems: [photo],
                                                               applicationActivities: nil)
         present(activityViewController, animated: true, completion: nil)
     }
     
     @IBAction func onResetTapped(_ sender: PaintyButton) {
-        arController.resetScene()
+        arController?.resetScene()
     }
     
     @IBAction func onAddDefectTapped(_ sender: PaintyButton) {
-        _ = arController.addAbnormality(name: "Crack")
+        guard let image = arController?.retrieveRawCameraImage()
+        else { return }
+        
+        // process image here using ML libraries
+        print("image captured: \(image.size)")
+        
+        if let addedDefectId = arController?.addAbnormality(name: "Crack") {
+            print("Added defect: \(addedDefectId)")
+        } else {
+            print("Defect not added, error")
+        }
     }
     
     @IBAction func onRetrieveDefectsTapped(_ sender: PaintyButton) {
-        guard let defectsInfo = arController.retrieveAbnormalitiesInfo()
+        guard let defectsInfo = arController?.retrieveAbnormalitiesInfo()
         else { return }
         
         print("Defects:")
@@ -112,6 +181,6 @@ extension AbnormalitiesViewController {
         else { return }
         
         let point = touch.location(in: arscnView)
-        arController.handleTouch(point: point)
+        arController?.handleTouch(point: point)
     }
 }

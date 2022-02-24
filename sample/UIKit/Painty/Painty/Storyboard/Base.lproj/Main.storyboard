@@ -17,9 +17,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YQC-n5-W4D">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
-                            </arscnView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xwU-L7-nMK" customClass="PaintyButton" customModule="Painty" customModuleProvider="target">
                                 <rect key="frame" x="302.5" y="57" width="69" height="60"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.15349458969999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -256,13 +253,8 @@
                             <constraint firstItem="QwW-y5-cV7" firstAttribute="leading" secondItem="OrU-yB-3r9" secondAttribute="leading" constant="20" id="6vj-Vl-m2o"/>
                             <constraint firstItem="OrU-yB-3r9" firstAttribute="bottom" secondItem="hXp-i7-Psa" secondAttribute="bottom" constant="15" id="7be-9V-Eaa"/>
                             <constraint firstItem="xwU-L7-nMK" firstAttribute="centerY" secondItem="QmA-ae-1gg" secondAttribute="centerY" id="G8m-xQ-4tP"/>
-                            <constraint firstItem="YQC-n5-W4D" firstAttribute="top" secondItem="krX-Cy-LbR" secondAttribute="top" id="Icc-e7-Ij6"/>
-                            <constraint firstItem="YQC-n5-W4D" firstAttribute="trailing" secondItem="OrU-yB-3r9" secondAttribute="trailing" id="PWF-VV-Ll4"/>
-                            <constraint firstItem="QwW-y5-cV7" firstAttribute="centerX" secondItem="YQC-n5-W4D" secondAttribute="centerX" id="V7l-AX-uKs"/>
                             <constraint firstItem="hXp-i7-Psa" firstAttribute="leading" secondItem="OrU-yB-3r9" secondAttribute="leading" constant="8" id="dTj-33-Hcg"/>
                             <constraint firstItem="xwU-L7-nMK" firstAttribute="height" secondItem="QmA-ae-1gg" secondAttribute="height" multiplier="1.31429" id="dpk-bO-rnF"/>
-                            <constraint firstItem="YQC-n5-W4D" firstAttribute="leading" secondItem="OrU-yB-3r9" secondAttribute="leading" id="pB7-xH-Zxw"/>
-                            <constraint firstItem="YQC-n5-W4D" firstAttribute="bottom" secondItem="OrU-yB-3r9" secondAttribute="bottom" id="psx-k8-FLf"/>
                             <constraint firstItem="xwU-L7-nMK" firstAttribute="width" secondItem="QmA-ae-1gg" secondAttribute="width" multiplier="1.375" id="rmZ-Gq-fVX"/>
                             <constraint firstItem="OrU-yB-3r9" firstAttribute="trailing" secondItem="QwW-y5-cV7" secondAttribute="trailing" constant="20" id="ro0-es-sD2"/>
                             <constraint firstItem="xwU-L7-nMK" firstAttribute="centerX" secondItem="QmA-ae-1gg" secondAttribute="centerX" id="ydV-dh-XTI"/>
@@ -271,11 +263,10 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Lidar" image="lidar" selectedImage="lidar" id="ftM-ai-OrN"/>
                     <connections>
-                        <outlet property="arscnView" destination="YQC-n5-W4D" id="NDF-4b-SL6"/>
                         <outlet property="buttonsBottomStackView" destination="hXp-i7-Psa" id="pHJ-sw-fL4"/>
                         <outlet property="buttonsTopStackView" destination="QwW-y5-cV7" id="1Hn-ay-aAh"/>
                         <outlet property="colorPickerCollectionView" destination="WcV-0x-Etj" id="3UC-gq-Hfh"/>
-                        <outlet property="planerMeshesCountLabel" destination="mZh-9D-NkW" id="OSi-0S-AzA"/>
+                        <outlet property="planarMeshesCountLabel" destination="mZh-9D-NkW" id="OSi-0S-AzA"/>
                         <outlet property="showUIButton" destination="xwU-L7-nMK" id="rqx-Xe-XSo"/>
                         <outlet property="texturePickerCollectionView" destination="10l-IV-tK6" id="nZf-8M-Zjc"/>
                         <outletCollection property="touchModeButtons" destination="irg-Ts-LWd" collectionClass="NSMutableArray" id="3dt-yb-ove"/>
@@ -296,9 +287,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XnV-f8-3oS">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
-                            </arscnView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a4I-ba-WvC" customClass="PaintyButton" customModule="Painty" customModuleProvider="target">
                                 <rect key="frame" x="270" y="57" width="69" height="60"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.15349458969999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -606,24 +594,18 @@
                         <constraints>
                             <constraint firstItem="1Ug-ug-VNZ" firstAttribute="top" secondItem="5UT-Ch-R6M" secondAttribute="top" constant="20" id="1jg-dI-T1u"/>
                             <constraint firstItem="a4I-ba-WvC" firstAttribute="width" secondItem="W3t-3S-RZf" secondAttribute="width" multiplier="1.375" id="5Tj-Bo-rGT"/>
-                            <constraint firstItem="XnV-f8-3oS" firstAttribute="trailing" secondItem="5UT-Ch-R6M" secondAttribute="trailing" id="5h4-qy-f2N"/>
                             <constraint firstItem="a4I-ba-WvC" firstAttribute="height" secondItem="W3t-3S-RZf" secondAttribute="height" multiplier="1.31429" id="6Gt-GK-dDU"/>
                             <constraint firstItem="a4I-ba-WvC" firstAttribute="centerY" secondItem="W3t-3S-RZf" secondAttribute="centerY" id="8O9-fc-xJ9"/>
-                            <constraint firstItem="XnV-f8-3oS" firstAttribute="leading" secondItem="5UT-Ch-R6M" secondAttribute="leading" id="AS9-3C-Mnh"/>
-                            <constraint firstItem="1Ug-ug-VNZ" firstAttribute="centerX" secondItem="XnV-f8-3oS" secondAttribute="centerX" id="Nme-Xq-1oD"/>
                             <constraint firstItem="5UT-Ch-R6M" firstAttribute="trailing" secondItem="1Ug-ug-VNZ" secondAttribute="trailing" constant="20" id="OKh-dx-Omv"/>
                             <constraint firstItem="5UT-Ch-R6M" firstAttribute="trailing" secondItem="XiM-by-m6v" secondAttribute="trailing" constant="8" id="Vsp-ZQ-KMJ"/>
                             <constraint firstItem="1Ug-ug-VNZ" firstAttribute="leading" secondItem="5UT-Ch-R6M" secondAttribute="leading" constant="20" id="WLy-GU-TWy"/>
                             <constraint firstItem="a4I-ba-WvC" firstAttribute="centerX" secondItem="W3t-3S-RZf" secondAttribute="centerX" id="dtn-Im-2Ie"/>
-                            <constraint firstItem="XnV-f8-3oS" firstAttribute="top" secondItem="fxt-wu-pCb" secondAttribute="top" id="f5b-1X-ZFf"/>
                             <constraint firstItem="5UT-Ch-R6M" firstAttribute="bottom" secondItem="XiM-by-m6v" secondAttribute="bottom" constant="15" id="h5B-50-u7x"/>
                             <constraint firstItem="XiM-by-m6v" firstAttribute="leading" secondItem="5UT-Ch-R6M" secondAttribute="leading" constant="8" id="lrj-3e-HHd"/>
-                            <constraint firstItem="XnV-f8-3oS" firstAttribute="bottom" secondItem="5UT-Ch-R6M" secondAttribute="bottom" id="oDN-S3-YOn"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Legacy" image="legacy" selectedImage="legacy" id="dlO-yD-RfW"/>
                     <connections>
-                        <outlet property="arscnView" destination="XnV-f8-3oS" id="gTe-sc-PDZ"/>
                         <outlet property="buttonsBottomStackView" destination="XiM-by-m6v" id="bho-hd-fMc"/>
                         <outlet property="buttonsTopStackView" destination="1Ug-ug-VNZ" id="j9j-92-7sV"/>
                         <outlet property="colorPickerCollectionView" destination="rxu-Lm-a5G" id="cak-lg-A8M"/>
@@ -650,9 +632,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tVc-ln-c7i">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
-                            </arscnView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i4x-bp-VTq" customClass="PaintyButton" customModule="Painty" customModuleProvider="target">
                                 <rect key="frame" x="309" y="44" width="55" height="46"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.15349458969999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -977,7 +956,6 @@
                         <viewLayoutGuide key="safeArea" id="C9u-2I-hEt"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="tVc-ln-c7i" firstAttribute="leading" secondItem="C9u-2I-hEt" secondAttribute="leading" id="4mb-BK-q9G"/>
                             <constraint firstItem="i4x-bp-VTq" firstAttribute="width" secondItem="HZW-2e-zAv" secondAttribute="width" id="5uG-TH-1qT"/>
                             <constraint firstItem="CzT-A5-Idl" firstAttribute="top" secondItem="C9u-2I-hEt" secondAttribute="top" id="7os-R0-cjP"/>
                             <constraint firstItem="2fu-og-6uL" firstAttribute="leading" secondItem="C9u-2I-hEt" secondAttribute="leading" id="Idk-zc-zRU"/>
@@ -988,14 +966,10 @@
                             <constraint firstItem="i4x-bp-VTq" firstAttribute="centerX" secondItem="HZW-2e-zAv" secondAttribute="centerX" id="aUy-Vo-tc7"/>
                             <constraint firstItem="CzT-A5-Idl" firstAttribute="leading" secondItem="C9u-2I-hEt" secondAttribute="leading" id="dx1-cv-biZ"/>
                             <constraint firstItem="C9u-2I-hEt" firstAttribute="bottom" secondItem="2fu-og-6uL" secondAttribute="bottom" id="hqN-lA-uGH"/>
-                            <constraint firstItem="tVc-ln-c7i" firstAttribute="bottom" secondItem="C9u-2I-hEt" secondAttribute="bottom" id="n5z-gt-sDS"/>
-                            <constraint firstItem="tVc-ln-c7i" firstAttribute="trailing" secondItem="C9u-2I-hEt" secondAttribute="trailing" id="x1T-0U-1Ji"/>
-                            <constraint firstItem="tVc-ln-c7i" firstAttribute="top" secondItem="gz2-De-uCD" secondAttribute="top" id="yqL-LB-EgR"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Floorplan" image="floorplan" selectedImage="floorplan" id="eEX-UY-fkh"/>
                     <connections>
-                        <outlet property="arscnView" destination="tVc-ln-c7i" id="HWH-ps-eBr"/>
                         <outlet property="buttonsBottomStackView" destination="2fu-og-6uL" id="rdc-GG-dyS"/>
                         <outlet property="buttonsTopStackView" destination="CzT-A5-Idl" id="5LV-3S-wmY"/>
                         <outlet property="colorPickerCollectionView" destination="f5f-nq-mnp" id="xjC-fJ-Xl8"/>
@@ -1021,9 +995,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dGj-5j-sP5">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
-                            </arscnView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SOb-RA-ZBI" customClass="PaintyButton" customModule="Painty" customModuleProvider="target">
                                 <rect key="frame" x="247" y="64" width="50" height="46"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.15349458969999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1232,18 +1203,13 @@
                             <constraint firstItem="SOb-RA-ZBI" firstAttribute="width" secondItem="3s6-MZ-TGq" secondAttribute="width" id="SHf-kC-REo"/>
                             <constraint firstItem="SOb-RA-ZBI" firstAttribute="centerY" secondItem="3s6-MZ-TGq" secondAttribute="centerY" id="fo9-pw-JXg"/>
                             <constraint firstItem="qQI-Ch-1z3" firstAttribute="top" secondItem="Df3-J7-uPV" secondAttribute="top" constant="20" id="lDJ-8m-xFL"/>
-                            <constraint firstItem="dGj-5j-sP5" firstAttribute="bottom" secondItem="Df3-J7-uPV" secondAttribute="bottom" id="rNL-8D-WTC"/>
                             <constraint firstItem="qQI-Ch-1z3" firstAttribute="leading" secondItem="Df3-J7-uPV" secondAttribute="leading" constant="20" id="rdt-He-D4t"/>
                             <constraint firstItem="vYv-z4-hZJ" firstAttribute="leading" secondItem="Df3-J7-uPV" secondAttribute="leading" id="t8A-58-jOI"/>
                             <constraint firstItem="Df3-J7-uPV" firstAttribute="bottom" secondItem="vYv-z4-hZJ" secondAttribute="bottom" id="tOL-j5-EQy"/>
-                            <constraint firstItem="dGj-5j-sP5" firstAttribute="top" secondItem="Axa-Ak-lXJ" secondAttribute="top" id="v4S-2V-qHm"/>
-                            <constraint firstItem="dGj-5j-sP5" firstAttribute="leading" secondItem="Df3-J7-uPV" secondAttribute="leading" id="ytK-Vg-TJU"/>
-                            <constraint firstItem="dGj-5j-sP5" firstAttribute="trailing" secondItem="Df3-J7-uPV" secondAttribute="trailing" id="zJT-5E-Twj"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Shader" image="shaderPaint" selectedImage="shaderPaint" id="vxs-qd-EqI"/>
                     <connections>
-                        <outlet property="arscnView" destination="dGj-5j-sP5" id="QTA-Qo-Mkz"/>
                         <outlet property="buttonsBottomStackView" destination="vYv-z4-hZJ" id="uqW-fE-Y1W"/>
                         <outlet property="buttonsTopStackView" destination="qQI-Ch-1z3" id="r31-CE-N8a"/>
                         <outlet property="colorPickerCollectionView" destination="zIZ-MR-lGA" id="yHa-HA-2s6"/>
@@ -1267,9 +1233,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UC0-jR-ZlD">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
-                            </arscnView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Idz-gv-aoQ" customClass="PaintyButton" customModule="Painty" customModuleProvider="target">
                                 <rect key="frame" x="247" y="64" width="50" height="46"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.15349458969999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1414,15 +1377,11 @@
                         <constraints>
                             <constraint firstItem="hFS-MV-4xX" firstAttribute="trailing" secondItem="TEe-U4-ToF" secondAttribute="trailing" id="3qw-K7-V6P"/>
                             <constraint firstItem="Idz-gv-aoQ" firstAttribute="height" secondItem="aIJ-2r-B4j" secondAttribute="height" id="4VK-F9-SCB"/>
-                            <constraint firstItem="UC0-jR-ZlD" firstAttribute="bottom" secondItem="hFS-MV-4xX" secondAttribute="bottom" id="7GU-6f-WmI"/>
                             <constraint firstItem="TEe-U4-ToF" firstAttribute="leading" secondItem="hFS-MV-4xX" secondAttribute="leading" id="d8T-0y-Q2f"/>
                             <constraint firstItem="amT-3V-S6d" firstAttribute="top" secondItem="hFS-MV-4xX" secondAttribute="top" constant="20" id="gOC-4t-rbj"/>
                             <constraint firstItem="Idz-gv-aoQ" firstAttribute="centerX" secondItem="aIJ-2r-B4j" secondAttribute="centerX" id="iFi-Ie-OcP"/>
-                            <constraint firstItem="UC0-jR-ZlD" firstAttribute="top" secondItem="h0C-5R-3Cw" secondAttribute="top" id="kU1-TO-mU3"/>
                             <constraint firstItem="hFS-MV-4xX" firstAttribute="trailing" secondItem="amT-3V-S6d" secondAttribute="trailing" constant="20" id="mw0-FD-Lcu"/>
-                            <constraint firstItem="UC0-jR-ZlD" firstAttribute="leading" secondItem="hFS-MV-4xX" secondAttribute="leading" id="nL1-0s-as3"/>
                             <constraint firstItem="Idz-gv-aoQ" firstAttribute="width" secondItem="aIJ-2r-B4j" secondAttribute="width" id="pDD-pL-u0W"/>
-                            <constraint firstItem="UC0-jR-ZlD" firstAttribute="trailing" secondItem="hFS-MV-4xX" secondAttribute="trailing" id="r0e-NE-KiR"/>
                             <constraint firstItem="Idz-gv-aoQ" firstAttribute="centerY" secondItem="aIJ-2r-B4j" secondAttribute="centerY" id="sIO-cX-xoA"/>
                             <constraint firstItem="amT-3V-S6d" firstAttribute="leading" secondItem="hFS-MV-4xX" secondAttribute="leading" constant="20" id="tvj-MO-NyE"/>
                             <constraint firstItem="hFS-MV-4xX" firstAttribute="bottom" secondItem="TEe-U4-ToF" secondAttribute="bottom" constant="20" id="xU9-WH-ohR"/>
@@ -1430,7 +1389,6 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Defects" image="defects" selectedImage="defects" id="Cei-6u-fbZ"/>
                     <connections>
-                        <outlet property="arscnView" destination="UC0-jR-ZlD" id="w0B-ox-Hqw"/>
                         <outlet property="buttonsBottomStackView" destination="TEe-U4-ToF" id="yOn-Qp-qnB"/>
                         <outlet property="buttonsTopStackView" destination="amT-3V-S6d" id="9Qy-O8-uMH"/>
                         <outlet property="showUIButton" destination="Idz-gv-aoQ" id="gzB-Hz-El4"/>

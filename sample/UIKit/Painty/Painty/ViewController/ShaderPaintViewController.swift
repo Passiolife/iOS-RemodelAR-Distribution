@@ -12,7 +12,6 @@ import ARKit
 final class ShaderPaintViewController: UIViewController {
     
     //MARK: @IBOutlets
-    @IBOutlet weak private var arscnView: ARSCNView!
     @IBOutlet weak private var buttonsTopStackView: UIStackView!
     @IBOutlet weak private var buttonsBottomStackView: UIStackView!
     @IBOutlet weak private var colorPickerCollectionView: ColorPickerCollectionView!
@@ -21,9 +20,8 @@ final class ShaderPaintViewController: UIViewController {
     @IBOutlet weak var showUIButton: PaintyButton!
     
     //MARK: Properties
-    private lazy var arController: ARController = {
-        RemodelARLib.makeShaderARController(with: arscnView)
-    }()
+    private var arscnView: ARSCNView?
+    private var arController: ARController?
     
     private var showUI = true {
         didSet {
@@ -35,62 +33,100 @@ final class ShaderPaintViewController: UIViewController {
     }
     
     //MARK: View Lifecycle methods
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        configureUI()
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        arController.startScene(reset: true)
+        configureView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        arController.pauseScene()
+        unconfigureView()
     }
 }
 
 //MARK: - Configure UI
 extension ShaderPaintViewController {
-    private func configureUI() {
+    private func configureView() {
         createARView()
-        
+        configureBindings()
         thresoldSlider.value = 10
+        arController?.startScene(reset: true)
+    }
+    
+    private func unconfigureView() {
+        colorPickerCollectionView.arController = nil
+        arController = nil
+        arscnView?.removeFromSuperview()
+        arscnView = nil
     }
 }
 
 //MARK: - Create and configure ARView
 extension ShaderPaintViewController {
     private func createARView() {
+        addAndConfigureARViews()
         addGestureOnARView()
         
-        arController.setColor(paint: ColorPicker.colors[0].color)
+        arController?.setColor(paint: ColorPicker.colors[0].color)
         
         // ["Average", "Dark", "Light", "Brightness"]
-        arController.setTouchMode(mode: TouchMode(rawValue: 3)!)
+        arController?.setTouchMode(mode: TouchMode(rawValue: 3)!)
         
         colorPickerCollectionView.colorPicker = ColorPicker.colors
         colorPickerCollectionView.arController = arController
     }
     
+    private func addAndConfigureARViews() {
+        arscnView = ARSCNView()
+        guard let arscnView = arscnView
+        else { return }
+        
+        view.addSubview(arscnView)
+        view.sendSubviewToBack(arscnView)
+        arscnView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            arscnView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                                               constant: 0),
+            arscnView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
+                                           constant: 0),
+            arscnView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                                                constant: 0),
+            arscnView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                                              constant: 0)
+        ])
+        
+        arController = RemodelARLib.makeShaderARController(with: arscnView)
+    }
+    
+    private func configureBindings() {
+        arController?.cameraAimInfoUpdated = { cameraAimInfo in
+            guard let cameraAimInfo = cameraAimInfo
+            else { return }
+            
+            print("cameraAim: \(cameraAimInfo.angle), \(cameraAimInfo.surfaceType)")
+        }
+        arController?.trackingReady = { isReady in
+            print("Tracking Ready: \(isReady ? "true" : "false")")
+        }
+    }
+    
     private func addGestureOnARView() {
         let dragGesture = UIPanGestureRecognizer(target: self, action: #selector(onDraggingARView(_:)))
-        arscnView.isUserInteractionEnabled = true
-        arscnView.addGestureRecognizer(dragGesture)
+        arscnView?.isUserInteractionEnabled = true
+        arscnView?.addGestureRecognizer(dragGesture)
     }
     
     @objc private func onDraggingARView(_ sender: UIPanGestureRecognizer) {
         switch sender.state {
         case .changed:
-            arController.dragStart(point: sender.location(in: arscnView))
-            arController.dragMove(point: sender.location(in: arscnView))
+            arController?.dragStart(point: sender.location(in: arscnView))
+            arController?.dragMove(point: sender.location(in: arscnView))
             
         case .ended:
-            arController.dragEnd()
+            arController?.dragEnd()
             
         default:
             break
@@ -107,38 +143,40 @@ extension ShaderPaintViewController {
 //MARK: - @IBActions
 extension ShaderPaintViewController {
     @IBAction func onThresholdSliderChanged(_ sender: UISlider) {
-        arController.setColorThreshold(threshold: sender.value)
+        arController?.setColorThreshold(threshold: sender.value)
     }
     
     @IBAction func onSaveToCameraTapped(_ sender: PaintyButton) {
-        let photo = arController.savePhoto()
+        guard let photo = arController?.savePhoto()
+        else { return }
+        
         let activityViewController = UIActivityViewController(activityItems: [photo],
                                                               applicationActivities: nil)
         present(activityViewController, animated: true, completion: nil)
     }
     
     @IBAction func onColor1Tapped(_ sender: PaintyButton) {
-        arController.setTouchMode(mode: .lightColor)
+        arController?.setTouchMode(mode: .color1)
         updateHighlightedButton(sender: sender)
     }
     
     @IBAction func onColor2Tapped(_ sender: PaintyButton) {
-        arController.setTouchMode(mode: .averageColor)
+        arController?.setTouchMode(mode: .color2)
         updateHighlightedButton(sender: sender)
     }
     
     @IBAction func onColor3Tapped(_ sender: PaintyButton) {
-        arController.setTouchMode(mode: .darkColor)
+        arController?.setTouchMode(mode: .color3)
         updateHighlightedButton(sender: sender)
     }
     
     @IBAction func onARPickerTapped(_ sender: PaintyButton) {
-        arController.setTouchMode(mode: .brightness)
+        arController?.setTouchMode(mode: .brightness)
         updateHighlightedButton(sender: sender)
     }
     
     @IBAction func onResetTapped(_ sender: PaintyButton) {
-        arController.resetScene()
+        arController?.resetScene()
     }
     
     @IBAction func onToggleUITapped(_ sender: PaintyButton) {
@@ -157,6 +195,6 @@ extension ShaderPaintViewController {
         else { return }
         
         let point = touch.location(in: arscnView)
-        arController.handleTouch(point: point)
+        arController?.handleTouch(point: point)
     }
 }

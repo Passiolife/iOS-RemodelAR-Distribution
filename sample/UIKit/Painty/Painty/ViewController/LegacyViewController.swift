@@ -12,7 +12,6 @@ import RemodelAR
 final class LegacyViewController: UIViewController {
     
     //MARK: @IBOutlets
-    @IBOutlet weak private var arscnView: ARSCNView!
     @IBOutlet weak private var buttonsTopStackView: UIStackView!
     @IBOutlet weak private var buttonsBottomStackView: UIStackView!
     @IBOutlet weak private var placeWallStateLabel: UILabel!
@@ -24,9 +23,8 @@ final class LegacyViewController: UIViewController {
     @IBOutlet weak var showUIButton: PaintyButton!
     
     //MARK: Properties
-    private lazy var arController: ARController = {
-        RemodelARLib.makeLegacyARController(with: arscnView)
-    }()
+    private var arscnView: ARSCNView?
+    private var arController: ARController?
     
     private var showUI = true {
         didSet {
@@ -38,39 +36,44 @@ final class LegacyViewController: UIViewController {
     }
     
     //MARK: View Lifecycle methods
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        configureUI()
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        arController.startScene(reset: true)
+        configureView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        arController.pauseScene()
+        unconfigureView()
     }
 }
 
 //MARK: - Configure UI
 extension LegacyViewController {
-    private func configureUI() {
+    private func configureView() {
         createARView()
         updateARLabelStatus()
+        configureBindings()
+        arController?.startScene(reset: true)
+    }
+    
+    private func unconfigureView() {
+        texturePickerCollectionView.arController = nil
+        colorPickerCollectionView.arController = nil
+        arController = nil
+        arscnView?.removeFromSuperview()
+        arscnView = nil
     }
 }
 
 //MARK: - Create and configure ARView
 extension LegacyViewController {
     private func createARView() {
+        addAndConfigureARViews()
         addGestureOnARView()
         
-        arController.setColor(paint: ColorPicker.colors[0].color)
+        arController?.setColor(paint: ColorPicker.colors[0].color)
         
         colorPickerCollectionView.colorPicker = ColorPicker.colors
         colorPickerCollectionView.arController = arController
@@ -79,20 +82,67 @@ extension LegacyViewController {
         texturePickerCollectionView.arController = arController
     }
     
+    private func addAndConfigureARViews() {
+        arscnView = ARSCNView()
+        guard let arscnView = arscnView
+        else { return }
+        
+        view.addSubview(arscnView)
+        view.sendSubviewToBack(arscnView)
+        arscnView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            arscnView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                                               constant: 0),
+            arscnView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
+                                           constant: 0),
+            arscnView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                                                constant: 0),
+            arscnView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                                              constant: 0)
+        ])
+        
+        arController = RemodelARLib.makeLegacyARController(with: arscnView)
+    }
+    
+    private func configureBindings() {
+        arController?.cameraAimInfoUpdated = { cameraAimInfo in
+            guard let cameraAimInfo = cameraAimInfo
+            else { return }
+            
+            print("cameraAim: \(cameraAimInfo.angle), \(cameraAimInfo.surfaceType)")
+        }
+        arController?.wallPainted = {
+            print("a wall was painted!")
+        }
+        arController?.wallStateUpdated = { wallState in
+            print("Wall State: \(wallState)")
+        }
+        arController?.placeWallStateUpdated = { placeWallState in
+            print("Place Wall State: \(placeWallState)")
+        }
+        arController?.trackingReady = { isReady in
+            print("Tracking Ready: \(isReady ? "true" : "false")")
+        }
+    }
+    
     private func addGestureOnARView() {
         let dragGesture = UIPanGestureRecognizer(target: self, action: #selector(onDraggingARView(_:)))
-        arscnView.isUserInteractionEnabled = true
-        arscnView.addGestureRecognizer(dragGesture)
+        arscnView?.isUserInteractionEnabled = true
+        arscnView?.addGestureRecognizer(dragGesture)
     }
     
     @objc private func onDraggingARView(_ sender: UIPanGestureRecognizer) {
+        guard let arscnView = arscnView
+        else { return }
+        
         switch sender.state {
         case .changed:
-            arController.dragStart(point: sender.location(in: arscnView))
-            arController.dragMove(point: sender.location(in: arscnView))
+            arController?.dragStart(point: sender.location(in: arscnView))
+            arController?.dragMove(point: sender.location(in: arscnView))
             
         case .ended:
-            arController.dragEnd()
+            arController?.dragEnd()
             
         default:
             break
@@ -100,13 +150,13 @@ extension LegacyViewController {
     }
     
     private func updateARLabelStatus() {
-        arController.trackingReady = { [weak self] isReadyForTracking in
+        arController?.trackingReady = { [weak self] isReadyForTracking in
             DispatchQueue.main.async {
                 self?.trackingLabel.text = "Tracking Ready: \(isReadyForTracking ? "On" : "Off")"
             }
         }
         
-        arController.wallStateUpdated = { [weak self] wallState in
+        arController?.wallStateUpdated = { [weak self] wallState in
             DispatchQueue.main.async {
                 switch wallState {
                 case .idle:
@@ -121,7 +171,7 @@ extension LegacyViewController {
             }
         }
         
-        arController.placeWallStateUpdated = { [weak self] placeWallState in
+        arController?.placeWallStateUpdated = { [weak self] placeWallState in
             DispatchQueue.main.async {
                 switch placeWallState {
                 case .placingBasePlane:
@@ -153,31 +203,31 @@ extension LegacyViewController {
 //MARK: - IBActions
 extension LegacyViewController {
     @IBAction func onThresholdSliderChanged(_ sender: UISlider) {
-        arController.setColorThreshold(threshold: sender.value)
+        arController?.setColorThreshold(threshold: sender.value)
     }
     
     @IBAction func onSetFirstPointTapped(_ sender: UIButton) {
-        arController.setSecondCorner()
+        arController?.setSecondCorner()
     }
     
     @IBAction func onSetSecondPointTapped(_ sender: UIButton) {
-        arController.setFirstCorner()
+        arController?.setFirstCorner()
     }
     
     @IBAction func onUpdatePlaneTapped(_ sender: UIButton) {
-        arController.updateWallBasePlane()
+        arController?.updateWallBasePlane()
     }
     
     @IBAction func onPlacePlaneTapped(_ sender: UIButton) {
-        arController.placeWallBasePlane()
+        arController?.placeWallBasePlane()
     }
     
     @IBAction func onCancelTapped(_ sender: UIButton) {
-        arController.endAddWall()
+        arController?.endAddWall()
     }
     
     @IBAction func onResetTapped(_ sender: UIButton) {
-        arController.resetScene()
+        arController?.resetScene()
     }
     
     @IBAction func onToggleUITapped(_ sender: PaintyButton) {
@@ -189,35 +239,42 @@ extension LegacyViewController {
     }
     
     @IBAction func onColor1Tapped(_ sender: PaintyButton) {
-        arController.setTouchMode(mode: .lightColor)
+        arController?.setTouchMode(mode: .color1)
         updateHighlightedButton(sender: sender)
     }
     
     @IBAction func onColor2Tapped(_ sender: PaintyButton) {
-        arController.setTouchMode(mode: .averageColor)
+        arController?.setTouchMode(mode: .color2)
         updateHighlightedButton(sender: sender)
     }
     
     @IBAction func onColor3Tapped(_ sender: PaintyButton) {
-        arController.setTouchMode(mode: .darkColor)
+        arController?.setTouchMode(mode: .color3)
         updateHighlightedButton(sender: sender)
     }
     
     @IBAction func onARPickerTapped(_ sender: PaintyButton) {
-        arController.setTouchMode(mode: .brightness)
+        arController?.setTouchMode(mode: .brightness)
         updateHighlightedButton(sender: sender)
     }
     
     @IBAction func onSavePhotoTapped(_ sender: PaintyButton) {
-        let photo = arController.savePhoto()
+        guard let photo = arController?.savePhoto()
+        else { return }
+        
         let activityViewController = UIActivityViewController(activityItems: [photo],
                                                               applicationActivities: nil)
         present(activityViewController, animated: true, completion: nil)
     }
     
     @IBAction func onGetPaintInfoTapped(_ sender: PaintyButton) {
-        let paintInfo = arController.retrievePaintInfo()
-        print("Paint Info:- ,", paintInfo as Any)
+        guard let paintInfo = arController?.retrievePaintInfo()
+        else { return }
+        
+        print("Paint Info:")
+        for wall in paintInfo.paintedWalls {
+            print("\(wall.id): \(wall.area.width)x\(wall.area.height), \(wall.paint.color.printUInt)")
+        }
     }
 }
 
@@ -229,6 +286,6 @@ extension LegacyViewController {
         else { return }
         
         let point = touch.location(in: arscnView)
-        arController.handleTouch(point: point)
+        arController?.handleTouch(point: point)
     }
 }
