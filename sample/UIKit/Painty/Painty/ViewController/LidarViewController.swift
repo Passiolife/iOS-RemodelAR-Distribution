@@ -1,28 +1,29 @@
 //
-//  ShaderPaintViewController.swift
+//  LidarViewController.swift
 //  Painty
 //
 //  Copyright © 2022 Passio Inc. All rights reserved.
 //
 
 import UIKit
-import RemodelAR
 import ARKit
+import RemodelAR
 
-final class ShaderPaintViewController: UIViewController {
+final class LidarViewController: UIViewController {
     
     //MARK: @IBOutlets
     @IBOutlet weak private var arscnView: ARSCNView!
     @IBOutlet weak private var buttonsTopStackView: UIStackView!
     @IBOutlet weak private var buttonsBottomStackView: UIStackView!
-    @IBOutlet weak private var colorPickerCollectionView: ColorPickerCollectionView!
-    @IBOutlet weak private var thresoldSlider: UISlider!
+    @IBOutlet weak private var planerMeshesCountLabel: UILabel!
     @IBOutlet private var touchModeButtons: [PaintyButton]!
+    @IBOutlet weak private var texturePickerCollectionView: TexturePickerCollectionView!
+    @IBOutlet weak private var colorPickerCollectionView: ColorPickerCollectionView!
     @IBOutlet weak var showUIButton: PaintyButton!
     
     //MARK: Properties
     private lazy var arController: ARController = {
-        RemodelARLib.makeShaderARController(with: arscnView)
+        RemodelARLib.makeLidarARController(with: arscnView)
     }()
     
     private var showUI = true {
@@ -34,16 +35,17 @@ final class ShaderPaintViewController: UIViewController {
         }
     }
     
-    //MARK: View Lifecycle methods
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        configureUI()
+    private var isLidarScanning = true {
+        didSet {
+            let scanMode: ScanMode = isLidarScanning ? .scanning : .paused
+            arController.setScanMode(scanMode: scanMode)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        configureLidarView()
         arController.startScene(reset: true)
     }
     
@@ -54,27 +56,31 @@ final class ShaderPaintViewController: UIViewController {
     }
 }
 
-//MARK: - Configure UI
-extension ShaderPaintViewController {
-    private func configureUI() {
-        createARView()
-        
-        thresoldSlider.value = 10
-    }
-}
-
 //MARK: - Create and configure ARView
-extension ShaderPaintViewController {
-    private func createARView() {
-        addGestureOnARView()
-        
-        arController.setColor(paint: ColorPicker.colors[0].color)
-        
-        // ["Average", "Dark", "Light", "Brightness"]
-        arController.setTouchMode(mode: TouchMode(rawValue: 3)!)
-        
-        colorPickerCollectionView.colorPicker = ColorPicker.colors
-        colorPickerCollectionView.arController = arController
+extension LidarViewController {
+    private func configureLidarView() {
+        if !ARWorldTrackingConfiguration.supportsSceneReconstruction(.mesh) {
+            
+            showAlert(title: "Unsupported Device", message: "Your device does not support Lidar. Please use a device that supports Lidar.")
+            buttonsTopStackView.isHidden = true
+            buttonsBottomStackView.isHidden = true
+            planerMeshesCountLabel.isHidden = true
+            
+        } else {
+            addGestureOnARView()
+            
+            arController.planarMeshCountUpdated = { [weak self] meshCount in
+                DispatchQueue.main.async {
+                    self?.planerMeshesCountLabel.text = "Planar Meshes: \(meshCount)"
+                }
+            }
+            
+            texturePickerCollectionView.texturePicker = TexturePicker.textures
+            texturePickerCollectionView.arController = arController
+            
+            colorPickerCollectionView.colorPicker = ColorPicker.colors
+            colorPickerCollectionView.arController = arController
+        }
     }
     
     private func addGestureOnARView() {
@@ -105,16 +111,45 @@ extension ShaderPaintViewController {
 }
 
 //MARK: - @IBActions
-extension ShaderPaintViewController {
+extension LidarViewController {
     @IBAction func onThresholdSliderChanged(_ sender: UISlider) {
         arController.setColorThreshold(threshold: sender.value)
     }
     
-    @IBAction func onSaveToCameraTapped(_ sender: PaintyButton) {
+    @IBAction func onSavePhotoTapped(_ sender: PaintyButton) {
         let photo = arController.savePhoto()
         let activityViewController = UIActivityViewController(activityItems: [photo],
                                                               applicationActivities: nil)
         present(activityViewController, animated: true, completion: nil)
+    }
+    
+    @IBAction func onSave3DMeshTapped(_ sender: PaintyButton) {
+        arController.save3DModel()
+        let filename = FileManager.documentsFolder.appendingPathComponent("Mesh.usdz")
+        if FileManager.default.fileExists(atPath: filename.path) {
+            let activityViewController = UIActivityViewController(
+                activityItems: [filename],
+                applicationActivities: nil
+            )
+            present(activityViewController, animated: true, completion: nil)
+        }
+    }
+    
+    @IBAction func onResetTapped(_ sender: PaintyButton) {
+        arController.resetScene()
+    }
+    
+    @IBAction func onGetPaintInfoTapped(_ sender: PaintyButton) {
+        let paintInfo = arController.retrievePaintInfo()
+        print("Paint Info:- ,", paintInfo as Any)
+    }
+    
+    @IBAction func onToggleUITapped(_ sender: PaintyButton) {
+        showUI.toggle()
+    }
+    
+    @IBAction func showUITapped(_ sender: PaintyButton) {
+        showUI = true
     }
     
     @IBAction func onColor1Tapped(_ sender: PaintyButton) {
@@ -137,21 +172,13 @@ extension ShaderPaintViewController {
         updateHighlightedButton(sender: sender)
     }
     
-    @IBAction func onResetTapped(_ sender: PaintyButton) {
-        arController.resetScene()
-    }
-    
-    @IBAction func onToggleUITapped(_ sender: PaintyButton) {
-        showUI.toggle()
-    }
-    
-    @IBAction func showUITapped(_ sender: PaintyButton) {
-        showUI = true
+    @IBAction func onPauseLidarTapped(_ sender: PaintyButton) {
+        isLidarScanning.toggle()
     }
 }
 
 //MARK: - Touches
-extension ShaderPaintViewController {
+extension LidarViewController {
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first
         else { return }

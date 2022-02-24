@@ -1,8 +1,8 @@
 //
 //  ColorPickerCollectionView.swift
-//  iOS-AR-Remodel-Module-UIKit
+//  Painty
 //
-//  Created by Nikunj on 03/12/21.
+//  Copyright © 2022 Passio Inc. All rights reserved.
 //
 
 import UIKit

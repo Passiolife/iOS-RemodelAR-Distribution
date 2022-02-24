@@ -1,14 +1,13 @@
 //
 //  ColorPickerCell.swift
-//  iOS-AR-Remodel-Module-UIKit
+//  Painty
 //
-//  Created by Nikunj on 03/12/21.
+//  Copyright © 2022 Passio Inc. All rights reserved.
 //
 
 import UIKit
 
 final class ColorPickerCell: UICollectionViewCell {
-    
     @IBOutlet weak var colorView: UIView!
     
     override func awakeFromNib() {
@@ -20,7 +19,6 @@ final class ColorPickerCell: UICollectionViewCell {
 
 //MARK: - Configure
 extension ColorPickerCell {
-    
     func configureCell(color: UIColor, indexPath: Int, selectedIndexPath: Int) {
         
         colorView.backgroundColor = color

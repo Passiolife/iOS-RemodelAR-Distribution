@@ -1,8 +1,8 @@
 //
 //  TexturePickerCollectionView.swift
-//  iOS-AR-Remodel-Module-UIKit
+//  Painty
 //
-//  Created by mac-0002 on 06/12/21.
+//  Copyright © 2022 Passio Inc. All rights reserved.
 //
 
 import UIKit

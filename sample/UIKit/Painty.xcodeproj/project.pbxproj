@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		58AD1A9227C6D65900DA0C8B /* FloorplanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AD1A9127C6D65900DA0C8B /* FloorplanViewController.swift */; };
+		58AD1A9427C7003E00DA0C8B /* AbnormalitiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AD1A9327C7003E00DA0C8B /* AbnormalitiesViewController.swift */; };
 		B80057802759D3770021EAC8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B800577F2759D3770021EAC8 /* AppDelegate.swift */; };
 		B80057822759D3770021EAC8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80057812759D3770021EAC8 /* SceneDelegate.swift */; };
 		B80057872759D3770021EAC8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B80057852759D3770021EAC8 /* Main.storyboard */; };
 		B80057892759D3780021EAC8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B80057882759D3780021EAC8 /* Assets.xcassets */; };
 		B800578C2759D3780021EAC8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B800578A2759D3780021EAC8 /* LaunchScreen.storyboard */; };
-		B800579A2759E0740021EAC8 /* LiDARViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80057992759E0740021EAC8 /* LiDARViewController.swift */; };
+		B800579A2759E0740021EAC8 /* LidarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80057992759E0740021EAC8 /* LidarViewController.swift */; };
 		B800579C2759E0A50021EAC8 /* LegacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B800579B2759E0A50021EAC8 /* LegacyViewController.swift */; };
 		B800579E2759E0BD0021EAC8 /* ShaderPaintViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B800579D2759E0BD0021EAC8 /* ShaderPaintViewController.swift */; };
 		B80057A12759E24C0021EAC8 /* ColorPickerCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80057A02759E24C0021EAC8 /* ColorPickerCollectionView.swift */; };
@@ -46,6 +48,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		58AD1A9127C6D65900DA0C8B /* FloorplanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloorplanViewController.swift; sourceTree = "<group>"; };
+		58AD1A9327C7003E00DA0C8B /* AbnormalitiesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbnormalitiesViewController.swift; sourceTree = "<group>"; };
 		B800577C2759D3770021EAC8 /* Painty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Painty.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B800577F2759D3770021EAC8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B80057812759D3770021EAC8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -53,7 +57,7 @@
 		B80057882759D3780021EAC8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B800578B2759D3780021EAC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B800578D2759D3780021EAC8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B80057992759E0740021EAC8 /* LiDARViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiDARViewController.swift; sourceTree = "<group>"; };
+		B80057992759E0740021EAC8 /* LidarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LidarViewController.swift; sourceTree = "<group>"; };
 		B800579B2759E0A50021EAC8 /* LegacyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegacyViewController.swift; sourceTree = "<group>"; };
 		B800579D2759E0BD0021EAC8 /* ShaderPaintViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShaderPaintViewController.swift; sourceTree = "<group>"; };
 		B80057A02759E24C0021EAC8 /* ColorPickerCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerCollectionView.swift; sourceTree = "<group>"; };
@@ -135,9 +139,11 @@
 		B80057952759D3F90021EAC8 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				B80057992759E0740021EAC8 /* LidarViewController.swift */,
 				B800579B2759E0A50021EAC8 /* LegacyViewController.swift */,
-				B80057992759E0740021EAC8 /* LiDARViewController.swift */,
+				58AD1A9127C6D65900DA0C8B /* FloorplanViewController.swift */,
 				B800579D2759E0BD0021EAC8 /* ShaderPaintViewController.swift */,
+				58AD1A9327C7003E00DA0C8B /* AbnormalitiesViewController.swift */,
 				B800579F2759E1630021EAC8 /* CollectionView */,
 			);
 			path = ViewController;
@@ -296,15 +302,17 @@
 				B86296AF275DCCE60035A265 /* TexturePickerCell.swift in Sources */,
 				B80057802759D3770021EAC8 /* AppDelegate.swift in Sources */,
 				B8658BF2275F8AF50068C24D /* PaintyButton.swift in Sources */,
+				58AD1A9227C6D65900DA0C8B /* FloorplanViewController.swift in Sources */,
 				B8F7F404275F81E200CE1909 /* CenterPoint.swift in Sources */,
 				B800579C2759E0A50021EAC8 /* LegacyViewController.swift in Sources */,
 				B80057A12759E24C0021EAC8 /* ColorPickerCollectionView.swift in Sources */,
-				B800579A2759E0740021EAC8 /* LiDARViewController.swift in Sources */,
+				B800579A2759E0740021EAC8 /* LidarViewController.swift in Sources */,
 				B80057822759D3770021EAC8 /* SceneDelegate.swift in Sources */,
 				B80057A52759E3E30021EAC8 /* ColorPickerCell.swift in Sources */,
 				B89F4E02275A0F87000769F6 /* UIView+Extension.swift in Sources */,
 				B86296AC275DCCD00035A265 /* TexturePickerCollectionView.swift in Sources */,
 				B800579E2759E0BD0021EAC8 /* ShaderPaintViewController.swift in Sources */,
+				58AD1A9427C7003E00DA0C8B /* AbnormalitiesViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
