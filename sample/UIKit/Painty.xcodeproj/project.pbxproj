@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		585E558F27C853930003FF49 /* RemodelAR.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 585E558E27C853930003FF49 /* RemodelAR.xcframework */; };
+		585E559027C853930003FF49 /* RemodelAR.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 585E558E27C853930003FF49 /* RemodelAR.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		58AD1A9227C6D65900DA0C8B /* FloorplanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AD1A9127C6D65900DA0C8B /* FloorplanViewController.swift */; };
 		58AD1A9427C7003E00DA0C8B /* AbnormalitiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AD1A9327C7003E00DA0C8B /* AbnormalitiesViewController.swift */; };
 		B80057802759D3770021EAC8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B800577F2759D3770021EAC8 /* AppDelegate.swift */; };
@@ -25,8 +27,6 @@
 		B86296B0275DCCE60035A265 /* TexturePickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B86296AE275DCCE60035A265 /* TexturePickerCell.xib */; };
 		B8658BF2275F8AF50068C24D /* PaintyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89F4E04275A1439000769F6 /* PaintyButton.swift */; };
 		B89F4DF82759F89E000769F6 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89F4DF72759F89E000769F6 /* UIViewController+Extension.swift */; };
-		B89F4DFB2759FEFD000769F6 /* RemodelAR.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = B89F4DFA2759FEFD000769F6 /* RemodelAR.xcframework */; };
-		B89F4DFC2759FEFD000769F6 /* RemodelAR.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B89F4DFA2759FEFD000769F6 /* RemodelAR.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B89F4E002759FF7B000769F6 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89F4DFF2759FF7B000769F6 /* Model.swift */; };
 		B89F4E02275A0F87000769F6 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89F4E01275A0F87000769F6 /* UIView+Extension.swift */; };
 		B8F7F403275F81E200CE1909 /* CenterPoint.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8F7F401275F81E200CE1909 /* CenterPoint.xib */; };
@@ -40,7 +40,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B89F4DFC2759FEFD000769F6 /* RemodelAR.xcframework in Embed Frameworks */,
+				585E559027C853930003FF49 /* RemodelAR.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -48,6 +48,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		585E558E27C853930003FF49 /* RemodelAR.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RemodelAR.xcframework; path = ../Frameworks/RemodelAR.xcframework; sourceTree = "<group>"; };
 		58AD1A9127C6D65900DA0C8B /* FloorplanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloorplanViewController.swift; sourceTree = "<group>"; };
 		58AD1A9327C7003E00DA0C8B /* AbnormalitiesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbnormalitiesViewController.swift; sourceTree = "<group>"; };
 		B800577C2759D3770021EAC8 /* Painty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Painty.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -67,7 +68,6 @@
 		B86296AD275DCCE60035A265 /* TexturePickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexturePickerCell.swift; sourceTree = "<group>"; };
 		B86296AE275DCCE60035A265 /* TexturePickerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TexturePickerCell.xib; sourceTree = "<group>"; };
 		B89F4DF72759F89E000769F6 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
-		B89F4DFA2759FEFD000769F6 /* RemodelAR.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RemodelAR.xcframework; path = ../Frameworks/RemodelAR.xcframework; sourceTree = "<group>"; };
 		B89F4DFF2759FF7B000769F6 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		B89F4E01275A0F87000769F6 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		B89F4E04275A1439000769F6 /* PaintyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintyButton.swift; sourceTree = "<group>"; };
@@ -80,7 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B89F4DFB2759FEFD000769F6 /* RemodelAR.xcframework in Frameworks */,
+				585E558F27C853930003FF49 /* RemodelAR.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,7 +191,7 @@
 		B89F4DF92759FEFD000769F6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B89F4DFA2759FEFD000769F6 /* RemodelAR.xcframework */,
+				585E558E27C853930003FF49 /* RemodelAR.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

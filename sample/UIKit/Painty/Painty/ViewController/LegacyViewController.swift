@@ -36,8 +36,8 @@ final class LegacyViewController: UIViewController {
     }
     
     //MARK: View Lifecycle methods
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         configureView()
     }
@@ -53,7 +53,6 @@ final class LegacyViewController: UIViewController {
 extension LegacyViewController {
     private func configureView() {
         createARView()
-        updateARLabelStatus()
         configureBindings()
         arController?.startScene(reset: true)
     }
@@ -92,14 +91,10 @@ extension LegacyViewController {
         arscnView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            arscnView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                                               constant: 0),
-            arscnView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
-                                           constant: 0),
-            arscnView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                                                constant: 0),
-            arscnView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-                                              constant: 0)
+            arscnView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            arscnView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            arscnView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            arscnView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
         ])
         
         arController = RemodelARLib.makeLegacyARController(with: arscnView)
@@ -110,49 +105,16 @@ extension LegacyViewController {
             guard let cameraAimInfo = cameraAimInfo
             else { return }
             
-            print("cameraAim: \(cameraAimInfo.angle), \(cameraAimInfo.surfaceType)")
+//            print("cameraAim: \(cameraAimInfo.angle), \(cameraAimInfo.surfaceType)")
         }
+        
         arController?.wallPainted = {
             print("a wall was painted!")
         }
-        arController?.wallStateUpdated = { wallState in
-            print("Wall State: \(wallState)")
-        }
-        arController?.placeWallStateUpdated = { placeWallState in
-            print("Place Wall State: \(placeWallState)")
-        }
-        arController?.trackingReady = { isReady in
-            print("Tracking Ready: \(isReady ? "true" : "false")")
-        }
-    }
-    
-    private func addGestureOnARView() {
-        let dragGesture = UIPanGestureRecognizer(target: self, action: #selector(onDraggingARView(_:)))
-        arscnView?.isUserInteractionEnabled = true
-        arscnView?.addGestureRecognizer(dragGesture)
-    }
-    
-    @objc private func onDraggingARView(_ sender: UIPanGestureRecognizer) {
-        guard let arscnView = arscnView
-        else { return }
-        
-        switch sender.state {
-        case .changed:
-            arController?.dragStart(point: sender.location(in: arscnView))
-            arController?.dragMove(point: sender.location(in: arscnView))
-            
-        case .ended:
-            arController?.dragEnd()
-            
-        default:
-            break
-        }
-    }
-    
-    private func updateARLabelStatus() {
-        arController?.trackingReady = { [weak self] isReadyForTracking in
+
+        arController?.trackingReady = { [weak self] isReady in
             DispatchQueue.main.async {
-                self?.trackingLabel.text = "Tracking Ready: \(isReadyForTracking ? "On" : "Off")"
+                self?.trackingLabel.text = "Tracking Ready: \(isReady ? "true" : "false")"
             }
         }
         
@@ -193,6 +155,29 @@ extension LegacyViewController {
         }
     }
     
+    private func addGestureOnARView() {
+        let dragGesture = UIPanGestureRecognizer(target: self, action: #selector(onDraggingARView(_:)))
+        arscnView?.isUserInteractionEnabled = true
+        arscnView?.addGestureRecognizer(dragGesture)
+    }
+    
+    @objc private func onDraggingARView(_ sender: UIPanGestureRecognizer) {
+        guard let arscnView = arscnView
+        else { return }
+        
+        switch sender.state {
+        case .changed:
+            arController?.dragStart(point: sender.location(in: arscnView))
+            arController?.dragMove(point: sender.location(in: arscnView))
+            
+        case .ended:
+            arController?.dragEnd()
+            
+        default:
+            break
+        }
+    }
+    
     private func updateHighlightedButton(sender: PaintyButton) {
         touchModeButtons.forEach {
             $0.backgroundColor = ($0 == sender) ? .black.withAlphaComponent(0.5) : .black.withAlphaComponent(0.15)
@@ -207,11 +192,11 @@ extension LegacyViewController {
     }
     
     @IBAction func onSetFirstPointTapped(_ sender: UIButton) {
-        arController?.setSecondCorner()
+        arController?.setFirstCorner()
     }
     
     @IBAction func onSetSecondPointTapped(_ sender: UIButton) {
-        arController?.setFirstCorner()
+        arController?.setSecondCorner()
     }
     
     @IBAction func onUpdatePlaneTapped(_ sender: UIButton) {

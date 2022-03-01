@@ -33,8 +33,8 @@ final class ShaderPaintViewController: UIViewController {
     }
     
     //MARK: View Lifecycle methods
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         configureView()
     }
@@ -88,14 +88,10 @@ extension ShaderPaintViewController {
         arscnView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            arscnView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                                               constant: 0),
-            arscnView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
-                                           constant: 0),
-            arscnView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                                                constant: 0),
-            arscnView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-                                              constant: 0)
+            arscnView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            arscnView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            arscnView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            arscnView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
         ])
         
         arController = RemodelARLib.makeShaderARController(with: arscnView)
@@ -106,7 +102,7 @@ extension ShaderPaintViewController {
             guard let cameraAimInfo = cameraAimInfo
             else { return }
             
-            print("cameraAim: \(cameraAimInfo.angle), \(cameraAimInfo.surfaceType)")
+//            print("cameraAim: \(cameraAimInfo.angle), \(cameraAimInfo.surfaceType)")
         }
         arController?.trackingReady = { isReady in
             print("Tracking Ready: \(isReady ? "true" : "false")")

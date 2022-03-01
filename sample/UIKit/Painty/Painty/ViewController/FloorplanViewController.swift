@@ -47,8 +47,8 @@ final class FloorplanViewController: UIViewController {
     }
     
     //MARK: View Lifecycle methods
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         configureView()
     }
@@ -68,7 +68,6 @@ final class FloorplanViewController: UIViewController {
 extension FloorplanViewController {
     private func configureView() {
         createARView()
-        updateARLabelStatus()
         configureBindings()
         arController?.startScene(reset: true)
     }
@@ -107,14 +106,10 @@ extension FloorplanViewController {
         arscnView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            arscnView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                                               constant: 0),
-            arscnView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
-                                           constant: 0),
-            arscnView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                                                constant: 0),
-            arscnView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-                                              constant: 0)
+            arscnView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            arscnView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            arscnView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            arscnView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
         ])
         
         arController = RemodelARLib.makeFloorplanARController(with: arscnView)
@@ -125,13 +120,13 @@ extension FloorplanViewController {
             guard let cameraAimInfo = cameraAimInfo
             else { return }
             
-            print("cameraAim: \(cameraAimInfo.angle), \(cameraAimInfo.surfaceType)")
+//            print("cameraAim: \(cameraAimInfo.angle), \(cameraAimInfo.surfaceType)")
         }
         arController?.wallPainted = {
             print("a wall was painted!")
         }
-        arController?.trackingReady = { isReady in
-            print("Tracking Ready: \(isReady ? "true" : "false")")
+        arController?.trackingReady = { [weak self] isReady in
+            self?.trackingLabel.text = "Tracking Ready: \(isReady ? "yes" : "no")"
         }
     }
     
@@ -152,14 +147,6 @@ extension FloorplanViewController {
             
         default:
             break
-        }
-    }
-    
-    private func updateARLabelStatus() {
-        arController?.trackingReady = { [weak self] isReadyForTracking in
-            DispatchQueue.main.async {
-                self?.trackingLabel.text = "Tracking Ready: \(isReadyForTracking ? "On" : "Off")"
-            }
         }
     }
     

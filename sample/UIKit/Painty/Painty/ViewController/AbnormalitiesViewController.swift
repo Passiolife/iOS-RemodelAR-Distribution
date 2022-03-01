@@ -36,8 +36,8 @@ final class AbnormalitiesViewController: UIViewController {
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         configureView()
     }
@@ -81,14 +81,10 @@ extension AbnormalitiesViewController {
         arscnView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            arscnView.leadingAnchor.constraint(equalTo: view.leadingAnchor,
-                                               constant: 0),
-            arscnView.topAnchor.constraint(equalTo: view.topAnchor,
-                                           constant: 0),
-            arscnView.trailingAnchor.constraint(equalTo: view.trailingAnchor,
-                                                constant: 0),
-            arscnView.bottomAnchor.constraint(equalTo: view.bottomAnchor,
-                                              constant: 0)
+            arscnView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            arscnView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            arscnView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            arscnView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
         ])
         
         arController = RemodelARLib.makeAbnormalitiesARController(with: arscnView)
@@ -109,7 +105,7 @@ extension AbnormalitiesViewController {
             guard let cameraAimInfo = cameraAimInfo
             else { return }
             
-            print("Camera Aim: \(cameraAimInfo.angle), \(cameraAimInfo.surfaceType)")
+//            print("Camera Aim: \(cameraAimInfo.angle), \(cameraAimInfo.surfaceType)")
         }
         arController?.trackingReady = { isReady in
             print("Tracking Ready: \(isReady ? "true" : "false")")
@@ -138,17 +134,16 @@ extension AbnormalitiesViewController {
     }
     
     @IBAction func onAddDefectTapped(_ sender: PaintyButton) {
-        guard let image = arController?.retrieveRawCameraImage()
-        else { return }
-        
-        // process image here using ML libraries
-        print("image captured: \(image.size)")
-        
-        if let addedDefectId = arController?.addAbnormality(name: "Crack") {
-            print("Added defect: \(addedDefectId)")
-        } else {
-            print("Defect not added, error")
-        }
+        arController?.captureAbnormalityImage(callback: { [weak self] image in
+            // process image here using ML libraries
+            print("image captured: \(image.width)x\(image.height)")
+            
+            if let addedDefectId = self?.arController?.addAbnormality(name: "Crack") {
+                print("Added defect: \(addedDefectId)")
+            } else {
+                print("Defect not added, error")
+            }
+        })
     }
     
     @IBAction func onRetrieveDefectsTapped(_ sender: PaintyButton) {
