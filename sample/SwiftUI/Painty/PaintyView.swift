@@ -48,28 +48,7 @@ private extension PaintyView {
     }
 
     var colorItems: [WallPaint] {
-        let numHues = 20
-        var colors = [WallPaint]()
-        for i in 0..<numHues {
-            let color_8_8 = Color(hue: Double(i)/Double(numHues),
-                                  saturation: 0.8,
-                                  brightness: 0.8)
-            let color_8_6 = Color(hue: Double(i)/Double(numHues),
-                                  saturation: 0.8,
-                                  brightness: 0.6)
-            let color_8_4 = Color(hue: Double(i)/Double(numHues),
-                                  saturation: 0.8,
-                                  brightness: 0.4)
-            let color_8_2 = Color(hue: Double(i)/Double(numHues),
-                                  saturation: 0.8,
-                                  brightness: 0.2)
-            
-            colors.append(WallPaint(id: "\(i * 4 + 1)", color: color_8_8.uiColor()))
-            colors.append(WallPaint(id: "\(i * 4 + 2)", color: color_8_6.uiColor()))
-            colors.append(WallPaint(id: "\(i * 4 + 3)", color: color_8_4.uiColor()))
-            colors.append(WallPaint(id: "\(i * 4 + 4)", color: color_8_2.uiColor()))
-        }
-        return colors
+        ColorRepo.colors().map({ WallPaint(id: "0", color: $0) })
     }
 
     var colorPicker: some View {

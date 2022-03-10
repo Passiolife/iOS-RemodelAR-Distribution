@@ -99,7 +99,6 @@ struct ShaderPaintView: View {
 
     var resetSceneButton: some View {
         Button(action: {
-            settings.model.resetScene()
             settings.reset()
         },
                label: {
@@ -171,60 +170,7 @@ struct ShaderPaintView: View {
 
 private extension ShaderPaintView {
     var colorItems: [WallPaint] {
-        let numHues = 20
-        var colors = [WallPaint]()
-        colors.append(WallPaint(id: "0",
-                                color: Color(red: 230.0 / 255.0,
-                                             green: 224.0 / 255.0,
-                                             blue: 200.0 / 255.0).uiColor()))
-        colors.append(WallPaint(id: "0",
-                                color: Color(red: 220.0 / 255.0,
-                                             green: 195.0 / 255.0,
-                                             blue: 235.0 / 255.0).uiColor()))
-        colors.append(WallPaint(id: "0",
-                                color: Color(red: 252.0 / 255.0,
-                                             green: 247.0 / 255.0,
-                                             blue: 235.0 / 255.0).uiColor()))
-        colors.append(WallPaint(id: "0",
-                                color: Color(red: 255.0 / 255.0,
-                                             green: 255.0 / 255.0,
-                                             blue: 251.0 / 255.0).uiColor()))
-        colors.append(WallPaint(id: "0",
-                                color: Color(red: 58.0 / 255.0,
-                                             green: 59.0 / 255.0,
-                                             blue: 61.0 / 255.0).uiColor()))
-        colors.append(WallPaint(id: "0",
-                                color: Color(red: 101.0 / 255.0,
-                                             green: 118.0 / 255.0,
-                                             blue: 134.0 / 255.0).uiColor()))
-        colors.append(WallPaint(id: "0",
-                                color: Color(red: 239.0 / 255.0,
-                                             green: 234.0 / 255.0,
-                                             blue: 196.0 / 255.0).uiColor()))
-        colors.append(WallPaint(id: "0",
-                                color: Color(red: 125.0 / 255.0,
-                                             green: 83.0 / 255.0,
-                                             blue: 68.0 / 255.0).uiColor()))
-        for i in 0..<numHues {
-            let color_8_8 = Color(hue: Double(i) / Double(numHues),
-                                  saturation: 0.8,
-                                  brightness: 0.8)
-            let color_8_6 = Color(hue: Double(i) / Double(numHues),
-                                  saturation: 0.8,
-                                  brightness: 0.6)
-            let color_8_4 = Color(hue: Double(i) / Double(numHues),
-                                  saturation: 0.8,
-                                  brightness: 0.4)
-            let color_8_2 = Color(hue: Double(i) / Double(numHues),
-                                  saturation: 0.8,
-                                  brightness: 0.2)
-            
-            colors.append(WallPaint(id: "\(i * 5 + 1)", color: color_8_8.uiColor()))
-            colors.append(WallPaint(id: "\(i * 5 + 2)", color: color_8_6.uiColor()))
-            colors.append(WallPaint(id: "\(i * 5 + 3)", color: color_8_4.uiColor()))
-            colors.append(WallPaint(id: "\(i * 5 + 4)", color: color_8_2.uiColor()))
-        }
-        return colors
+        ColorRepo.colors().map({ WallPaint(id: "0", color: $0) })
     }
     
     var colorPicker: some View {
