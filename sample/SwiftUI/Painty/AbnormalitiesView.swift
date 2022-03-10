@@ -129,7 +129,6 @@ struct AbnormalitiesView: View {
 
     var resetSceneButton: some View {
         Button(action: {
-            settings.model.resetScene()
             settings.reset()
         },
                label: {

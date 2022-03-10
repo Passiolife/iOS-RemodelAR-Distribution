@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		585E55E127DAAA810003FF49 /* ColorRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585E55E027DAAA810003FF49 /* ColorRepo.swift */; };
 		588A2E1A273F25C00014CA27 /* PaintyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588A2E19273F25C00014CA27 /* PaintyApp.swift */; };
 		588A2E1C273F25C00014CA27 /* PaintyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588A2E1B273F25C00014CA27 /* PaintyView.swift */; };
 		588A2E1E273F25C20014CA27 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 588A2E1D273F25C20014CA27 /* Assets.xcassets */; };
@@ -37,6 +38,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		585E55E027DAAA810003FF49 /* ColorRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorRepo.swift; sourceTree = "<group>"; };
 		588A2E16273F25C00014CA27 /* Painty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Painty.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		588A2E19273F25C00014CA27 /* PaintyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintyApp.swift; sourceTree = "<group>"; };
 		588A2E1B273F25C00014CA27 /* PaintyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintyView.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				589309072758336500864F2E /* LidarView.swift */,
 				589309082758336600864F2E /* ShaderPaintView.swift */,
 				58C48F022768030000DECE51 /* AbnormalitiesView.swift */,
+				585E55E027DAAA810003FF49 /* ColorRepo.swift */,
 				588A2E1D273F25C20014CA27 /* Assets.xcassets */,
 				588A2E1F273F25C20014CA27 /* Preview Content */,
 			);
@@ -199,6 +202,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				588A2E1C273F25C00014CA27 /* PaintyView.swift in Sources */,
+				585E55E127DAAA810003FF49 /* ColorRepo.swift in Sources */,
 				5893090A2758336600864F2E /* LidarView.swift in Sources */,
 				5893090B2758336600864F2E /* ShaderPaintView.swift in Sources */,
 				58C48F2D27690AB600DECE51 /* Republished.swift in Sources */,

@@ -183,7 +183,6 @@ struct LegacyView: View {
 
     var resetSceneButton: some View {
         Button(action: {
-            settings.model.resetScene()
             settings.reset()
             settings.model.pickColor(paint: colorItems[settings.colorIndex])
             settings.model.pickTexture(texture: nil)
@@ -260,32 +259,7 @@ struct LegacyView: View {
 
 private extension LegacyView {
     var colorItems: [WallPaint] {
-        let numHues = 20
-        var colors = [WallPaint]()
-        colors.append(WallPaint(id: "0",
-                                color: Color(red: 230.0 / 255.0,
-                                             green: 224.0 / 255.0,
-                                             blue: 200.0 / 255.0).uiColor()))
-        for i in 0..<numHues {
-            let color_8_8 = Color(hue: Double(i) / Double(numHues),
-                                  saturation: 0.8,
-                                  brightness: 0.8)
-            let color_8_6 = Color(hue: Double(i) / Double(numHues),
-                                  saturation: 0.8,
-                                  brightness: 0.6)
-            let color_8_4 = Color(hue: Double(i) / Double(numHues),
-                                  saturation: 0.8,
-                                  brightness: 0.4)
-            let color_8_2 = Color(hue: Double(i) / Double(numHues),
-                                  saturation: 0.8,
-                                  brightness: 0.2)
-
-            colors.append(WallPaint(id: "\(i * 5 + 1)", color: color_8_8.uiColor()))
-            colors.append(WallPaint(id: "\(i * 5 + 2)", color: color_8_6.uiColor()))
-            colors.append(WallPaint(id: "\(i * 5 + 3)", color: color_8_4.uiColor()))
-            colors.append(WallPaint(id: "\(i * 5 + 4)", color: color_8_2.uiColor()))
-        }
-        return colors
+        ColorRepo.colors().map({ WallPaint(id: "0", color: $0) })
     }
 
     var colorPicker: some View {
