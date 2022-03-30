@@ -81,15 +81,14 @@ struct FloorplanView: View {
     
     var arView: some View {
         RemodelARLib.makeARView(model: settings.model, arMethod: .Floorplan)
-            .gesture(
-                DragGesture()
-                    .onChanged { gesture in
-                        settings.model.dragStart(point: gesture.startLocation)
-                        settings.model.dragMove(point: gesture.location)
-                    }
-                    .onEnded { _ in
-                        settings.model.dragEnd()
-                    }
+            .modifier(DragActions(
+                onDragStart: { point in
+                    settings.model.dragStart(point: point)
+                }, onDragMove: { point in
+                    settings.model.dragMove(point: point)
+                }, onDragEnd: { _ in
+                    settings.model.dragEnd()
+                })
             )
     }
     
