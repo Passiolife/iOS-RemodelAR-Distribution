@@ -21,6 +21,7 @@
 		58D0309B27B5DC51000B908C /* RemodelAR.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58D0309A27B5DC51000B908C /* RemodelAR.xcframework */; };
 		58D0309C27B5DC51000B908C /* RemodelAR.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 58D0309A27B5DC51000B908C /* RemodelAR.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		58D0309F27B5DD5F000B908C /* FloorplanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D0309E27B5DD5F000B908C /* FloorplanView.swift */; };
+		58D12A9E27FCDF2B00CCBF9B /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58D12A9D27FCDF2B00CCBF9B /* Color+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -52,6 +53,7 @@
 		58C48F2C27690AB600DECE51 /* Republished.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Republished.swift; sourceTree = "<group>"; };
 		58D0309A27B5DC51000B908C /* RemodelAR.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = RemodelAR.xcframework; path = ../Frameworks/RemodelAR.xcframework; sourceTree = "<group>"; };
 		58D0309E27B5DD5F000B908C /* FloorplanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloorplanView.swift; sourceTree = "<group>"; };
+		58D12A9D27FCDF2B00CCBF9B /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 		588A2E18273F25C00014CA27 /* Painty */ = {
 			isa = PBXGroup;
 			children = (
+				58D12A9C27FCDF1100CCBF9B /* Extensions */,
 				58C48F2E27690DCA00DECE51 /* support */,
 				588A2E19273F25C00014CA27 /* PaintyApp.swift */,
 				588A2E1B273F25C00014CA27 /* PaintyView.swift */,
@@ -124,6 +127,14 @@
 				58C48F2C27690AB600DECE51 /* Republished.swift */,
 			);
 			path = support;
+			sourceTree = "<group>";
+		};
+		58D12A9C27FCDF1100CCBF9B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				58D12A9D27FCDF2B00CCBF9B /* Color+Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -210,6 +221,7 @@
 				588A2E1A273F25C00014CA27 /* PaintyApp.swift in Sources */,
 				58C48F032768030000DECE51 /* AbnormalitiesView.swift in Sources */,
 				58D0309F27B5DD5F000B908C /* FloorplanView.swift in Sources */,
+				58D12A9E27FCDF2B00CCBF9B /* Color+Extensions.swift in Sources */,
 				58C48F052768086200DECE51 /* TechDemoView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -5,6 +5,7 @@
 //  Copyright © 2022 Passio Inc. All rights reserved.
 //
 
+import ARKit
 import RemodelAR
 import SwiftUI
 
@@ -29,11 +30,20 @@ struct PaintyApp: App {
         WindowGroup {
             switch runMode {
             case .paintyDemo:
-                PaintyView()
+                if supportsLidar {
+                    PaintyView()
+                } else {
+                    Text("Lidar not supported on this device")
+                        .foregroundColor(.textColor)
+                }
             case .techDemo:
                 TechDemoView()
             }
         }
+    }
+    
+    var supportsLidar: Bool {
+        ARWorldTrackingConfiguration.supportsSceneReconstruction(.mesh)
     }
     
     init() {
