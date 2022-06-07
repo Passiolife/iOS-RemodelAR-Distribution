@@ -60,14 +60,14 @@ struct TechDemoView: View {
     
     var body: some View {
         ZStack {
-            Color.white
+            Color.backgroundColor
                 .edgesIgnoringSafeArea(.all)
             if currentTab == 0 {
                 if supportsLidar {
                     LidarView()
                 } else {
                     Text("Lidar not supported on this device")
-                        .foregroundColor(.black)
+                        .foregroundColor(.textColor)
                 }
             } else if currentTab == 1 {
                 LegacyView()
@@ -80,7 +80,7 @@ struct TechDemoView: View {
                     AbnormalitiesView()
                 } else {
                     Text("Lidar not supported on this device")
-                        .foregroundColor(.black)
+                        .foregroundColor(.textColor)
                 }
             }
             if settings.uiVisible {
