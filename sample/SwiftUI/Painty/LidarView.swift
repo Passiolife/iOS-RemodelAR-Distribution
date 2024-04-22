@@ -42,9 +42,12 @@ struct LidarView: View {
             }
         }
         .onAppear {
-            settings.reset()
-            settings.model.pickColor(paint: colorItems[0])
-            setupBindings()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                settings.reset()
+                settings.model.setColor(paint: activeColor, texture: activeTexture)
+                settings.model.startScene()
+                setupBindings()
+            }
         }
     }
 
@@ -55,10 +58,21 @@ struct LidarView: View {
                     settings.model.dragStart(point: point)
                 }, onDragMove: { point in
                     settings.model.dragMove(point: point)
-                }, onDragEnd: { _ in
-                    settings.model.dragEnd()
+                }, onDragEnd: { point in
+                    settings.model.dragEnd(point: point)
                 })
             )
+    }
+    
+    var activeColor: WallPaint {
+        colorItems[settings.colorIndex]
+    }
+    
+    var activeTexture: UIImage? {
+        guard settings.textureIndex >= 0
+        else { return nil }
+        
+        return textureImages[settings.textureIndex]
     }
 
     var thresholdSlider: some View {
@@ -97,11 +111,11 @@ struct LidarView: View {
         Button(action: {
             switch settings.scanMode {
             case .scanning:
-                settings.model.setScanMode(scanMode: .paused)
+                settings.model.stopLidarScan()
                 settings.scanMode = .paused
 
             case .paused:
-                settings.model.setScanMode(scanMode: .scanning)
+                settings.model.startLidarScan()
                 settings.scanMode = .scanning
             }
         },
@@ -121,7 +135,6 @@ struct LidarView: View {
             var output = [String]()
             for wall in paintInfo.paintedWalls {
                 output.append("\(wall.area.width.formatted())x\(wall.area.height.formatted()) (\(wall.area.area.formatted()))")
-                output.append("estimated: \(wall.area.estimatedActualArea.formatted()) m²")
             }
             showDebugMessage(message: output.joined(separator: "\n"))
         }.store(in: &settings.model.cancellables)
@@ -134,17 +147,19 @@ struct LidarView: View {
 
 private extension LidarView {
     var colorItems: [WallPaint] {
-        ColorRepo.colors().map({ WallPaint(id: "0", color: $0) })
+        ColorRepo.colors().enumerated().map({ WallPaint(id: "\($0.offset)",
+                                                        name: "\($0.offset)",
+                                                        color: $0.element) })
     }
     
     var colorPicker: some View {
         ScrollView(.horizontal) {
             HStack {
-                ForEach(0..<colorItems.count) { i in
+                ForEach(0..<colorItems.count, id: \.self) { i in
                     Button {
                         settings.showStroke = true
                         settings.colorIndex = i
-                        settings.model.pickColor(paint: colorItems[i])
+                        settings.model.setColor(paint: activeColor, texture: activeTexture)
                     } label: {
                         RoundedRectangle(cornerRadius: 17)
                             .strokeBorder(lineWidth: (settings.showStroke && i == settings.colorIndex) ? 5 : 0)
@@ -152,7 +167,8 @@ private extension LidarView {
                             .background(Color(colorItems[i].color))
                             .clipShape(RoundedRectangle(cornerRadius: 17))
                             .frame(width: 74, height: 74)
-                            .animation(Animation.interpolatingSpring(stiffness: 60, damping: 15))
+                            .animation(.interpolatingSpring(stiffness: 60, damping: 15),
+                                       value: settings.showStroke && i == settings.colorIndex)
                     }
                     .onTapGesture {
                         settings.showStroke = true
@@ -214,7 +230,7 @@ private extension LidarView {
     }
     
     var getPaintInfoButton: some View {
-        Button(action: { settings.model.getPaintInfo() },
+        Button(action: { settings.model.retrievePaintInfo() },
                label: {
             Image(systemName: "info.circle.fill")
                 .foregroundColor(.white)
@@ -236,26 +252,13 @@ private extension LidarView {
 private extension LidarView {
     var textureNames: [String] {
         [
-            "ChalkPaints",
-            "ConcreteEffects1",
-            "ConcreteEffects2",
-            "Corium",
-            "Ebdaa",
-            "Elora",
-            "Glostex",
-            "GraniteArenal",
-            "Khayal_Beauty",
-            "Linetex",
-            "Marmo",
-            "Marotex",
-            "Mashasco",
-            "Newtex",
-            "Rawa",
-            "RawaKothban",
-            "Said",
-            "Texture",
-            "Tourmaline",
-            "Worood"
+            "venetianWall",
+            "plasterWall",
+            "renaissanceWall",
+            "brickWall",
+            "cinderWall",
+            "pebbleWall",
+            "stoneWall"
         ]
     }
 
@@ -266,25 +269,29 @@ private extension LidarView {
     var texturePicker: some View {
         ScrollView(.horizontal) {
             HStack {
-                ForEach(0..<textureImages.count) { i in
+                ForEach(0..<textureImages.count, id: \.self) { i in
                     Button {
                         if i == settings.textureIndex {
                             settings.showTextureStroke = false
                             settings.textureIndex = -1
-                            settings.model.pickTexture(texture: nil)
                         } else {
                             settings.showTextureStroke = true
                             settings.textureIndex = i
-                            settings.model.pickTexture(texture: textureImages[i])
                         }
+                        settings.model.setColor(paint: activeColor, texture: activeTexture)
                     } label: {
                         RoundedRectangle(cornerRadius: 17)
                             .strokeBorder(lineWidth: (settings.showTextureStroke && i == settings.textureIndex) ? 5 : 0)
                             .foregroundColor(.white)
-                            .background(Image(uiImage: textureImages[i]))
+                            .background(
+                                Image(uiImage: textureImages[i])
+                                    .resizable()
+                                    .frame(width: 200, height: 200)
+                            )
                             .clipShape(RoundedRectangle(cornerRadius: 17))
                             .frame(width: 74, height: 74)
-                            .animation(Animation.interpolatingSpring(stiffness: 60, damping: 15))
+                            .animation(.interpolatingSpring(stiffness: 60, damping: 15),
+                                       value: settings.showStroke && i == settings.colorIndex)
                     }
                     .onTapGesture {
                         settings.showTextureStroke.toggle()

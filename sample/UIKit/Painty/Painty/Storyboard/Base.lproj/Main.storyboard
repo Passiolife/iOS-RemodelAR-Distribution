@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="j7c-IJ-RUc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="j7c-IJ-RUc">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xwU-L7-nMK" customClass="PaintyButton" customModule="Painty" customModuleProvider="target">
-                                <rect key="frame" x="312" y="64" width="50" height="46"/>
+                                <rect key="frame" x="312" y="68" width="50" height="46"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.15349458969999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -30,7 +30,7 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="QwW-y5-cV7">
-                                <rect key="frame" x="20" y="64" width="374" height="251.5"/>
+                                <rect key="frame" x="20" y="68" width="374" height="251.5"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fIa-CW-VPt">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="46"/>
@@ -197,7 +197,7 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" title="Pause Lidar">
+                                        <state key="normal" title="Start Scan">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
@@ -267,6 +267,7 @@
                         <outlet property="buttonsTopStackView" destination="QwW-y5-cV7" id="1Hn-ay-aAh"/>
                         <outlet property="colorPickerCollectionView" destination="WcV-0x-Etj" id="3UC-gq-Hfh"/>
                         <outlet property="planarMeshesCountLabel" destination="mZh-9D-NkW" id="OSi-0S-AzA"/>
+                        <outlet property="scanButton" destination="CzV-nR-fVj" id="WwO-dG-K6P"/>
                         <outlet property="showUIButton" destination="xwU-L7-nMK" id="rqx-Xe-XSo"/>
                         <outlet property="texturePickerCollectionView" destination="10l-IV-tK6" id="nZf-8M-Zjc"/>
                         <outletCollection property="touchModeButtons" destination="irg-Ts-LWd" collectionClass="NSMutableArray" id="3dt-yb-ove"/>
@@ -288,7 +289,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a4I-ba-WvC" customClass="PaintyButton" customModule="Painty" customModuleProvider="target">
-                                <rect key="frame" x="279.5" y="64" width="50" height="46"/>
+                                <rect key="frame" x="279.5" y="68" width="50" height="46"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.15349458969999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -409,7 +410,7 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="1Ug-ug-VNZ">
-                                <rect key="frame" x="20" y="64" width="374" height="258.5"/>
+                                <rect key="frame" x="20" y="68" width="374" height="258.5"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1lD-8G-Dtk">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="46"/>
@@ -633,7 +634,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i4x-bp-VTq" customClass="PaintyButton" customModule="Painty" customModuleProvider="target">
-                                <rect key="frame" x="309" y="44" width="55" height="46"/>
+                                <rect key="frame" x="297" y="48" width="47" height="46"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.15349458969999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -645,70 +646,73 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="2fu-og-6uL">
-                                <rect key="frame" x="0.0" y="585" width="414" height="228"/>
+                                <rect key="frame" x="20" y="394.5" width="374" height="418.5"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dn2-hi-MPc">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="46"/>
-                                        <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="x5n-ax-9Jd">
-                                                <rect key="frame" x="8" y="0.0" width="398" height="46"/>
-                                                <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x50-3K-i55" customClass="PaintyButton" customModule="Painty" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="137" height="46"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.15349458969999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
-                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                        <state key="normal" title="Finish Corners">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="onFinishCornersTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="aSN-Xg-61U"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BW1-c0-vVM" customClass="PaintyButton" customModule="Painty" customModuleProvider="target">
-                                                        <rect key="frame" x="147" y="0.0" width="124" height="46"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.15349458969999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
-                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                        <state key="normal" title="Finish Height">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="onFinishHeightTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="g8I-Ka-SZ2"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bxv-Ra-ACD" customClass="PaintyButton" customModule="Painty" customModuleProvider="target">
-                                                        <rect key="frame" x="281" y="0.0" width="117" height="46"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.15349458969999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
-                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                        <state key="normal" title="Cancel Wall">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="onCancelWallTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="Z3k-rz-Zto"/>
-                                                        </connections>
-                                                    </button>
-                                                </subviews>
-                                            </stackView>
-                                        </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Message" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7fK-qp-X9W">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hNH-lC-qqQ" customClass="PaintyButton" customModule="Painty" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28.5" width="374" height="46"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.15349458969999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="x5n-ax-9Jd" secondAttribute="bottom" id="AS3-SF-jV0"/>
-                                            <constraint firstAttribute="height" constant="46" id="Km4-5n-XHl"/>
-                                            <constraint firstItem="x5n-ax-9Jd" firstAttribute="top" secondItem="dn2-hi-MPc" secondAttribute="top" id="Y7Q-0B-MLT"/>
-                                            <constraint firstItem="x5n-ax-9Jd" firstAttribute="leading" secondItem="dn2-hi-MPc" secondAttribute="leading" constant="8" id="dxa-hb-3g0"/>
-                                            <constraint firstAttribute="trailing" secondItem="x5n-ax-9Jd" secondAttribute="trailing" constant="8" id="kHL-sc-9cJ"/>
+                                            <constraint firstAttribute="height" constant="46" id="ge8-Xi-WLN"/>
                                         </constraints>
-                                    </view>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Start Floor Scan">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onScanTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="gB7-P6-xe5"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x50-3K-i55" customClass="PaintyButton" customModule="Painty" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="82.5" width="374" height="46"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.15349458969999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Finish Corners">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onFinishCornersTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="aSN-Xg-61U"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BW1-c0-vVM" customClass="PaintyButton" customModule="Painty" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="136.5" width="374" height="46"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.15349458969999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Finish Height">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onFinishHeightTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="g8I-Ka-SZ2"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bxv-Ra-ACD" customClass="PaintyButton" customModule="Painty" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="190.5" width="374" height="46"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.15349458969999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Undo Last Corner">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="undoCornerTapped:" destination="nhv-tr-9GV" eventType="touchUpInside" id="qwe-FG-AqG"/>
+                                        </connections>
+                                    </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jpb-2x-fIR">
-                                        <rect key="frame" x="0.0" y="54" width="414" height="83"/>
+                                        <rect key="frame" x="0.0" y="244.5" width="374" height="83"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="AXh-Fs-b2N">
-                                                <rect key="frame" x="8" y="0.0" width="398" height="75"/>
+                                                <rect key="frame" x="8" y="0.0" width="358" height="75"/>
                                                 <subviews>
                                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="k7f-f5-RKY" customClass="TexturePickerCollectionView" customModule="Painty" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="398" height="75"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="358" height="75"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="75" id="38B-LJ-iCW"/>
@@ -733,13 +737,13 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PSj-TI-ZxT">
-                                        <rect key="frame" x="0.0" y="145" width="414" height="83"/>
+                                        <rect key="frame" x="0.0" y="335.5" width="374" height="83"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="8s0-eh-ZnZ">
-                                                <rect key="frame" x="8" y="0.0" width="398" height="75"/>
+                                                <rect key="frame" x="8" y="0.0" width="358" height="75"/>
                                                 <subviews>
                                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="f5f-nq-mnp" customClass="ColorPickerCollectionView" customModule="Painty" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="398" height="75"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="358" height="75"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="75" id="cRt-vB-mHz"/>
@@ -765,18 +769,23 @@
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="x50-3K-i55" firstAttribute="height" secondItem="hNH-lC-qqQ" secondAttribute="height" id="dS0-yo-ue9"/>
+                                    <constraint firstItem="BW1-c0-vVM" firstAttribute="height" secondItem="x50-3K-i55" secondAttribute="height" id="sdz-Ub-cqy"/>
+                                    <constraint firstItem="bxv-Ra-ACD" firstAttribute="height" secondItem="BW1-c0-vVM" secondAttribute="height" id="t5C-hM-v7U"/>
+                                </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="CzT-A5-Idl">
-                                <rect key="frame" x="0.0" y="44" width="414" height="210.5"/>
+                                <rect key="frame" x="20" y="48" width="374" height="210.5"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cMH-cC-Sxz">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="46"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="46"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="aRv-yJ-muT">
-                                                <rect key="frame" x="50" y="0.0" width="314" height="46"/>
+                                                <rect key="frame" x="50" y="0.0" width="274" height="46"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bKF-PM-WSb" customClass="PaintyButton" customModule="Painty" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="55" height="46"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="47" height="46"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.15349458969999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -788,7 +797,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cmW-EN-eZ4" customClass="PaintyButton" customModule="Painty" customModuleProvider="target">
-                                                        <rect key="frame" x="65" y="0.0" width="54.5" height="46"/>
+                                                        <rect key="frame" x="57" y="0.0" width="46.5" height="46"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.15349458969999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -800,7 +809,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bVv-i0-QVs" customClass="PaintyButton" customModule="Painty" customModuleProvider="target">
-                                                        <rect key="frame" x="129.5" y="0.0" width="55" height="46"/>
+                                                        <rect key="frame" x="113.5" y="0.0" width="47" height="46"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.15349458969999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -812,7 +821,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QWj-3b-W2K" customClass="PaintyButton" customModule="Painty" customModuleProvider="target">
-                                                        <rect key="frame" x="194.5" y="0.0" width="54.5" height="46"/>
+                                                        <rect key="frame" x="170.5" y="0.0" width="46.5" height="46"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.15349458969999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -824,7 +833,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HZW-2e-zAv" customClass="PaintyButton" customModule="Painty" customModuleProvider="target">
-                                                        <rect key="frame" x="259" y="0.0" width="55" height="46"/>
+                                                        <rect key="frame" x="227" y="0.0" width="47" height="46"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.15349458969999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -848,13 +857,13 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kOv-DT-DEq">
-                                        <rect key="frame" x="0.0" y="61" width="414" height="46"/>
+                                        <rect key="frame" x="0.0" y="61" width="374" height="46"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="r15-VQ-mTs">
-                                                <rect key="frame" x="20" y="0.0" width="374" height="46"/>
+                                                <rect key="frame" x="20" y="0.0" width="334" height="46"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lyw-cA-PKm" customClass="PaintyButton" customModule="Painty" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="48" height="46"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="43" height="46"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.15349458969999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -866,7 +875,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AhW-sv-N2C" customClass="PaintyButton" customModule="Painty" customModuleProvider="target">
-                                                        <rect key="frame" x="58" y="0.0" width="48" height="46"/>
+                                                        <rect key="frame" x="53" y="0.0" width="42.5" height="46"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.15349458969999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -878,7 +887,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0oR-f6-00D" customClass="PaintyButton" customModule="Painty" customModuleProvider="target">
-                                                        <rect key="frame" x="116" y="0.0" width="48" height="46"/>
+                                                        <rect key="frame" x="105.5" y="0.0" width="43" height="46"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.15349458969999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -890,7 +899,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WvN-6h-60H" customClass="PaintyButton" customModule="Painty" customModuleProvider="target">
-                                                        <rect key="frame" x="174" y="0.0" width="124.5" height="46"/>
+                                                        <rect key="frame" x="158.5" y="0.0" width="111.5" height="46"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -902,7 +911,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rei-ss-09E" customClass="PaintyButton" customModule="Painty" customModuleProvider="target">
-                                                        <rect key="frame" x="308.5" y="0.0" width="65.5" height="46"/>
+                                                        <rect key="frame" x="280" y="0.0" width="54" height="46"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.15349458969999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -926,10 +935,10 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BaW-0k-IOv">
-                                        <rect key="frame" x="0.0" y="122" width="414" height="53"/>
+                                        <rect key="frame" x="0.0" y="122" width="374" height="53"/>
                                         <subviews>
                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="10" minValue="4" maxValue="50" translatesAutoresizingMaskIntoConstraints="NO" id="Dbw-F5-lKA">
-                                                <rect key="frame" x="6" y="8" width="402" height="38"/>
+                                                <rect key="frame" x="6" y="8" width="362" height="38"/>
                                                 <connections>
                                                     <action selector="onThresholdSliderChanged:" destination="nhv-tr-9GV" eventType="valueChanged" id="fkr-aT-sli"/>
                                                 </connections>
@@ -944,7 +953,7 @@
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tracking Ready: no" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lZe-WW-00z">
-                                        <rect key="frame" x="0.0" y="190" width="414" height="20.5"/>
+                                        <rect key="frame" x="0.0" y="190" width="374" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -958,13 +967,13 @@
                         <constraints>
                             <constraint firstItem="i4x-bp-VTq" firstAttribute="width" secondItem="HZW-2e-zAv" secondAttribute="width" id="5uG-TH-1qT"/>
                             <constraint firstItem="CzT-A5-Idl" firstAttribute="top" secondItem="C9u-2I-hEt" secondAttribute="top" id="7os-R0-cjP"/>
-                            <constraint firstItem="2fu-og-6uL" firstAttribute="leading" secondItem="C9u-2I-hEt" secondAttribute="leading" id="Idk-zc-zRU"/>
-                            <constraint firstItem="C9u-2I-hEt" firstAttribute="trailing" secondItem="CzT-A5-Idl" secondAttribute="trailing" id="LVR-nv-woc"/>
+                            <constraint firstItem="2fu-og-6uL" firstAttribute="leading" secondItem="C9u-2I-hEt" secondAttribute="leading" constant="20" id="Idk-zc-zRU"/>
+                            <constraint firstItem="C9u-2I-hEt" firstAttribute="trailing" secondItem="CzT-A5-Idl" secondAttribute="trailing" constant="20" id="LVR-nv-woc"/>
                             <constraint firstItem="i4x-bp-VTq" firstAttribute="centerY" secondItem="HZW-2e-zAv" secondAttribute="centerY" id="Nzw-QC-0Nv"/>
                             <constraint firstItem="i4x-bp-VTq" firstAttribute="height" secondItem="HZW-2e-zAv" secondAttribute="height" id="OBQ-97-5N3"/>
-                            <constraint firstItem="C9u-2I-hEt" firstAttribute="trailing" secondItem="2fu-og-6uL" secondAttribute="trailing" id="PG1-EQ-7k4"/>
+                            <constraint firstItem="C9u-2I-hEt" firstAttribute="trailing" secondItem="2fu-og-6uL" secondAttribute="trailing" constant="20" id="PG1-EQ-7k4"/>
                             <constraint firstItem="i4x-bp-VTq" firstAttribute="centerX" secondItem="HZW-2e-zAv" secondAttribute="centerX" id="aUy-Vo-tc7"/>
-                            <constraint firstItem="CzT-A5-Idl" firstAttribute="leading" secondItem="C9u-2I-hEt" secondAttribute="leading" id="dx1-cv-biZ"/>
+                            <constraint firstItem="CzT-A5-Idl" firstAttribute="leading" secondItem="C9u-2I-hEt" secondAttribute="leading" constant="20" id="dx1-cv-biZ"/>
                             <constraint firstItem="C9u-2I-hEt" firstAttribute="bottom" secondItem="2fu-og-6uL" secondAttribute="bottom" id="hqN-lA-uGH"/>
                         </constraints>
                     </view>
@@ -973,10 +982,15 @@
                         <outlet property="buttonsBottomStackView" destination="2fu-og-6uL" id="rdc-GG-dyS"/>
                         <outlet property="buttonsTopStackView" destination="CzT-A5-Idl" id="5LV-3S-wmY"/>
                         <outlet property="colorPickerCollectionView" destination="f5f-nq-mnp" id="xjC-fJ-Xl8"/>
+                        <outlet property="finishCornersButton" destination="x50-3K-i55" id="8MS-d2-VRy"/>
+                        <outlet property="finishHeightButton" destination="BW1-c0-vVM" id="reF-n7-xGO"/>
+                        <outlet property="scanButton" destination="hNH-lC-qqQ" id="IqN-mb-NlS"/>
                         <outlet property="showUIButton" destination="i4x-bp-VTq" id="9IZ-5I-Lny"/>
                         <outlet property="showUnpaintedWallsButton" destination="Rei-ss-09E" id="WdP-lX-RnW"/>
                         <outlet property="texturePickerCollectionView" destination="k7f-f5-RKY" id="dT9-IJ-tbW"/>
                         <outlet property="trackingLabel" destination="lZe-WW-00z" id="lpd-ZL-MOs"/>
+                        <outlet property="undoButton" destination="bxv-Ra-ACD" id="bNZ-pg-A5D"/>
+                        <outlet property="userMessage" destination="7fK-qp-X9W" id="rgy-Yz-bLb"/>
                         <outletCollection property="touchModeButtons" destination="lyw-cA-PKm" collectionClass="NSMutableArray" id="gKF-ud-sOD"/>
                         <outletCollection property="touchModeButtons" destination="AhW-sv-N2C" collectionClass="NSMutableArray" id="GlI-Zo-jTF"/>
                         <outletCollection property="touchModeButtons" destination="0oR-f6-00D" collectionClass="NSMutableArray" id="18g-PZ-zXW"/>
@@ -996,7 +1010,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SOb-RA-ZBI" customClass="PaintyButton" customModule="Painty" customModuleProvider="target">
-                                <rect key="frame" x="247" y="64" width="50" height="46"/>
+                                <rect key="frame" x="247" y="68" width="50" height="46"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.15349458969999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -1046,7 +1060,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="qQI-Ch-1z3">
-                                <rect key="frame" x="20" y="64" width="374" height="175"/>
+                                <rect key="frame" x="20" y="68" width="374" height="175"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OgC-iV-JEp">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="46"/>
@@ -1234,7 +1248,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Idz-gv-aoQ" customClass="PaintyButton" customModule="Painty" customModuleProvider="target">
-                                <rect key="frame" x="247" y="64" width="50" height="46"/>
+                                <rect key="frame" x="247" y="68" width="50" height="46"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.15349458969999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -1246,7 +1260,7 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="amT-3V-S6d">
-                                <rect key="frame" x="20" y="64" width="374" height="107"/>
+                                <rect key="frame" x="20" y="68" width="374" height="107"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7D6-Bx-RUT">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="46"/>
@@ -1447,7 +1461,7 @@
             <size key="intrinsicContentSize" width="92" height="30"/>
         </designable>
         <designable name="CzV-nR-fVj">
-            <size key="intrinsicContentSize" width="82" height="30"/>
+            <size key="intrinsicContentSize" width="74" height="30"/>
         </designable>
         <designable name="Dll-EE-iZH">
             <size key="intrinsicContentSize" width="30" height="34"/>
@@ -1525,7 +1539,7 @@
             <size key="intrinsicContentSize" width="22" height="22"/>
         </designable>
         <designable name="bxv-Ra-ACD">
-            <size key="intrinsicContentSize" width="82" height="30"/>
+            <size key="intrinsicContentSize" width="124" height="30"/>
         </designable>
         <designable name="cmW-EN-eZ4">
             <size key="intrinsicContentSize" width="22" height="22"/>
@@ -1541,6 +1555,9 @@
         </designable>
         <designable name="evh-a2-YdE">
             <size key="intrinsicContentSize" width="22" height="22"/>
+        </designable>
+        <designable name="hNH-lC-qqQ">
+            <size key="intrinsicContentSize" width="113" height="30"/>
         </designable>
         <designable name="hOs-PN-FlJ">
             <size key="intrinsicContentSize" width="49" height="30"/>
@@ -1586,13 +1603,13 @@
         </designable>
     </designables>
     <resources>
-        <image name="camera.fill" catalog="system" width="128" height="94"/>
+        <image name="camera.fill" catalog="system" width="128" height="93"/>
         <image name="defects" width="22" height="22"/>
-        <image name="eye" catalog="system" width="128" height="81"/>
-        <image name="eye.fill" catalog="system" width="128" height="78"/>
-        <image name="eye.slash.fill" catalog="system" width="128" height="82"/>
+        <image name="eye" catalog="system" width="128" height="79"/>
+        <image name="eye.fill" catalog="system" width="128" height="80"/>
+        <image name="eye.slash.fill" catalog="system" width="128" height="96"/>
         <image name="floorplan" width="22" height="22"/>
-        <image name="info.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="info.circle.fill" catalog="system" width="128" height="123"/>
         <image name="legacy" width="22" height="22"/>
         <image name="lidar" width="22" height="22"/>
         <image name="reset" width="22" height="22"/>

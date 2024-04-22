@@ -19,10 +19,23 @@ final class LidarViewController: UIViewController {
     @IBOutlet weak private var texturePickerCollectionView: TexturePickerCollectionView!
     @IBOutlet weak private var colorPickerCollectionView: ColorPickerCollectionView!
     @IBOutlet weak var showUIButton: PaintyButton!
+    @IBOutlet weak var scanButton: PaintyButton!
     
     //MARK: Properties
     private var arscnView: ARSCNView?
     private var arController: ARController?
+    
+    private var activeColor: WallPaint = ColorPicker.colors[0].color {
+        didSet {
+            arController?.setColor(paint: activeColor, texture: activeTexture)
+        }
+    }
+    
+    private var activeTexture: UIImage? {
+        didSet {
+            arController?.setColor(paint: activeColor, texture: activeTexture)
+        }
+    }
     
     private var showUI = true {
         didSet {
@@ -33,10 +46,16 @@ final class LidarViewController: UIViewController {
         }
     }
     
-    private var isLidarScanning = true {
+    private var isLidarScanning = false {
         didSet {
             let scanMode: ScanMode = isLidarScanning ? .scanning : .paused
-            arController?.setScanMode(scanMode: scanMode)
+            if scanMode == .scanning {
+                scanButton.setTitle("Stop Scan", for: .normal)
+                arController?.startLidarScan()
+            } else {
+                scanButton.setTitle("Start Scan", for: .normal)
+                arController?.stopLidarScan()
+            }
         }
     }
     
@@ -70,8 +89,6 @@ extension LidarViewController {
     }
     
     private func unconfigureView() {
-        texturePickerCollectionView.arController = nil
-        colorPickerCollectionView.arController = nil
         arController = nil
         arscnView?.removeFromSuperview()
         arscnView = nil
@@ -81,11 +98,17 @@ extension LidarViewController {
         addAndConfigureARViews()
         addGestureOnARView()
 
-        texturePickerCollectionView.texturePicker = TexturePicker.textures
-        texturePickerCollectionView.arController = arController
-
+        arController?.setColor(paint: ColorPicker.colors[0].color)
+        
         colorPickerCollectionView.colorPicker = ColorPicker.colors
-        colorPickerCollectionView.arController = arController
+        colorPickerCollectionView.didSelectColor = { [weak self] color in
+            self?.activeColor = color
+        }
+        
+        texturePickerCollectionView.texturePicker = TexturePicker.textures
+        texturePickerCollectionView.didSelectTexture = { [weak self] texture in
+            self?.activeTexture = texture
+        }
     }
     
     private func addAndConfigureARViews() {
@@ -125,6 +148,12 @@ extension LidarViewController {
         arController?.trackingReady = { isReady in
             print("tracking ready: \(isReady ? "true" : "false")")
         }
+        arController?.retrievedPaintInfo = { paintInfo in
+            print("Paint Info:")
+            for wall in paintInfo.paintedWalls {
+                print("\(wall.id): \(wall.area.width)x\(wall.area.height), \(wall.paint.color.printUInt)")
+            }
+        }
     }
     
     private func addGestureOnARView() {
@@ -134,16 +163,15 @@ extension LidarViewController {
     }
     
     @objc private func onDraggingARView(_ sender: UIPanGestureRecognizer) {
-        guard let arscnView = arscnView
-        else { return }
+        let point = sender.location(in: arscnView)
         
         switch sender.state {
         case .changed:
-            arController?.dragStart(point: sender.location(in: arscnView))
-            arController?.dragMove(point: sender.location(in: arscnView))
+            arController?.dragStart(point: point)
+            arController?.dragMove(point: point)
             
         case .ended:
-            arController?.dragEnd()
+            arController?.dragEnd(point: point)
             
         default:
             break
@@ -164,8 +192,12 @@ extension LidarViewController {
     }
     
     @IBAction func onSavePhotoTapped(_ sender: PaintyButton) {
+        arController?.hideOutlineState()
+        
         guard let photo = arController?.savePhoto()
         else { return }
+        
+        arController?.restoreOutlineState()
         
         let activityViewController = UIActivityViewController(activityItems: [photo],
                                                               applicationActivities: nil)
@@ -173,15 +205,19 @@ extension LidarViewController {
     }
     
     @IBAction func onSave3DMeshTapped(_ sender: PaintyButton) {
-        arController?.save3DModel()
-        let filename = FileManager.documentsFolder.appendingPathComponent("Mesh.usdz")
-        if FileManager.default.fileExists(atPath: filename.path) {
-            let activityViewController = UIActivityViewController(
-                activityItems: [filename],
-                applicationActivities: nil
-            )
-            present(activityViewController, animated: true, completion: nil)
-        }
+        arController?.save3DModel(callback: { [weak self] fileUrl in
+            guard let self = self
+            else { return }
+            
+            let filename = FileManager.documentsFolder.appendingPathComponent("Mesh.usdz")
+            if FileManager.default.fileExists(atPath: filename.path) {
+                let activityViewController = UIActivityViewController(
+                    activityItems: [filename],
+                    applicationActivities: nil
+                )
+                present(activityViewController, animated: true, completion: nil)
+            }
+        })
     }
     
     @IBAction func onResetTapped(_ sender: PaintyButton) {
@@ -189,8 +225,7 @@ extension LidarViewController {
     }
     
     @IBAction func onGetPaintInfoTapped(_ sender: PaintyButton) {
-        let paintInfo = arController?.retrievePaintInfo()
-        print("Paint Info:- ,", paintInfo as Any)
+        arController?.retrievePaintInfo()
     }
     
     @IBAction func onToggleUITapped(_ sender: PaintyButton) {

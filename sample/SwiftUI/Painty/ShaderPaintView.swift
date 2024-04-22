@@ -47,12 +47,15 @@ struct ShaderPaintView: View {
                     }.padding([.bottom], 80)
                 }
             }.onAppear {
-                settings.reset()
-                settings.model.pickColor(paint: colorItems[settings.colorIndex])
-                if let touchMode = TouchMode(rawValue: settings.touchModeIndex) {
-                    settings.model.setTouchMode(mode: touchMode)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    settings.reset()
+                    settings.model.setColor(paint: activeColor)
+                    if let touchMode = TouchMode(rawValue: settings.touchModeIndex) {
+                        settings.model.setTouchMode(mode: touchMode)
+                    }
+                    setupBindings()
+                    settings.model.startScene()
                 }
-                setupBindings()
             }
         }
     }
@@ -64,10 +67,14 @@ struct ShaderPaintView: View {
                     settings.model.dragStart(point: point)
                 }, onDragMove: { point in
                     settings.model.dragMove(point: point)
-                }, onDragEnd: { _ in
-                    settings.model.dragEnd()
+                }, onDragEnd: { point in
+                    settings.model.dragEnd(point: point)
                 })
             )
+    }
+    
+    var activeColor: WallPaint {
+        colorItems[settings.colorIndex]
     }
     
     func setupBindings() {
@@ -169,17 +176,19 @@ struct ShaderPaintView: View {
 
 private extension ShaderPaintView {
     var colorItems: [WallPaint] {
-        ColorRepo.colors().map({ WallPaint(id: "0", color: $0) })
+        ColorRepo.colors().enumerated().map({ WallPaint(id: "\($0.offset)",
+                                                        name: "\($0.offset)",
+                                                        color: $0.element) })
     }
     
     var colorPicker: some View {
         ScrollView(.horizontal) {
             HStack {
-                ForEach(0..<colorItems.count) { i in
+                ForEach(0..<colorItems.count, id: \.self) { i in
                     Button {
                         settings.showStroke = true
                         settings.colorIndex = i
-                        settings.model.pickColor(paint: colorItems[i])
+                        settings.model.setColor(paint: activeColor)
                     } label: {
                         RoundedRectangle(cornerRadius: 17)
                             .strokeBorder(lineWidth: (settings.showStroke && i == settings.colorIndex) ? 5 : 0)
@@ -187,7 +196,8 @@ private extension ShaderPaintView {
                             .background(Color(colorItems[i].color))
                             .clipShape(RoundedRectangle(cornerRadius: 17))
                             .frame(width: 74, height: 74)
-                            .animation(Animation.interpolatingSpring(stiffness: 60, damping: 15))
+                            .animation(.interpolatingSpring(stiffness: 60, damping: 15),
+                                       value: settings.showStroke && i == settings.colorIndex)
                     }
                     .onTapGesture {
                         settings.showStroke = true
