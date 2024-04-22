@@ -32,7 +32,11 @@ final class AbnormalitiesViewController: UIViewController {
     private var isLidarScanning = true {
         didSet {
             let scanMode: ScanMode = isLidarScanning ? .scanning : .paused
-            arController?.setScanMode(scanMode: scanMode)
+            if scanMode == .scanning {
+                arController?.startLidarScan()
+            } else {
+                arController?.stopLidarScan()
+            }
         }
     }
     
@@ -121,8 +125,12 @@ extension AbnormalitiesViewController {
 //MARK: - @IBActions
 extension AbnormalitiesViewController {
     @IBAction func onSavePhotoTapped(_ sender: PaintyButton) {
+        arController?.hideOutlineState()
+        
         guard let photo = arController?.savePhoto()
         else { return }
+        
+        arController?.restoreOutlineState()
         
         let activityViewController = UIActivityViewController(activityItems: [photo],
                                                               applicationActivities: nil)

@@ -15,7 +15,7 @@ final class SettingsData: ObservableObject {
     @Published var uiVisible = true
     @Published var tabSwitchingActive = true
     @Published var colorIndex = 0
-    @Published var textureIndex = -1
+    @Published var textureIndex: Int = -1
     @Published var showStroke = true
     @Published var showTextureStroke = false
     @Published var debugString = ""
@@ -23,15 +23,21 @@ final class SettingsData: ObservableObject {
     @Published var abModeIndex = 2
     @Published var touchModeIndex = 3
     @Published var occlusionThreshold: Double = 10
-    @Published var scanMode: ScanMode = .scanning
+    @Published var scanMode: ScanMode = .paused
     @Published var unpaintedVisible = true
     @Published var coachingVisible = true
     @Published var trackingReady = false
     @Published var wallState: WallState = .idle
     @Published var placeWallState: PlaceWallState = .done
+    @Published var floorplanState: FloorplanState = .noFloor
     @Published var planarMeshCount = 0
+    @Published var numberOfFloorCorners = 0
+    @Published var floorplanCornerMessage = ""
     
     func reset() {
+        floorplanState = .noFloor
+        numberOfFloorCorners = 0
+        floorplanCornerMessage = ""
         uiVisible = true
         colorIndex = 0
         textureIndex = -1
@@ -43,7 +49,7 @@ final class SettingsData: ObservableObject {
         abModeIndex = 2
         touchModeIndex = 3
         occlusionThreshold = 10
-        scanMode = .scanning
+        scanMode = .paused
         unpaintedVisible = true
         coachingVisible = true
         trackingReady = false

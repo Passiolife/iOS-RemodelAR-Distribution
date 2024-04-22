@@ -55,11 +55,13 @@ struct LegacyView: View {
                 }.padding([.bottom], 80)
             }
         }.onAppear {
-            settings.reset()
-            settings.model.pickColor(paint: colorItems[settings.colorIndex])
-            // Uncomment this code to customize the UI images
-//            customizeColorTheme()
-            setupBindings()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                settings.reset()
+                settings.model.setColor(paint: activeColor, texture: activeTexture)
+                // Uncomment this code to customize the UI images
+                //            customizeColorTheme()
+                setupBindings()
+            }
         }
     }
 
@@ -68,8 +70,9 @@ struct LegacyView: View {
             settings.model.setGridImage(gridImage: gridImage)
         }
         if let centerDotImage = UIImage(named: "centerDotAlt") {
-            settings.model.setLegacyUIImages(cornerTextures: altCornerImages,
-                                             centerDot: centerDotImage)
+            settings.model.setSwatchUIImages(cornerTextures: altCornerImages,
+                                             centerDot: centerDotImage, 
+                                             centerDotOuter: centerDotImage)
         }
     }
     
@@ -92,16 +95,27 @@ struct LegacyView: View {
     }
 
     var arView: some View {
-        RemodelARLib.makeARView(model: settings.model, arMethod: .Legacy)
+        RemodelARLib.makeARView(model: settings.model, arMethod: .Swatch)
             .modifier(DragActions(
                 onDragStart: { point in
                     settings.model.dragStart(point: point)
                 }, onDragMove: { point in
                     settings.model.dragMove(point: point)
-                }, onDragEnd: { _ in
-                    settings.model.dragEnd()
+                }, onDragEnd: { point in
+                    settings.model.dragEnd(point: point)
                 })
             )
+    }
+    
+    var activeColor: WallPaint {
+        colorItems[settings.colorIndex]
+    }
+    
+    var activeTexture: UIImage? {
+        guard settings.textureIndex >= 0
+        else { return nil }
+        
+        return textureImages[settings.textureIndex]
     }
 
     var placeBasePlaneButton: some View {
@@ -183,8 +197,7 @@ struct LegacyView: View {
     var resetSceneButton: some View {
         Button(action: {
             settings.reset()
-            settings.model.pickColor(paint: colorItems[settings.colorIndex])
-            settings.model.pickTexture(texture: nil)
+            settings.model.setColor(paint: activeColor, texture: activeTexture)
         },
                label: {
             Image("reset")
@@ -258,17 +271,19 @@ struct LegacyView: View {
 
 private extension LegacyView {
     var colorItems: [WallPaint] {
-        ColorRepo.colors().map({ WallPaint(id: "0", color: $0) })
+        ColorRepo.colors().enumerated().map({ WallPaint(id: "\($0.offset)",
+                                                        name: "\($0.offset)",
+                                                        color: $0.element) })
     }
 
     var colorPicker: some View {
         ScrollView(.horizontal) {
             HStack {
-                ForEach(0..<colorItems.count) { i in
+                ForEach(0..<colorItems.count, id: \.self) { i in
                     Button {
                         settings.showStroke = true
                         settings.colorIndex = i
-                        settings.model.pickColor(paint: colorItems[i])
+                        settings.model.setColor(paint: activeColor, texture: activeTexture)
                     } label: {
                         RoundedRectangle(cornerRadius: 17)
                             .strokeBorder(
@@ -278,7 +293,8 @@ private extension LegacyView {
                             .background(Color(colorItems[i].color))
                             .clipShape(RoundedRectangle(cornerRadius: 17))
                             .frame(width: 74, height: 74)
-                            .animation(Animation.interpolatingSpring(stiffness: 60, damping: 15))
+                            .animation(.interpolatingSpring(stiffness: 60, damping: 15),
+                                       value: settings.showStroke && i == settings.colorIndex)
                     }
                     .onTapGesture {
                         settings.showStroke = true
@@ -293,29 +309,15 @@ private extension LegacyView {
 private extension LegacyView {
     var textureNames: [String] {
         [
-            "ChalkPaints",
-            "ConcreteEffects1",
-            "ConcreteEffects2",
-            "Corium",
-            "Ebdaa",
-            "Elora",
-            "Glostex",
-            "GraniteArenal",
-            "Khayal_Beauty",
-            "Linetex",
-            "Marmo",
-            "Marotex",
-            "Mashasco",
-            "Newtex",
-            "Rawa",
-            "RawaKothban",
-            "Said",
-            "Texture",
-            "Tourmaline",
-            "Worood"
+            "venetianWall",
+            "plasterWall",
+            "renaissanceWall",
+            "brickWall",
+            "cinderWall",
+            "pebbleWall",
+            "stoneWall"
         ]
     }
-
     var textureImages: [UIImage] {
         textureNames.compactMap({ UIImage(named: $0) })
     }
@@ -323,17 +325,16 @@ private extension LegacyView {
     var texturePicker: some View {
         ScrollView(.horizontal) {
             HStack {
-                ForEach(0..<textureImages.count) { i in
+                ForEach(0..<textureImages.count, id: \.self) { i in
                     Button {
                         if i == settings.textureIndex {
                             settings.showTextureStroke = false
                             settings.textureIndex = -1
-                            settings.model.pickTexture(texture: nil)
                         } else {
                             settings.showTextureStroke = true
                             settings.textureIndex = i
-                            settings.model.pickTexture(texture: textureImages[i])
                         }
+                        settings.model.setColor(paint: activeColor, texture: activeTexture)
                     } label: {
                         RoundedRectangle(cornerRadius: 17)
                             .strokeBorder(
@@ -342,11 +343,13 @@ private extension LegacyView {
                             .foregroundColor(.white)
                             .background(
                                 Image(uiImage: textureImages[i])
-                                    .renderingMode(.original)
+                                    .resizable()
+                                    .frame(width: 200, height: 200)
                             )
                             .clipShape(RoundedRectangle(cornerRadius: 17))
                             .frame(width: 74, height: 74)
-                            .animation(Animation.interpolatingSpring(stiffness: 60, damping: 15))
+                            .animation(.interpolatingSpring(stiffness: 60, damping: 15),
+                                       value: settings.showStroke && i == settings.colorIndex)
                     }
                     .onTapGesture {
                         settings.showTextureStroke.toggle()
