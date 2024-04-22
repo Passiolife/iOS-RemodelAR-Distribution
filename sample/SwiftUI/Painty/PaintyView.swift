@@ -37,7 +37,7 @@ struct PaintyView: View {
             })
         }
         .onAppear {
-            model.pickColor(paint: colorItems[0])
+            model.setColor(paint: activeColor, texture: activeTexture)
         }
     }
 }
@@ -47,18 +47,31 @@ private extension PaintyView {
         RemodelARLib.makeARView(model: model, arMethod: .Lidar)
     }
 
+    var activeColor: WallPaint {
+        colorItems[colorIndex]
+    }
+    
+    var activeTexture: UIImage? {
+        guard textureIndex >= 0
+        else { return nil }
+        
+        return textureImages[textureIndex]
+    }
+    
     var colorItems: [WallPaint] {
-        ColorRepo.colors().map({ WallPaint(id: "0", color: $0) })
+        ColorRepo.colors().enumerated().map({ WallPaint(id: "\($0.offset)",
+                                                        name: "\($0.offset)",
+                                                        color: $0.element) })
     }
 
     var colorPicker: some View {
         ScrollView(.horizontal) {
             HStack {
-                ForEach(0..<colorItems.count) { i in
+                ForEach(0..<colorItems.count, id: \.self) { i in
                     Button(action: {
                         showStroke = true
                         colorIndex = i
-                        model.pickColor(paint: colorItems[i])
+                        model.setColor(paint: activeColor, texture: activeTexture)
                     }) {
                         RoundedRectangle(cornerRadius: 17)
                             .strokeBorder(lineWidth: (showStroke && i == colorIndex) ? 5 : 0)
@@ -66,7 +79,8 @@ private extension PaintyView {
                             .background(Color(colorItems[i].color))
                             .clipShape(RoundedRectangle(cornerRadius: 17))
                             .frame(width: 74, height: 74)
-                            .animation(Animation.interpolatingSpring(stiffness: 60, damping: 15))
+                            .animation(.interpolatingSpring(stiffness: 60, damping: 15),
+                                       value: showStroke && i == colorIndex)
                     }
                     .onTapGesture {
                         self.showStroke = true
@@ -119,26 +133,13 @@ private extension PaintyView {
 private extension PaintyView {
     var textureNames: [String] {
         [
-            "ChalkPaints",
-            "ConcreteEffects1",
-            "ConcreteEffects2",
-            "Corium",
-            "Ebdaa",
-            "Elora",
-            "Glostex",
-            "GraniteArenal",
-            "Khayal_Beauty",
-            "Linetex",
-            "Marmo",
-            "Marotex",
-            "Mashasco",
-            "Newtex",
-            "Rawa",
-            "RawaKothban",
-            "Said",
-            "Texture",
-            "Tourmaline",
-            "Worood"
+            "venetianWall",
+            "plasterWall",
+            "renaissanceWall",
+            "brickWall",
+            "cinderWall",
+            "pebbleWall",
+            "stoneWall"
         ]
     }
     
@@ -149,25 +150,29 @@ private extension PaintyView {
     var texturePicker: some View {
         ScrollView(.horizontal) {
             HStack {
-                ForEach(0..<textureImages.count) { i in
+                ForEach(0..<textureImages.count, id: \.self) { i in
                     Button(action: {
                         if i == textureIndex {
                             showTextureStroke = false
                             textureIndex = -1
-                            model.pickTexture(texture: nil)
                         } else {
                             showTextureStroke = true
                             textureIndex = i
-                            model.pickTexture(texture: textureImages[i])
                         }
+                        model.setColor(paint: activeColor, texture: activeTexture)
                     }) {
                         RoundedRectangle(cornerRadius: 17)
                             .strokeBorder(lineWidth: (showTextureStroke && i == textureIndex) ? 5 : 0)
                             .foregroundColor(.white)
-                            .background(Image(uiImage: textureImages[i]))
+                            .background(
+                                Image(uiImage: textureImages[i])
+                                    .resizable()
+                                    .frame(width: 200, height: 200)
+                            )
                             .clipShape(RoundedRectangle(cornerRadius: 17))
                             .frame(width: 74, height: 74)
-                            .animation(Animation.interpolatingSpring(stiffness: 60, damping: 15))
+                            .animation(.interpolatingSpring(stiffness: 60, damping: 15),
+                                       value: showStroke && i == colorIndex)
                     }
                     .onTapGesture {
                         self.showTextureStroke.toggle()

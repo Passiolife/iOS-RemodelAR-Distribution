@@ -224,7 +224,9 @@ extension FloorplanViewController {
         }
         arController?.trackingReady = { [weak self] isReady in
             self?.trackingLabel.text = "Tracking Ready: \(isReady ? "yes" : "no")"
-            self?.state = .settingCorners
+            if isReady {
+                self?.state = .settingCorners
+            }
         }
         arController?.retrievedPaintInfo = { paintInfo in
             print("Paint Info:")

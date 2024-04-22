@@ -49,5 +49,6 @@ struct PaintyApp: App {
     init() {
         // Replace "license_key" with your license key
         PassioConfiguration.configure(license: "license_key")
+                                      releaseMode: .development)
     }
 }

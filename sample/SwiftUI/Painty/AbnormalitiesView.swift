@@ -37,9 +37,12 @@ struct AbnormalitiesView: View {
                     }
                 })
             }.onAppear(perform: {
-                settings.reset()
-                setScanArea(geometry: geometry)
-                setupBindings()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    settings.reset()
+                    setScanArea(geometry: geometry)
+                    settings.model.startScene()
+                    setupBindings()
+                }
             })
         }
     }
@@ -86,11 +89,11 @@ struct AbnormalitiesView: View {
         Button(action: {
             switch settings.scanMode {
             case .scanning:
-                settings.model.setScanMode(scanMode: .paused)
+                settings.model.stopLidarScan()
                 settings.scanMode = .paused
 
             case .paused:
-                settings.model.setScanMode(scanMode: .scanning)
+                settings.model.startLidarScan()
                 settings.scanMode = .scanning
             }
         },
