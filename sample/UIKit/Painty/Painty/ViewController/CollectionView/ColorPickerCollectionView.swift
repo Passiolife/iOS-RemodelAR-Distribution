@@ -16,10 +16,9 @@ final class ColorPickerCollectionView: UICollectionView {
         }
     }
     
-    var arController: ARController?
+    public var didSelectColor: ((WallPaint) -> Void)?
     
     private let cellIdentidfier = "ColorPickerCell"
-    
     private var selectedColor = 0
     
     override func awakeFromNib() {
@@ -31,9 +30,7 @@ final class ColorPickerCollectionView: UICollectionView {
 
 //MARK: - Configure
 extension ColorPickerCollectionView {
-    
     private func configure() {
-        
         delegate = self
         dataSource = self
         register(UINib(nibName: cellIdentidfier, bundle: nil), forCellWithReuseIdentifier: cellIdentidfier)
@@ -43,13 +40,11 @@ extension ColorPickerCollectionView {
 
 //MARK: - Configure
 extension ColorPickerCollectionView: UICollectionViewDataSource, UICollectionViewDelegate {
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return colorPicker.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         if let colorPickerCell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentidfier, for: indexPath) as? ColorPickerCell {
             
             let color = colorPicker[indexPath.item].color
@@ -61,9 +56,8 @@ extension ColorPickerCollectionView: UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
         selectedColor = indexPath.item
-        arController?.setColor(paint: colorPicker[indexPath.item].color)
+        didSelectColor?(colorPicker[indexPath.item].color)
         reloadData()
     }
 }

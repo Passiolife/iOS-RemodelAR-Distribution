@@ -20,10 +20,39 @@ final class FloorplanViewController: UIViewController {
     @IBOutlet weak private var buttonsTopStackView: UIStackView!
     @IBOutlet weak private var buttonsBottomStackView: UIStackView!
     @IBOutlet weak var showUIButton: PaintyButton!
+    @IBOutlet weak var scanButton: PaintyButton!
+    @IBOutlet weak var finishCornersButton: PaintyButton!
+    @IBOutlet weak var finishHeightButton: PaintyButton!
+    @IBOutlet weak var undoButton: PaintyButton!
+    @IBOutlet weak var userMessage: UILabel!
     
     //MARK: Properties
     private var arscnView: ARSCNView?
     private var arController: ARController?
+    private var state: FloorplanState = .noFloor {
+        didSet {
+            updateView()
+        }
+    }
+    
+    private var activeColor: WallPaint = ColorPicker.colors[0].color {
+        didSet {
+            arController?.setColor(paint: activeColor, texture: activeTexture)
+        }
+    }
+    
+    private var activeTexture: UIImage? {
+        didSet {
+            arController?.setColor(paint: activeColor, texture: activeTexture)
+        }
+    }
+    
+    private var numCornersPlaced: Int = 0 {
+        didSet {
+            print("numCornersPlaced: \(numCornersPlaced)")
+            updateView()
+        }
+    }
     
     private var showUI = true {
         didSet {
@@ -51,6 +80,7 @@ final class FloorplanViewController: UIViewController {
         super.viewWillAppear(animated)
         
         configureView()
+        state = .noFloor
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -61,6 +91,71 @@ final class FloorplanViewController: UIViewController {
     
     func reset() {
         showUnpaintedWalls = true
+        state = .noFloor
+        numCornersPlaced = 0
+    }
+    
+    func updateView() {
+        switch state {
+        case .noFloor:
+            userMessage.isHidden = true
+            scanButton.isHidden = false
+            finishCornersButton.isHidden = true
+            finishHeightButton.isHidden = true
+            undoButton.isHidden = true
+            colorPickerCollectionView.isHidden = true
+            texturePickerCollectionView.isHidden = true
+            buttonsTopStackView.isHidden = true
+            
+        case .scanningFloor:
+            userMessage.isHidden = false
+            userMessage.text = "Scanning floor..."
+            scanButton.isHidden = true
+            finishCornersButton.isHidden = true
+            finishHeightButton.isHidden = true
+            undoButton.isHidden = true
+            colorPickerCollectionView.isHidden = true
+            texturePickerCollectionView.isHidden = true
+            buttonsTopStackView.isHidden = true
+            
+        case .settingCorners:
+            userMessage.isHidden = false
+            if numCornersPlaced == 0 {
+                userMessage.text = "Tap to place a corner"
+            } else if numCornersPlaced < 3 {
+                userMessage.text = "Continue tapping to place corners"
+            } else if numCornersPlaced >= 3 {
+                userMessage.text = "Continue placing corners, then finish by placing a point on the starting point or tapping 'Finish Corners'"
+            }
+            scanButton.isHidden = true
+            finishCornersButton.isHidden = numCornersPlaced < 3
+            finishHeightButton.isHidden = true
+            undoButton.isHidden = numCornersPlaced < 1
+            colorPickerCollectionView.isHidden = true
+            texturePickerCollectionView.isHidden = true
+            buttonsTopStackView.isHidden = true
+            
+        case .settingHeight:
+            userMessage.isHidden = false
+            userMessage.text = "Drag with your finger to set the wall height"
+            scanButton.isHidden = true
+            finishCornersButton.isHidden = true
+            finishHeightButton.isHidden = false
+            undoButton.isHidden = true
+            colorPickerCollectionView.isHidden = true
+            texturePickerCollectionView.isHidden = true
+            buttonsTopStackView.isHidden = true
+            
+        case .painting:
+            userMessage.isHidden = true
+            scanButton.isHidden = true
+            finishCornersButton.isHidden = true
+            finishHeightButton.isHidden = true
+            undoButton.isHidden = true
+            colorPickerCollectionView.isHidden = false
+            texturePickerCollectionView.isHidden = false
+            buttonsTopStackView.isHidden = false
+        }
     }
 }
 
@@ -73,8 +168,6 @@ extension FloorplanViewController {
     }
     
     private func unconfigureView() {
-        texturePickerCollectionView.arController = nil
-        colorPickerCollectionView.arController = nil
         arController = nil
         arscnView?.removeFromSuperview()
         arscnView = nil
@@ -90,10 +183,14 @@ extension FloorplanViewController {
         arController?.setColor(paint: ColorPicker.colors[0].color)
         
         colorPickerCollectionView.colorPicker = ColorPicker.colors
-        colorPickerCollectionView.arController = arController
+        colorPickerCollectionView.didSelectColor = { [weak self] color in
+            self?.activeColor = color
+        }
         
         texturePickerCollectionView.texturePicker = TexturePicker.textures
-        texturePickerCollectionView.arController = arController
+        texturePickerCollectionView.didSelectTexture = { [weak self] texture in
+            self?.activeTexture = texture
+        }
     }
     
     private func addAndConfigureARViews() {
@@ -127,6 +224,22 @@ extension FloorplanViewController {
         }
         arController?.trackingReady = { [weak self] isReady in
             self?.trackingLabel.text = "Tracking Ready: \(isReady ? "yes" : "no")"
+            self?.state = .settingCorners
+        }
+        arController?.retrievedPaintInfo = { paintInfo in
+            print("Paint Info:")
+            for wall in paintInfo.paintedWalls {
+                print("\(wall.id): \(wall.area.width)x\(wall.area.height), \(wall.paint.color.printUInt)")
+            }
+        }
+        arController?.floorplanCornerCountUpdated = { [weak self] numCorners in
+            self?.numCornersPlaced = numCorners
+        }
+        arController?.floorplanShapeClosed = { [weak self] in
+            self?.state = .settingHeight
+        }
+        arController?.floorplanFinishedSettingWallHeight = { [weak self] in
+            self?.state = .painting
         }
     }
     
@@ -137,13 +250,15 @@ extension FloorplanViewController {
     }
     
     @objc private func onDraggingARView(_ sender: UIPanGestureRecognizer) {
+        let point = sender.location(in: arscnView)
+        
         switch sender.state {
         case .changed:
-            arController?.dragStart(point: sender.location(in: arscnView))
-            arController?.dragMove(point: sender.location(in: arscnView))
+            arController?.dragStart(point: point)
+            arController?.dragMove(point: point)
             
         case .ended:
-            arController?.dragEnd()
+            arController?.dragEnd(point: point)
             
         default:
             break
@@ -167,16 +282,23 @@ extension FloorplanViewController {
         showUI = true
     }
     
+    @IBAction func onScanTapped(_ sender: PaintyButton) {
+        arController?.startFloorScan(timeout: 5)
+        state = .scanningFloor
+    }
+    
     @IBAction func onFinishCornersTapped(_ sender: PaintyButton) {
         arController?.finishCorners(closeShape: false)
+        state = .settingHeight
     }
     
     @IBAction func onFinishHeightTapped(_ sender: PaintyButton) {
         arController?.finishHeight()
+        state = .painting
     }
     
-    @IBAction func onCancelWallTapped(_ sender: PaintyButton) {
-        arController?.endAddWall()
+    @IBAction func undoCornerTapped(_ sender: PaintyButton) {
+        arController?.removeLastCorner()
     }
     
     @IBAction func onToggleUnpaintedWallsTapped(_ sender: PaintyButton) {
@@ -187,8 +309,12 @@ extension FloorplanViewController {
     }
     
     @IBAction func onSavePhotoTapped(_ sender: PaintyButton) {
+        arController?.hideOutlineState()
+        
         guard let photo = arController?.savePhoto()
         else { return }
+        
+        arController?.restoreOutlineState()
         
         let activityViewController = UIActivityViewController(activityItems: [photo],
                                                               applicationActivities: nil)
@@ -196,7 +322,19 @@ extension FloorplanViewController {
     }
     
     @IBAction func onSaveMeshTapped(_ sender: PaintyButton) {
-        arController?.save3DModel()
+        arController?.save3DModel(callback: { [weak self] fileUrl in
+            guard let self = self
+            else { return }
+            
+            let filename = FileManager.documentsFolder.appendingPathComponent("Mesh.usdz")
+            if FileManager.default.fileExists(atPath: filename.path) {
+                let activityViewController = UIActivityViewController(
+                    activityItems: [filename],
+                    applicationActivities: nil
+                )
+                present(activityViewController, animated: true, completion: nil)
+            }
+        })
     }
     
     @IBAction func onResetTapped(_ sender: PaintyButton) {
@@ -205,13 +343,7 @@ extension FloorplanViewController {
     }
     
     @IBAction func onGetPaintedWallsInfoTapped(_ sender: PaintyButton) {
-        guard let paintInfo = arController?.retrievePaintInfo()
-        else { return }
-        
-        print("Paint Info:")
-        for wall in paintInfo.paintedWalls {
-            print("\(wall.id): \(wall.area.width)x\(wall.area.height), \(wall.paint.color.printUInt)")
-        }
+        arController?.retrievePaintInfo()
     }
     
     @IBAction func onToggleUITapped(_ sender: PaintyButton) {
@@ -283,4 +415,12 @@ extension UITabBarController {
     private var tabBarHidden: Bool {
         tabBar.frame.origin.y >= UIScreen.main.bounds.height
     }
+}
+
+private enum FloorplanState {
+    case noFloor
+    case scanningFloor
+    case settingCorners
+    case settingHeight
+    case painting
 }

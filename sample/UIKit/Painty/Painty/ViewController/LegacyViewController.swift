@@ -26,6 +26,18 @@ final class LegacyViewController: UIViewController {
     private var arscnView: ARSCNView?
     private var arController: ARController?
     
+    private var activeColor: WallPaint = ColorPicker.colors[0].color {
+        didSet {
+            arController?.setColor(paint: activeColor, texture: activeTexture)
+        }
+    }
+    
+    private var activeTexture: UIImage? {
+        didSet {
+            arController?.setColor(paint: activeColor, texture: activeTexture)
+        }
+    }
+    
     private var showUI = true {
         didSet {
             showUIButton.isHidden = showUI
@@ -58,8 +70,6 @@ extension LegacyViewController {
     }
     
     private func unconfigureView() {
-        texturePickerCollectionView.arController = nil
-        colorPickerCollectionView.arController = nil
         arController = nil
         arscnView?.removeFromSuperview()
         arscnView = nil
@@ -75,10 +85,14 @@ extension LegacyViewController {
         arController?.setColor(paint: ColorPicker.colors[0].color)
         
         colorPickerCollectionView.colorPicker = ColorPicker.colors
-        colorPickerCollectionView.arController = arController
+        colorPickerCollectionView.didSelectColor = { [weak self] color in
+            self?.activeColor = color
+        }
         
         texturePickerCollectionView.texturePicker = TexturePicker.textures
-        texturePickerCollectionView.arController = arController
+        texturePickerCollectionView.didSelectTexture = { [weak self] texture in
+            self?.activeTexture = texture
+        }
     }
     
     private func addAndConfigureARViews() {
@@ -97,7 +111,7 @@ extension LegacyViewController {
             arscnView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
         ])
         
-        arController = RemodelARLib.makeLegacyARController(with: arscnView)
+        arController = RemodelARLib.makeSwatchARController(with: arscnView)
     }
     
     private func configureBindings() {
@@ -153,6 +167,13 @@ extension LegacyViewController {
                 }
             }
         }
+        
+        arController?.retrievedPaintInfo = { paintInfo in
+            print("Paint Info:")
+            for wall in paintInfo.paintedWalls {
+                print("\(wall.id): \(wall.area.width)x\(wall.area.height), \(wall.paint.color.printUInt)")
+            }
+        }
     }
     
     private func addGestureOnARView() {
@@ -162,16 +183,15 @@ extension LegacyViewController {
     }
     
     @objc private func onDraggingARView(_ sender: UIPanGestureRecognizer) {
-        guard let arscnView = arscnView
-        else { return }
+        let point = sender.location(in: arscnView)
         
         switch sender.state {
         case .changed:
-            arController?.dragStart(point: sender.location(in: arscnView))
-            arController?.dragMove(point: sender.location(in: arscnView))
+            arController?.dragStart(point: point)
+            arController?.dragMove(point: point)
             
         case .ended:
-            arController?.dragEnd()
+            arController?.dragEnd(point: point)
             
         default:
             break
@@ -200,15 +220,15 @@ extension LegacyViewController {
     }
     
     @IBAction func onUpdatePlaneTapped(_ sender: UIButton) {
-        arController?.updateWallBasePlane()
+        arController?.updateBasePlane()
     }
     
     @IBAction func onPlacePlaneTapped(_ sender: UIButton) {
-        arController?.placeWallBasePlane()
+        arController?.placeBasePlane()
     }
     
     @IBAction func onCancelTapped(_ sender: UIButton) {
-        arController?.endAddWall()
+        arController?.cancelAddWall()
     }
     
     @IBAction func onResetTapped(_ sender: UIButton) {
@@ -244,8 +264,12 @@ extension LegacyViewController {
     }
     
     @IBAction func onSavePhotoTapped(_ sender: PaintyButton) {
+        arController?.hideOutlineState()
+        
         guard let photo = arController?.savePhoto()
         else { return }
+        
+        arController?.restoreOutlineState()
         
         let activityViewController = UIActivityViewController(activityItems: [photo],
                                                               applicationActivities: nil)
@@ -253,13 +277,7 @@ extension LegacyViewController {
     }
     
     @IBAction func onGetPaintInfoTapped(_ sender: PaintyButton) {
-        guard let paintInfo = arController?.retrievePaintInfo()
-        else { return }
-        
-        print("Paint Info:")
-        for wall in paintInfo.paintedWalls {
-            print("\(wall.id): \(wall.area.width)x\(wall.area.height), \(wall.paint.color.printUInt)")
-        }
+        arController?.retrievePaintInfo()
     }
 }
 

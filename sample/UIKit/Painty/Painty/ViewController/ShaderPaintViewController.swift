@@ -23,6 +23,12 @@ final class ShaderPaintViewController: UIViewController {
     private var arscnView: ARSCNView?
     private var arController: ARController?
     
+    private var activeColor: WallPaint = ColorPicker.colors[0].color {
+        didSet {
+            arController?.setColor(paint: activeColor)
+        }
+    }
+    
     private var showUI = true {
         didSet {
             showUIButton.isHidden = showUI
@@ -56,7 +62,6 @@ extension ShaderPaintViewController {
     }
     
     private func unconfigureView() {
-        colorPickerCollectionView.arController = nil
         arController = nil
         arscnView?.removeFromSuperview()
         arscnView = nil
@@ -75,7 +80,9 @@ extension ShaderPaintViewController {
         arController?.setTouchMode(mode: TouchMode(rawValue: 3)!)
         
         colorPickerCollectionView.colorPicker = ColorPicker.colors
-        colorPickerCollectionView.arController = arController
+        colorPickerCollectionView.didSelectColor = { [weak self] color in
+            self?.activeColor = color
+        }
     }
     
     private func addAndConfigureARViews() {
@@ -116,13 +123,15 @@ extension ShaderPaintViewController {
     }
     
     @objc private func onDraggingARView(_ sender: UIPanGestureRecognizer) {
+        let point = sender.location(in: arscnView)
+        
         switch sender.state {
         case .changed:
-            arController?.dragStart(point: sender.location(in: arscnView))
-            arController?.dragMove(point: sender.location(in: arscnView))
+            arController?.dragStart(point: point)
+            arController?.dragMove(point: point)
             
         case .ended:
-            arController?.dragEnd()
+            arController?.dragEnd(point: point)
             
         default:
             break
