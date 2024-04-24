@@ -37,7 +37,7 @@ struct AbnormalitiesView: View {
                     }
                 })
             }.onAppear(perform: {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + settings.contextSwitchDelay) {
                     settings.reset()
                     setScanArea(geometry: geometry)
                     settings.model.startScene()

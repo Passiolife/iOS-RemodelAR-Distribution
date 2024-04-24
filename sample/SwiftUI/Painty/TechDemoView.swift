@@ -22,17 +22,33 @@ final class SettingsData: ObservableObject {
     @Published var debugTimer: Timer?
     @Published var abModeIndex = 2
     @Published var touchModeIndex = 3
+    @Published var depthThreshold: Double = 0.05
+    @Published var lidarOcclusionScanActive = false
     @Published var occlusionThreshold: Double = 10
+    @Published var swatchViewMode: SwatchViewMode = .editingWalls
     @Published var scanMode: ScanMode = .paused
     @Published var unpaintedVisible = true
     @Published var coachingVisible = true
     @Published var trackingReady = false
+    @Published var currentSelectedWallId: UUID?
+    @Published var isEditModeActive = false
+    @Published var isEditPatchSelected = false
     @Published var wallState: WallState = .idle
     @Published var placeWallState: PlaceWallState = .done
     @Published var floorplanState: FloorplanState = .noFloor
     @Published var planarMeshCount = 0
     @Published var numberOfFloorCorners = 0
     @Published var floorplanCornerMessage = ""
+    @Published var roomPlanViewMode: RoomPlanViewMode = .initializing
+    @Published var roomPlanInstruction = ""
+    @Published var contextSwitchDelay = DispatchTimeInterval.milliseconds(100)
+    
+    func modeSwitched() {
+        model.cancellables.forEach { cancellable in
+            cancellable.cancel()
+        }
+        model.cancellables.removeAll()
+    }
     
     func reset() {
         floorplanState = .noFloor
@@ -69,25 +85,26 @@ struct TechDemoView: View {
             Color.backgroundColor
                 .edgesIgnoringSafeArea(.all)
             if currentTab == 0 {
+                if supportsLidar,
+                   #available(iOS 16, *) {
+                    RoomPlanView()
+                } else {
+                    Text("RoomPlan not supported on this device")
+                        .foregroundColor(.textColor)
+                }
+            } else if currentTab == 1 {
                 if supportsLidar {
                     LidarView()
                 } else {
                     Text("Lidar not supported on this device")
                         .foregroundColor(.textColor)
                 }
-            } else if currentTab == 1 {
-                LegacyView()
             } else if currentTab == 2 {
-                FloorplanView()
+                LegacyView()
             } else if currentTab == 3 {
-                ShaderPaintView()
+                FloorplanView()
             } else if currentTab == 4 {
-                if supportsLidar {
-                    AbnormalitiesView()
-                } else {
-                    Text("Lidar not supported on this device")
-                        .foregroundColor(.textColor)
-                }
+                ShaderPaintView()
             }
             if settings.uiVisible {
                 VStack {
@@ -126,7 +143,13 @@ struct TechDemoView: View {
     }
     
     var viewModePicker: some View {
-        let modes = ["Lidar", "Legacy", "Floorplan", "Shader", "Defects"]
+        let modes = [
+            ARMethod(name: "Room Plan", imageName: "roomplan"),
+            ARMethod(name: "Lidar", imageName: "lidar"),
+            ARMethod(name: "Legacy", imageName: "legacy"),
+            ARMethod(name: "Floor Plan", imageName: "floorplan"),
+            ARMethod(name: "Shader", imageName: "shader")
+        ]
         return HStack(spacing: 5) {
             ForEach(0..<modes.count, id: \.self) {
                 let index = $0
@@ -134,7 +157,7 @@ struct TechDemoView: View {
                 Button(action: {
                     currentTab = index
                     if !supportsLidar,
-                       mode == "Lidar" || mode == "Defects" {
+                       mode.name == "Lidar" || mode.name == "Room Plan" {
                         return
                     } else {
                         settings.tabSwitchingActive = false
@@ -145,16 +168,17 @@ struct TechDemoView: View {
                 },
                        label: {
                     VStack(spacing: 3) {
-                        Image("\(modes[index].lowercased())")
-                        Text("\(mode)")
+                        Image("\(mode.imageName)")
+                        Text("\(mode.name)")
                             .bold()
                             .font(.system(size: 12))
+                        Spacer()
                     }.foregroundColor(settings.tabSwitchingActive ? .white : .gray)
                 })
-                    .frame(minWidth: 0, maxWidth: .infinity)
-                    .padding(10)
-                    .background(Color(.sRGB, white: 0, opacity: currentTab == index ? 0.75 : 0.15))
-                    .cornerRadius(10)
+                .frame(width: 60, height: 65)
+                .padding([.top], 12)
+                .background(Color(.sRGB, white: 0, opacity: currentTab == index ? 0.75 : 0.15))
+                .cornerRadius(10)
             }
         }
         .padding([.leading, .trailing], 10)

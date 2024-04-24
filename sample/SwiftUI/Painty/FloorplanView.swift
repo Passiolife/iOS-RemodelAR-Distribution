@@ -72,10 +72,11 @@ struct FloorplanView: View {
                             colorPicker
                         }
                     }
-                }.padding([.bottom], 80)
+                }.padding([.bottom], 110)
             }
-        }.onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + settings.contextSwitchDelay) {
                 settings.reset()
                 settings.model.setColor(paint: activeColor, texture: activeTexture)
                 setupBindings()
